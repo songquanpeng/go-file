@@ -2,4 +2,4 @@
 .vscode
 upload
 *.exe
-*/*.db
+*.db

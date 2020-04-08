@@ -3,10 +3,11 @@ package model
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"os"
 )
 
 type File struct {
-	Id              int `json:"id"`
+	Id              int    `json:"id"`
 	Filename        string `json:"filename"`
 	Description     string `json:"description"`
 	Uploader        string `json:"uploader"`
@@ -18,7 +19,7 @@ type File struct {
 var DB *gorm.DB
 
 func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open("sqlite3", "./model/data.db")
+	db, err := gorm.Open("sqlite3", "./data.db")
 	if err == nil {
 		DB = db
 		return DB, err
@@ -42,6 +43,7 @@ func (file *File) Insert() error {
 func (file *File) Delete() error {
 	var err error
 	err = DB.Delete(file).Error
+	err = os.Remove("." + file.Link)
 	return err
 }
 
@@ -50,5 +52,4 @@ func Query(query string) ([]*File, error) {
 	var err error
 	err = DB.Where("filename LIKE ?", "%"+query+"%").Find(&files).Error
 	return files, err
-
 }

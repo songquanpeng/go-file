@@ -1,13 +1,14 @@
-function deleteFile(id) {
+function deleteFile(id, link) {
   let token = localStorage.getItem('token');
   if (token === undefined) {
     token = askUserInputToken();
   }
   $.ajax({
-    url: `/`,
-    type: 'DELETE',
+    url: `/delete`,
+    type: 'POST',
     data: {
       id: id,
+      link: link,
       token: token
     },
     success: function(result) {
@@ -33,7 +34,6 @@ function showMessage(message) {
   $(document).ready(function() {
     const messageToast = $('#messageToast');
     messageToast.show();
-    console.log(message);
     document.getElementById('messageToastText').innerText = message;
     messageToast.delay(1000).hide(300);
   });

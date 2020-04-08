@@ -12,5 +12,5 @@ func SetIndexRouter(router *gin.Engine) {
 
 func SetApiRouter(router *gin.Engine) {
 	router.POST("/upload", UploadFile)
-	router.DELETE("/", DeleteFile)
+	router.POST("/delete", DeleteFile)
 }

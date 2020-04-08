@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"lan-share/model"
 	"net/http"
 	"path/filepath"
+	"strconv"
 	"time"
-	"lan-share/model"
 )
-
-
 
 func GetIndex(c *gin.Context) {
 	query := c.Query("query")
@@ -17,8 +16,8 @@ func GetIndex(c *gin.Context) {
 	files, _ := model.Query(query)
 
 	c.HTML(http.StatusOK, "template.gohtml", gin.H{
-		"message": "Hi",
-		"files":files,
+		"message": "Welcome!",
+		"files":   files,
 	})
 }
 
@@ -32,30 +31,52 @@ func UploadFile(c *gin.Context) {
 		return
 	}
 	filename := filepath.Base(file.Filename)
-	link := "/upload/"+filename
+	link := "/upload/" + filename
 	if err := c.SaveUploadedFile(file, "./upload/"+filename); err != nil {
 		c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
 		return
 	}
 	fileObj := &model.File{
-		Description : description,
-		Uploader : uploader,
-		Time : currentTime,
-		Link : link,
-		Filename : filename,
+		Description: description,
+		Uploader:    uploader,
+		Time:        currentTime,
+		Link:        link,
+		Filename:    filename,
 	}
 	err = fileObj.Insert()
 	if err != nil {
-		fmt.Errorf("failed to init database")
+		_ = fmt.Errorf(err.Error())
 	}
 	c.Redirect(http.StatusSeeOther, "./")
 }
 
 func DeleteFile(c *gin.Context) {
-	//id := c.PostForm("id")
-	//token := c.PostForm("token")
-	c.JSON(http.StatusOK, gin.H{
-		"success": false,
-		"message": "Token is invalid.",
-	})
+	id, _ := strconv.Atoi(c.PostForm("id"))
+	link := c.PostForm("link")
+	token := c.PostForm("token")
+
+	if *Token == token {
+		fileObj := &model.File{
+			Id:   id,
+			Link: link,
+		}
+		err := fileObj.Delete()
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"success": true,
+				"message": "File deleted successfully.",
+			})
+		}
+
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "Token is invalid.",
+		})
+	}
 }
