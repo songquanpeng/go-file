@@ -5,49 +5,48 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
+	"time"
+	"lan-share/model"
 )
 
-type File struct {
-	Id string
-	Filename string
-	Description string
-	Uploader string
-	Link string
-	Time string
-	DownloadCounter int
-}
+
 
 func GetIndex(c *gin.Context) {
-	//query := c.Query("query")
-	file := &File{
-		Id:              "1",
-		Filename:        "README.md",
-		Description:     "description",
-		Uploader:        "uploader",
-		Link:            "/upload/README.md",
-		Time:            "2020-04-05",
-		DownloadCounter: 2,
-	}
+	query := c.Query("query")
+
+	files, _ := model.Query(query)
+
 	c.HTML(http.StatusOK, "template.gohtml", gin.H{
-		"message":"",
-		"files":[2]*File{file, file},
+		"message": "Hi",
+		"files":files,
 	})
 }
 
 func UploadFile(c *gin.Context) {
-	//description := c.PostForm("description")
-	//uploader := c.PostForm("uploader")
-	//time := time.Now().Format("2006-01-02 15:04:05")
+	description := c.PostForm("description")
+	uploader := c.PostForm("uploader")
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
 		return
 	}
 	filename := filepath.Base(file.Filename)
-	//link := "/upload/"+filename
+	link := "/upload/"+filename
 	if err := c.SaveUploadedFile(file, "./upload/"+filename); err != nil {
 		c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
 		return
+	}
+	fileObj := &model.File{
+		Description : description,
+		Uploader : uploader,
+		Time : currentTime,
+		Link : link,
+		Filename : filename,
+	}
+	err = fileObj.Insert()
+	if err != nil {
+		fmt.Errorf("failed to init database")
 	}
 	c.Redirect(http.StatusSeeOther, "./")
 }

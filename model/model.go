@@ -1,0 +1,54 @@
+package model
+
+import (
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+)
+
+type File struct {
+	Id              int `json:"id"`
+	Filename        string `json:"filename"`
+	Description     string `json:"description"`
+	Uploader        string `json:"uploader"`
+	Link            string `json:"link"`
+	Time            string `json:"time"`
+	DownloadCounter int    `json:"download_counter"`
+}
+
+var DB *gorm.DB
+
+func InitDB() (*gorm.DB, error) {
+	db, err := gorm.Open("sqlite3", "./model/data.db")
+	if err == nil {
+		DB = db
+		return DB, err
+	}
+	return nil, err
+}
+
+func All() ([]*File, error) {
+	var files []*File
+	var err error
+	err = DB.Find(&files).Error
+	return files, err
+}
+
+func (file *File) Insert() error {
+	var err error
+	err = DB.Create(file).Error
+	return err
+}
+
+func (file *File) Delete() error {
+	var err error
+	err = DB.Delete(file).Error
+	return err
+}
+
+func Query(query string) ([]*File, error) {
+	var files []*File
+	var err error
+	err = DB.Where("filename LIKE ?", "%"+query+"%").Find(&files).Error
+	return files, err
+
+}
