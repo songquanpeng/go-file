@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"os"
+	"strings"
 )
 
 type File struct {
@@ -50,6 +51,7 @@ func (file *File) Delete() error {
 func Query(query string) ([]*File, error) {
 	var files []*File
 	var err error
-	err = DB.Where("filename LIKE ?", "%"+query+"%").Find(&files).Error
+	query = strings.ToLower(query)
+	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&files).Error
 	return files, err
 }

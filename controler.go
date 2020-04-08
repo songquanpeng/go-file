@@ -16,7 +16,7 @@ func GetIndex(c *gin.Context) {
 	files, _ := model.Query(query)
 
 	c.HTML(http.StatusOK, "template.gohtml", gin.H{
-		"message": "Welcome!",
+		"message": "",
 		"files":   files,
 	})
 }

@@ -14,6 +14,7 @@ var (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	flag.Parse()
 
 	db, err := model.InitDB()
