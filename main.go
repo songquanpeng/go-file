@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"lan-share/model"
+	"log"
 	"os"
 	"strconv"
 )
@@ -15,12 +15,14 @@ var (
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	if os.Getenv("GIN_MODE") != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	flag.Parse()
 
 	db, err := model.InitDB()
 	if err != nil {
-		fmt.Errorf("failed to init database")
+		log.Fatal(err)
 	}
 	defer db.Close()
 	server := gin.Default()
@@ -31,5 +33,8 @@ func main() {
 	if realPort == "" {
 		realPort = strconv.Itoa(*port)
 	}
-	_ = server.Run(":" + realPort)
+	err = server.Run(":" + realPort)
+	if err != nil {
+		log.Println(err)
+	}
 }

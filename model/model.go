@@ -3,18 +3,19 @@ package model
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"log"
 	"os"
 	"strings"
 )
 
 type File struct {
 	Id              int    `json:"id"`
-	Filename        string `json:"filename"`
-	Description     string `json:"description"`
-	Uploader        string `json:"uploader"`
-	Link            string `json:"link"`
-	Time            string `json:"time"`
-	DownloadCounter int    `json:"download_counter"`
+	Filename        string `json:"filename" gorm:"type:string"`
+	Description     string `json:"description" gorm:"type:string"`
+	Uploader        string `json:"uploader" gorm:"type:string"`
+	Link            string `json:"link" gorm:"type:string"`
+	Time            string `json:"time" gorm:"type:string"`
+	DownloadCounter int    `json:"download_counter" gorm:"type:int"`
 }
 
 var DB *gorm.DB
@@ -23,7 +24,10 @@ func InitDB() (*gorm.DB, error) {
 	db, err := gorm.Open("sqlite3", "./data.db")
 	if err == nil {
 		DB = db
+		db.AutoMigrate(&File{})
 		return DB, err
+	} else {
+		log.Fatal(err)
 	}
 	return nil, err
 }
