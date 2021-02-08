@@ -14,6 +14,7 @@ var HTMLTemplate = `
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
     <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 </head>
 <body class="mdui-loaded mdui-drawer-body-left">
 <script>
@@ -60,6 +61,17 @@ var HTMLTemplate = `
             messageToast.style.display = 'none';
         }, 2000);
     }
+    
+    function showQRCode(link) {
+        let url = window.location.href.slice(0, -1) + link;
+        url = encodeURI(url)
+        console.log(url)
+		let qr = new QRious({
+		  element: document.getElementById('qrcode'),
+		  value: url,
+		  size: 200,
+		});
+    }
 </script>
 <div class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-indigo">
     <div class="mdui-appbar mdui-appbar-fixed">
@@ -68,9 +80,9 @@ var HTMLTemplate = `
                   class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white">
                 <i class="mdui-icon material-icons">menu</i>
             </span>
-            <a class="mdui-typo-headline" href="/">LAN-SHARE</a>
+            <a class="mdui-typo-headline" href="/">Go File</a>
             <div class="mdui-toolbar-spacer"></div>
-            <a href="https://github.com/songquanpeng/lan-share-go" target="_blank"
+            <a href="https://github.com/songquanpeng/go-file" target="_blank"
                class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36"
@@ -98,15 +110,15 @@ var HTMLTemplate = `
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">help</i>
                 <div class="mdui-list-item-content">Help</div>
             </a>
-            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/lan-share-go">
+            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/go-file">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">error_outline</i>
                 <div class="mdui-list-item-content">About</div>
             </a>
-            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/lan-share-go/issues/new">
+            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/go-file/issues/new">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">message</i>
                 <div class="mdui-list-item-content">Feedback</div>
             </a>
-            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/lan-share-go">
+            <a class="mdui-list-item mdui-ripple" href="https://github.com/songquanpeng/go-file">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-yellow">star</i>
                 <div class="mdui-list-item-content">Star</div>
             </a>
@@ -162,10 +174,12 @@ var HTMLTemplate = `
             <div class="mdui-card-actions">
                 <a class="mdui-btn mdui-btn-icon mdui-float-right" download="{{$file.Filename}}" href="{{$file.Link}}"><i
                             class="mdui-icon material-icons mdui-text-color-green">cloud_download</i></a>
-                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons mdui-text-color-purple">thumb_down</i>
-                </button>
-                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i
-                            class="mdui-icon material-icons mdui-text-color-blue">thumb_up</i>
+<!--                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons mdui-text-color-purple">thumb_down</i>-->
+<!--                </button>-->
+<!--                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i-->
+<!--                            class="mdui-icon material-icons mdui-text-color-blue">thumb_up</i>-->
+<!--                </button>-->
+                <button class="mdui-btn mdui-btn-icon mdui-float-right" onclick="showQRCode('{{$file.Link}}')" mdui-dialog="{target: '#qrcodeDialog'}"><i class="mdui-icon material-icons mdui-text-color-blue">camera_alt</i>
                 </button>
                 <button class="mdui-btn mdui-btn-icon mdui-float-right" onclick="deleteFile({{$file.Id}}, '{{$file.Link}}')"><i
                             class="mdui-icon material-icons mdui-text-color-red">delete</i>
@@ -173,9 +187,13 @@ var HTMLTemplate = `
             </div>
         </div>
     {{end}}
-
-
 </div>
+<!--QR code-->
+<div class="mdui-dialog" id="qrcodeDialog" style="width: 220px; height: 220px; padding: 10px">
+	<canvas id="qrcode"></canvas>
+</div>
+
+
 <div class="mdui-fab-wrapper mdui-fab">
     <button class="mdui-fab mdui-ripple mdui-color-theme-accent" mdui-dialog="{target: '#uploadFileDialog'}">
         <i class="mdui-icon material-icons">add</i>

@@ -56,6 +56,6 @@ func Query(query string) ([]*File, error) {
 	var files []*File
 	var err error
 	query = strings.ToLower(query)
-	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&files).Error
+	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
 	return files, err
 }

@@ -1,16 +1,19 @@
-## LAN-SHARE in Golang
-Easily share files to other devices in the same local area network.
+# Go File
+## 描述
+文件分享网站，可用于局域网内分享文件。
 
-## Usage
-```
-Usage of lan-share.exe:
-  -port int
-        specify the server listening port. (default 3000)
-  -token string
-        specify the private token. (default "token")
+## 特点
+1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
+2. 自动打开浏览器，分享文件快人一步。
+3. 提供二维码，可供移动端扫描下载文件，告别手动输入文件。
 
-```
+## 使用方法
+直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
-Example: `./lan-share.exe -port 80 -token private`
+如果需要修改端口，加参数即可：`./lan-share.exe -port 80 -token private`。
 
-## 
+## 演示
+
+
+## 其他
+[Node.js 版本在此](https://github.com/songquanpeng/lan-share)
