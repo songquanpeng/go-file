@@ -16,7 +16,6 @@ var (
 )
 
 func init() {
-	uploadPath := "./upload"
 	if _, err := os.Stat(uploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(uploadPath, 0777)
 	}

@@ -1,14 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"lan-share/model"
 	"net/http"
 	"path/filepath"
-	"strconv"
 	"time"
 )
+
+var uploadPath = "./upload"
+
+type DeleteRequest struct {
+	Id    int
+	Link  string
+	Token string
+}
 
 func GetIndex(c *gin.Context) {
 	query := c.Query("query")
@@ -23,7 +31,13 @@ func GetIndex(c *gin.Context) {
 
 func UploadFile(c *gin.Context) {
 	description := c.PostForm("description")
+	if description == "" {
+		description = "No description."
+	}
 	uploader := c.PostForm("uploader")
+	if uploader == "" {
+		uploader = "Anonymous User"
+	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -32,7 +46,7 @@ func UploadFile(c *gin.Context) {
 	}
 	filename := filepath.Base(file.Filename)
 	link := "/upload/" + filename
-	if err := c.SaveUploadedFile(file, "./upload/"+filename); err != nil {
+	if err := c.SaveUploadedFile(file, uploadPath+"/"+filename); err != nil {
 		c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
 		return
 	}
@@ -51,19 +65,24 @@ func UploadFile(c *gin.Context) {
 }
 
 func DeleteFile(c *gin.Context) {
-	id, _ := strconv.Atoi(c.PostForm("id"))
-	link := c.PostForm("link")
-	token := c.PostForm("token")
-
-	if *Token == token {
+	var deleteRequest DeleteRequest
+	err := json.NewDecoder(c.Request.Body).Decode(&deleteRequest)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": "Invalid parameter",
+		})
+		return
+	}
+	if *Token == deleteRequest.Token {
 		fileObj := &model.File{
-			Id:   id,
-			Link: link,
+			Id:   deleteRequest.Id,
+			Link: deleteRequest.Link,
 		}
 		err := fileObj.Delete()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
-				"success": false,
+				"success": true,
 				"message": err.Error(),
 			})
 		} else {

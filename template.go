@@ -6,8 +6,8 @@ var HTMLTemplate = `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LAN File Sharing</title>
-    <meta name="keywords" content="LAN file share">
+    <title>LAN Share</title>
+    <meta name="keywords" content="LAN share">
     <meta name="description" content="LAN file sharing tool website. 局域网文件共享网站">
     <meta name="theme-color" content="#3F51B5"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -23,23 +23,26 @@ var HTMLTemplate = `
         if (token === undefined) {
             token = askUserInputToken();
         }
-        $.ajax({
-            url: "/delete",
-            type: 'POST',
-            data: {
-                id: id,
+        fetch("/delete", {
+            method: 'post',
+			headers: {
+            	'Content-Type': 'application/json'
+            },
+			body: JSON.stringify({
+				id: id,
                 link: link,
                 token: token
-            },
-            success: function(result) {
-                showMessage(result.message);
-                if (!result.success) {
+			})
+        }).then(function(res) {
+            res.json().then(function (data){
+                showMessage(data.message);
+                if (!data.success) {
                     localStorage.removeItem('token');
                     askUserInputToken();
                 } else {
                     $("#file-"+id).hide();
                 }
-            }
+            })
         });
     }
 
@@ -68,7 +71,7 @@ var HTMLTemplate = `
             </span>
             <a class="mdui-typo-headline" href="/">LAN-SHARE</a>
             <div class="mdui-toolbar-spacer"></div>
-            <a href="https://github.com/songquanpeng/lan-share" target="_blank"
+            <a href="https://github.com/songquanpeng/lan-share-go" target="_blank"
                class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36"
@@ -187,12 +190,12 @@ var HTMLTemplate = `
                    onchange="document.getElementById('uploadFileDialogTitle').innerText = 'Selected file: '+document.getElementById('fileInput').files[0].name">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
-                <label class="mdui-textfield-label">Your name</label>
+                <label class="mdui-textfield-label">Your name (optional)</label>
                 <textarea class="mdui-textfield-input" name="uploader" id="fileUploader"></textarea>
             </div>
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">textsms</i>
-                <label class="mdui-textfield-label">Description</label>
+                <label class="mdui-textfield-label">Description (optional)</label>
                 <textarea class="mdui-textfield-input" name="description" id="fileDescription"></textarea>
             </div>
         </div>
