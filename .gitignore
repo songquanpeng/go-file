@@ -4,4 +4,3 @@ upload
 *.exe
 *.db
 build
-data.db

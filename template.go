@@ -1,3 +1,6 @@
+package main
+
+var HTMLTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +10,55 @@
     <meta name="keywords" content="LAN file share">
     <meta name="description" content="LAN file sharing tool website. 局域网文件共享网站">
     <meta name="theme-color" content="#3F51B5"/>
-    <link rel="shortcut icon" href="/static/favicon.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/mdui/0.4.3/css/mdui.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/mdui/0.4.3/js/mdui.min.js"></script>
-    <script src="/static/main.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
 </head>
 <body class="mdui-loaded mdui-drawer-body-left">
+<script>
+    function deleteFile(id, link) {
+        let token = localStorage.getItem('token');
+        if (token === undefined) {
+            token = askUserInputToken();
+        }
+        $.ajax({
+            url: "/delete",
+            type: 'POST',
+            data: {
+                id: id,
+                link: link,
+                token: token
+            },
+            success: function(result) {
+                showMessage(result.message);
+                if (!result.success) {
+                    localStorage.removeItem('token');
+                    askUserInputToken();
+                } else {
+                    $("#file-"+id).hide();
+                }
+            }
+        });
+    }
+
+    function askUserInputToken() {
+        let token = prompt('Please input token for authentication');
+        token = token.trim();
+        localStorage.setItem('token', token);
+        return token;
+    }
+
+    function showMessage(message) {
+        $(document).ready(function() {
+            const messageToast = $('#messageToast');
+            messageToast.show();
+            document.getElementById('messageToastText').innerText = message;
+            messageToast.delay(1000).hide(300);
+        });
+    }
+</script>
 <div class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-indigo">
     <div class="mdui-appbar mdui-appbar-fixed">
         <div class="mdui-toolbar mdui-color-white mdui-color-theme">
@@ -92,9 +135,9 @@
                 if (event.key === 'Enter') {
                     let value = input.value.trim();
                     if (value === "") {
-                        location.href = `/`;
+                        location.href = "/";
                     }else {
-                        location.href = `/?query=${value}`;
+                        location.href = "/?query="+value;
                     }
                 }
             });
@@ -162,4 +205,4 @@
 </form>
 </body>
 </html>
-
+`
