@@ -13,7 +13,6 @@ var HTMLTemplate = `
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
 </head>
 <body class="mdui-loaded mdui-drawer-body-left">
@@ -40,7 +39,7 @@ var HTMLTemplate = `
                     localStorage.removeItem('token');
                     askUserInputToken();
                 } else {
-                    $("#file-"+id).hide();
+                    document.getElementById("file-"+id).style.display = 'none';
                 }
             })
         });
@@ -54,12 +53,12 @@ var HTMLTemplate = `
     }
 
     function showMessage(message) {
-        $(document).ready(function() {
-            const messageToast = $('#messageToast');
-            messageToast.show();
-            document.getElementById('messageToastText').innerText = message;
-            messageToast.delay(1000).hide(300);
-        });
+        const messageToast = document.getElementById('messageToast');
+        messageToast.style.display = 'block';
+        document.getElementById('messageToastText').innerText = message;
+        setTimeout(function (){
+            messageToast.style.display = 'none';
+        }, 2000);
     }
 </script>
 <div class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-indigo">
@@ -125,7 +124,7 @@ var HTMLTemplate = `
 
 <div class="mdui-container">
     <div class="mdui-card" style="margin-top: 16px;padding-left: 8px;padding-right: 8px">
-        <div class="mdui-textfield mdui-textfield-floating-label" style="padding-top: 8px">
+        <div class="mdui-textfield mdui-textfield-floating-label" style="padding-top: 8px;margin-bottom: 8px;margin-right: 8px">
             <i class="mdui-icon material-icons">search</i>
             <label class="mdui-textfield-label">Search files...</label>
 
@@ -154,7 +153,7 @@ var HTMLTemplate = `
                 <div class="mdui-card-primary-subtitle">
                     <span>{{$file.Uploader}}</span>
                     <span>{{$file.Time}}</span>
-                    <span>{{$file.DownloadCounter}}</span>
+<!--                    <span>{{$file.DownloadCounter}}</span>-->
                 </div>
             </div>
             <div class="mdui-card-content" style="padding-top: 8px;padding-bottom: 8px">
