@@ -20,10 +20,13 @@ var HTMLTemplate = `
 <script>
     function deleteFile(id, link) {
         let token = localStorage.getItem('token');
-        if (token === undefined) {
+        if (!token) {
             token = askUserInputToken();
-        }
-        fetch("/delete", {
+            if (token) {
+                deleteFile(id, link);
+            }
+        } else {
+           fetch("/delete", {
             method: 'post',
 			headers: {
             	'Content-Type': 'application/json'
@@ -44,6 +47,7 @@ var HTMLTemplate = `
                 }
             })
         });
+        }
     }
 
     function askUserInputToken() {
