@@ -6,8 +6,8 @@ var HTMLTemplate = `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LAN Share</title>
-    <meta name="keywords" content="LAN share">
+    <title>Go File</title>
+    <meta name="keywords" content="Go File">
     <meta name="description" content="LAN file sharing tool website. 局域网文件共享网站">
     <meta name="theme-color" content="#3F51B5"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>

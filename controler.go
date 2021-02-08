@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"lan-share/model"
+	"go-file/model"
 	"net/http"
 	"path/filepath"
 	"time"

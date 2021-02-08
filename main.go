@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"github.com/gin-gonic/gin"
+	"go-file/model"
 	"html/template"
-	"lan-share/model"
 	"log"
 	"os"
 	"strconv"

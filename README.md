@@ -10,7 +10,7 @@
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
-如果需要修改端口，加参数即可：`./lan-share.exe -port 80 -token private`。
+如果需要修改端口，加参数即可：`./go-file.exe -port 80 -token private`。
 
 ## 演示
 ![desktop](https://user-images.githubusercontent.com/39998050/107188251-50aed700-6a22-11eb-9ee9-e8242f1850b8.png)
