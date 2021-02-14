@@ -178,6 +178,8 @@ var HTMLTemplate = `
             <div class="mdui-card-actions">
                 <a class="mdui-btn mdui-btn-icon mdui-float-right" download="{{$file.Filename}}" href="{{$file.Link}}"><i
                             class="mdui-icon material-icons mdui-text-color-green">cloud_download</i></a>
+                <a class="mdui-btn mdui-btn-icon mdui-float-right" target="_blank" href="{{$file.Link}}"><i class="mdui-icon material-icons mdui-text-color-indigo">play_circle_filled</i></a>
+
 <!--                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons mdui-text-color-purple">thumb_down</i>-->
 <!--                </button>-->
 <!--                <button class="mdui-btn mdui-btn-icon mdui-float-right"><i-->
