@@ -1,4 +1,4 @@
-package model
+package main
 
 import (
 	"github.com/jinzhu/gorm"
@@ -21,7 +21,7 @@ type File struct {
 var DB *gorm.DB
 
 func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open("sqlite3", "./data.db")
+	db, err := gorm.Open("sqlite3", "./.go-file.db")
 	if err == nil {
 		DB = db
 		db.AutoMigrate(&File{})

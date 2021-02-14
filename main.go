@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"github.com/gin-gonic/gin"
-	"go-file/model"
 	"html/template"
 	"log"
 	"os"
@@ -40,7 +39,7 @@ func main() {
 	}
 	flag.Parse()
 
-	db, err := model.InitDB()
+	db, err := InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}

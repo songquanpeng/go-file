@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-file/model"
 	"net/http"
 	"path/filepath"
 	"time"
@@ -21,7 +20,7 @@ type DeleteRequest struct {
 func GetIndex(c *gin.Context) {
 	query := c.Query("query")
 
-	files, _ := model.Query(query)
+	files, _ := Query(query)
 
 	c.HTML(http.StatusOK, "template.gohtml", gin.H{
 		"message": "",
@@ -39,27 +38,31 @@ func UploadFile(c *gin.Context) {
 		uploader = "Anonymous User"
 	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
-	file, err := c.FormFile("file")
+	form, err := c.MultipartForm()
 	if err != nil {
 		c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
 		return
 	}
-	filename := filepath.Base(file.Filename)
-	link := "/upload/" + filename
-	if err := c.SaveUploadedFile(file, uploadPath+"/"+filename); err != nil {
-		c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
-		return
-	}
-	fileObj := &model.File{
-		Description: description,
-		Uploader:    uploader,
-		Time:        currentTime,
-		Link:        link,
-		Filename:    filename,
-	}
-	err = fileObj.Insert()
-	if err != nil {
-		_ = fmt.Errorf(err.Error())
+	files := form.File["file"]
+	for _, file := range files {
+		filename := filepath.Base(file.Filename)
+		link := "/upload/" + filename
+		if err := c.SaveUploadedFile(file, uploadPath+"/"+filename); err != nil {
+			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
+			return
+		}
+		fileObj := &File{
+			Description: description,
+			Uploader:    uploader,
+			Time:        currentTime,
+			Link:        link,
+			Filename:    filename,
+		}
+		err = fileObj.Insert()
+		if err != nil {
+			_ = fmt.Errorf(err.Error())
+		}
+
 	}
 	c.Redirect(http.StatusSeeOther, "./")
 }
@@ -75,7 +78,7 @@ func DeleteFile(c *gin.Context) {
 		return
 	}
 	if *Token == deleteRequest.Token {
-		fileObj := &model.File{
+		fileObj := &File{
 			Id:   deleteRequest.Id,
 			Link: deleteRequest.Link,
 		}

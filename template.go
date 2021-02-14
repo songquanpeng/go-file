@@ -205,10 +205,22 @@ var HTMLTemplate = `
 </div>
 <form method="post" action="/upload" enctype='multipart/form-data'>
     <div class="mdui-dialog" id="uploadFileDialog">
-        <div class="mdui-dialog-title" id="uploadFileDialogTitle">Upload file</div>
+        <div class="mdui-dialog-title" id="uploadFileDialogTitle">Upload files</div>
         <div class="mdui-dialog-content">
-            <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" required style="display: none"
-                   onchange="document.getElementById('uploadFileDialogTitle').innerText = 'Selected file: '+document.getElementById('fileInput').files[0].name">
+            <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" multiple required style="display: none"
+                   onchange="onFileInputChange()">
+			<script>
+			function onFileInputChange() {
+			    let prompt = "";
+			    let files = document.getElementById('fileInput').files;
+			    if(files.length === 1) {
+			        prompt = 'Selected file: '+ files[0].name;
+			    } else {
+			        prompt = files.length + " files selected";
+			    }
+			  	document.getElementById('uploadFileDialogTitle').innerText = prompt;
+			}
+			</script>
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
                 <label class="mdui-textfield-label">Your name (optional)</label>
