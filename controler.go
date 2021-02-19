@@ -28,6 +28,17 @@ func GetIndex(c *gin.Context) {
 	})
 }
 
+func GetLocalFile(c *gin.Context) {
+	fileObj := &File{}
+	path := c.Param("path")
+	DB.Where("link = ?", "/local/"+path).First(&fileObj)
+	if fileObj.IsLocalFile {
+		c.File(path)
+	} else {
+		c.AbortWithStatus(404)
+	}
+}
+
 func UploadFile(c *gin.Context) {
 	description := c.PostForm("description")
 	if description == "" {
@@ -79,9 +90,9 @@ func DeleteFile(c *gin.Context) {
 	}
 	if *Token == deleteRequest.Token {
 		fileObj := &File{
-			Id:   deleteRequest.Id,
-			Link: deleteRequest.Link,
+			Id: deleteRequest.Id,
 		}
+		DB.Where("id = ?", deleteRequest.Id).First(&fileObj)
 		err := fileObj.Delete()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -89,9 +100,13 @@ func DeleteFile(c *gin.Context) {
 				"message": err.Error(),
 			})
 		} else {
+			message := "File deleted successfully."
+			if fileObj.IsLocalFile {
+				message = "Record deleted successfully."
+			}
 			c.JSON(http.StatusOK, gin.H{
 				"success": true,
-				"message": "File deleted successfully.",
+				"message": message,
 			})
 		}
 

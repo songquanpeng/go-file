@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func openBrowser(url string) {
@@ -43,4 +47,46 @@ func getIp() (ip string) {
 		}
 	}
 	return
+}
+
+func publicLocalPath(path string) {
+	fi, err := os.Stat(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var files []string
+	switch mode := fi.Mode(); {
+	case mode.IsDir():
+		_ = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			// Skip dirs that start with "."
+			if info.IsDir() && strings.HasPrefix(path, ".") && path != "./" {
+				return filepath.SkipDir
+			}
+			if info.IsDir() {
+				return nil
+			}
+			files = append(files, path)
+			return nil
+		})
+	case mode.IsRegular():
+		files = append(files, path)
+	}
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	for _, file := range files {
+		fileObj := &File{
+			Description: file,
+			Uploader:    "Local Path",
+			Time:        currentTime,
+			Link:        "/local/" + file,
+			Filename:    filepath.Base(file),
+			IsLocalFile: true,
+		}
+		err = fileObj.Insert()
+		if err != nil {
+			_ = fmt.Errorf(err.Error())
+		}
+	}
 }

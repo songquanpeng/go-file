@@ -13,9 +13,10 @@ type File struct {
 	Filename        string `json:"filename" gorm:"type:string"`
 	Description     string `json:"description" gorm:"type:string"`
 	Uploader        string `json:"uploader" gorm:"type:string"`
-	Link            string `json:"link" gorm:"type:string"`
+	Link            string `json:"link" gorm:"type:string unique"`
 	Time            string `json:"time" gorm:"type:string"`
 	DownloadCounter int    `json:"download_counter" gorm:"type:int"`
+	IsLocalFile     bool   `json:"is_local_file" gorm:"type:bool"`
 }
 
 var DB *gorm.DB
@@ -48,7 +49,9 @@ func (file *File) Insert() error {
 func (file *File) Delete() error {
 	var err error
 	err = DB.Delete(file).Error
-	err = os.Remove("." + file.Link)
+	if !file.IsLocalFile {
+		err = os.Remove("." + file.Link)
+	}
 	return err
 }
 
