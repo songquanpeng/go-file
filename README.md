@@ -29,7 +29,9 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 </details>
 
 ## 描述
-文件分享工具，可用于局域网内分享文件，直接跑满本地带宽。
+文件分享工具，仅单个可执行文件，开箱即用，可用于局域网内分享文件和文件夹，直接跑满本地带宽。
+
+[点击此处前往下载页面](https://github.com/songquanpeng/go-file/releases/latest)。
 
 ## 特点
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
