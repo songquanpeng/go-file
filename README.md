@@ -1,6 +1,41 @@
+<p align="center">
+  <a href="https://github.com/songquanpeng/go-file"><img src="https://user-images.githubusercontent.com/39998050/108494937-1a573e80-72e3-11eb-81c3-5545d7c2ed6e.jpg" width="200" height="200" alt="go-file"></a>
+</p>
+
+<div align="center">
+
 # Go File
+
+_✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局域网内分享文件和文件夹，直接跑满本地带宽 ✨_  
+
+</div>
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/songquanpeng/go-file/master/LICENSE">
+    <img src="https://img.shields.io/github/license/songquanpeng/go-file" alt="license">
+  </a>
+  <a href="https://github.com/songquanpeng/go-file/releases/latest">
+    <img src="https://img.shields.io/github/v/release/songquanpeng/go-file?color=brightgreen&include_prereleases" alt="release">
+  </a>
+  <a href="https://github.com/songquanpeng/go-file/actions">
+    <img src="https://github.com/songquanpeng/go-file/workflows/release/badge.svg" alt="action">
+  </a>
+  <a href="https://goreportcard.com/report/github.com/songquanpeng/go-file">
+  <img src="https://goreportcard.com/badge/github.com/songquanpeng/go-file" alt="GoReportCard">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/songquanpeng/go-file/projects/1">开发规划</a>
+  ·
+  <a href="https://github.com/songquanpeng/go-file/releases">下载</a>
+  ·
+  <a href="https://iamazing.cn/page/LAN-SHARE-使用教程">使用教程</a>
+</p>
+
+
 <details>
-<summary><strong><i>Click here to expend English readme</i></strong></summary>
+<summary><strong><i>Click here to expend the English readme</i></strong></summary>
 <div>
 
 ## Description
@@ -28,10 +63,6 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 </div>
 </details>
 
-## 描述
-文件分享工具，仅单个可执行文件，开箱即用，可用于局域网内分享文件和文件夹，直接跑满本地带宽。
-
-[点击此处前往下载页面](https://github.com/songquanpeng/go-file/releases/latest)。
 
 ## 特点
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
