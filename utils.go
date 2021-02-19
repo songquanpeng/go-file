@@ -61,8 +61,9 @@ func publicLocalPath(path string) {
 			if err != nil {
 				return err
 			}
+			// TODO: unable to public path that start with "."
 			// Skip dirs that start with "."
-			if info.IsDir() && strings.HasPrefix(path, ".") && path != "./" {
+			if info.IsDir() && strings.HasPrefix(path, ".") && !strings.HasPrefix(path, "./") {
 				return filepath.SkipDir
 			}
 			if info.IsDir() {

@@ -8,13 +8,16 @@ File sharing tool, can be used to share files in a LAN.
 
 ## Features
 1. No need to configure environment and there is only a single executable file.
-2. Automatically open brower to make you share file more quickly.
+2. Automatically open browser to make you share file more quickly.
 3. Generate QR codes for your mobile phone to scan.
+4. Easily share all the content of a local dir.
 
 ## Usage
-Just double click to use with default port `3000` and default token (used to verify identity when user try to delete files) `token`.
+Just double-click to use with default port `3000` and default token (used to verify identity when user try to delete files) `token`.
 
 If you want to change the port and token, run it like this:`./go-file.exe -port 80 -token private`.
+
+Your can also public a local path by providing a `path` like this : `./go-file.exe -path ./this/is/a/path` 
 
 ## Demo
 ![desktop](https://user-images.githubusercontent.com/39998050/107188251-50aed700-6a22-11eb-9ee9-e8242f1850b8.png)
@@ -32,11 +35,16 @@ If you want to change the port and token, run it like this:`./go-file.exe -port 
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
 2. 自动打开浏览器，分享文件快人一步。
 3. 提供二维码，可供移动端扫描下载文件，告别手动输入文件。
+4. 支持分享本地文件夹。
 
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
 如果需要修改端口，加参数即可：`./go-file.exe -port 80 -token private`。
+
+如果需要分享文件夹，加 `path` 参数：`./go-file.exe -path ./this/is/a/path`
+
+注意，该路径下的所有文件都会被记录到数据库中，但不包括以 `.` 开头的子文件夹中的文件。
 
 ## 演示
 ![desktop](https://user-images.githubusercontent.com/39998050/107188251-50aed700-6a22-11eb-9ee9-e8242f1850b8.png)

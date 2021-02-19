@@ -67,7 +67,7 @@ var HTMLTemplate = `
     }
     
     function showQRCode(link) {
-        let url = window.location.href.slice(0, -1) + link;
+        let url = window.location.origin + link;
         url = encodeURI(url)
         console.log(url)
 		let qr = new QRious({
