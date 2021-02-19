@@ -217,6 +217,10 @@ var HTMLTemplate = `
 			    let files = document.getElementById('fileInput').files;
 			    if(files.length === 1) {
 			        prompt = 'Selected file: '+ files[0].name;
+			        let limitLength = 70;
+			        if (prompt.length > limitLength) {
+			            prompt = prompt.substring(0, limitLength-3) + "...";
+			        }
 			    } else {
 			        prompt = files.length + " files selected";
 			    }
