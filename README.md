@@ -73,7 +73,7 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
-注意，如果主机有多个 ip 地址，请使用 host 参数指定一个可供其他设备访问的 ip 地址，如：`go-file.exe -host xxx.xxx.xxx.xxx`
+注意，如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe -host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
 
 如果需要修改端口，加参数即可：`./go-file.exe -port 80 -token private`。
 
