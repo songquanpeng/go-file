@@ -67,15 +67,17 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 ## 特点
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
 2. 自动打开浏览器，分享文件快人一步。
-3. 提供二维码，可供移动端扫描下载文件，告别手动输入文件。
+3. 提供二维码，可供移动端扫描下载文件，告别手动输入链接。
 4. 支持分享本地文件夹。
 
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
+注意，如果主机有多个 ip 地址，请使用 host 参数指定一个可供其他设备访问的 ip 地址，如：`go-file.exe -host xxx.xxx.xxx.xxx`
+
 如果需要修改端口，加参数即可：`./go-file.exe -port 80 -token private`。
 
-如果需要分享文件夹，加 `path` 参数：`./go-file.exe -path ./this/is/a/path`
+如果需要分享文件夹，加 `path` 参数：`./go-file.exe -path ./this/is/a/path`。
 
 注意，该路径下的所有文件都会被记录到数据库中，但不包括以 `.` 开头的子文件夹中的文件。
 
