@@ -1,0 +1,140 @@
+body {
+    font-family: Verdana, Candara, Arial, Helvetica, Microsoft YaHei, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+nav {
+    margin-bottom: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+#page-container {
+    position: relative;
+    min-height: 97vh;
+}
+
+#content-wrap {
+    padding-bottom: 4rem;
+}
+
+#footer {
+    height: 4rem;
+}
+
+#footer a {
+    color: black;
+}
+
+code {
+    font-family: Consolas, 'Courier New', monospace;
+}
+
+.page-card-list {
+    margin: 8px 8px;
+}
+
+.page-card-title {
+    font-size: x-large;
+    font-weight: 500;
+    color: #000000;
+    text-decoration: none;
+}
+
+.page-card-text {
+    margin-top: 8px;
+}
+
+.pagination {
+    margin: 16px 4px;
+}
+
+.pagination a {
+    border: none;
+    overflow: hidden;
+}
+
+.shadow {
+    box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
+}
+
+.nav-shadow {
+    box-shadow: 0 2px 3px rgba(26,26,26,.1);
+}
+
+.box .article {
+    overflow-wrap: break-word;
+    font-size: larger;
+    word-break: break-word;
+    line-height: 1.6;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #ffffff;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.normal-container {
+    margin: auto;
+    max-width: 1200px;
+    padding: 16px 16px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.narrow-container {
+    margin: auto;
+    max-width: 560px;
+    padding: 16px 16px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.6;
+    font-size: larger;
+}
+
+.info {
+    font-size: 14px;
+    line-height: 28px;
+    text-align: left;
+    color: #738292;
+    margin-bottom: 3em
+}
+
+.info a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.links {
+    margin: 16px;
+}
+
+span.line {
+    display: inline-block;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 16px;
+}
+
+.actions span {
+    cursor: pointer;
+}
+
+.files-table {
+    min-width: 960px;
+    overflow-x: scroll;
+}

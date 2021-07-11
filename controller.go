@@ -39,9 +39,9 @@ func GetLocalFile(c *gin.Context) {
 	}
 }
 
-func GetPublicFile(c *gin.Context) {
+func GetStaticFile(c *gin.Context) {
 	path := c.Param("file")
-	c.FileFromFS("public/"+path, http.FS(fs))
+	c.FileFromFS("public/static/"+path, http.FS(fs))
 }
 
 func UploadFile(c *gin.Context) {

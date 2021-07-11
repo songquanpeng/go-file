@@ -1,0 +1,31 @@
+{{define "nav"}}
+    <nav class="navbar nav-shadow" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item is-size-5" href="/" style="font-weight: bold">
+                    Go File
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                   data-target="mainNavbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="mainNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/"> Home </a>
+                    <a class="navbar-item" target="_blank" href="https://github.com/songquanpeng/go-file/blob/master/README.md"> Help </a>
+                    <a class="navbar-item" target="_blank" href="https://iamazing.cn/page/LAN-SHARE-使用教程"> About </a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-light" onclick="uploadFile()">Upload</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+{{end}}

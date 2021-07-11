@@ -1,3 +1,7 @@
+function uploadFile() {
+
+}
+
 function deleteFile(id, link) {
     let token = localStorage.getItem('token');
     if (!token) {
@@ -16,14 +20,14 @@ function deleteFile(id, link) {
                 link: link,
                 token: token
             })
-        }).then(function(res) {
-            res.json().then(function (data){
+        }).then(function (res) {
+            res.json().then(function (data) {
                 showMessage(data.message);
                 if (!data.success) {
                     localStorage.removeItem('token');
                     askUserInputToken();
                 } else {
-                    document.getElementById("file-"+id).style.display = 'none';
+                    document.getElementById("file-" + id).style.display = 'none';
                 }
             })
         });
@@ -41,7 +45,7 @@ function showMessage(message) {
     const messageToast = document.getElementById('messageToast');
     messageToast.style.display = 'block';
     document.getElementById('messageToastText').innerText = message;
-    setTimeout(function (){
+    setTimeout(function () {
         messageToast.style.display = 'none';
     }, 2000);
 }
@@ -56,3 +60,21 @@ function showQRCode(link) {
         size: 200,
     });
 }
+
+function init() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        if ($navbarBurgers.length > 0) {
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        }
+    });
+}
+
+init();
