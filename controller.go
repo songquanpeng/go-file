@@ -22,7 +22,7 @@ func GetIndex(c *gin.Context) {
 
 	files, _ := Query(query)
 
-	c.HTML(http.StatusOK, "template.gohtml", gin.H{
+	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "",
 		"files":   files,
 	})
@@ -37,6 +37,11 @@ func GetLocalFile(c *gin.Context) {
 	} else {
 		c.AbortWithStatus(404)
 	}
+}
+
+func GetPublicFile(c *gin.Context) {
+	path := c.Param("file")
+	c.FileFromFS("public/"+path, http.FS(fs))
 }
 
 func UploadFile(c *gin.Context) {

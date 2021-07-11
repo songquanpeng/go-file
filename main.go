@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"github.com/gin-gonic/gin"
 	"html/template"
@@ -18,6 +19,9 @@ var (
 
 var ServerUrl = ""
 
+//go:embed public
+var fs embed.FS
+
 func init() {
 	if _, err := os.Stat(uploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(uploadPath, 0777)
@@ -25,12 +29,7 @@ func init() {
 }
 
 func loadTemplate() *template.Template {
-	t := template.New("")
-	t, err := t.New("template.gohtml").Parse(HTMLTemplate)
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
+	t := template.Must(template.New("").ParseFS(fs, "public/*.html"))
 	return t
 }
 
