@@ -9,7 +9,17 @@ nav {
 }
 
 a {
+    color: #368CCB;
     text-decoration: none;
+}
+
+a:hover {
+    color: #368CCB;
+    text-decoration: none;
+}
+
+.navbar-item:hover {
+    color: #368CCB;
 }
 
 .wrapper {
@@ -47,6 +57,7 @@ code {
     font-weight: 500;
     color: #000000;
     text-decoration: none;
+    margin-bottom: 8px;
 }
 
 .page-card-text {
@@ -126,8 +137,12 @@ span.line {
 
 .actions {
     display: flex;
-    justify-content: space-evenly;
-    margin-top: 16px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.actions span, .actions a {
+    margin-left: 16px;
 }
 
 .actions span {

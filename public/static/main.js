@@ -1,5 +1,24 @@
-function uploadFile() {
+function showUploadModal() {
+    document.getElementById('uploaderNameInput').value = localStorage.getItem('uploaderName');
+    showModal('uploadModal');
+}
 
+function closeUploadModal() {
+    document.getElementById('uploadModal').className = "modal";
+}
+
+
+function showModal(id) {
+    document.getElementById(id).className = "modal is-active";
+}
+
+function closeModal(id) {
+    document.getElementById(id).className = "modal";
+}
+
+function onChooseBtnClicked(e) {
+    document.getElementById('fileInput').click();
+    e.preventDefault();
 }
 
 function deleteFile(id, link) {
@@ -22,8 +41,10 @@ function deleteFile(id, link) {
             })
         }).then(function (res) {
             res.json().then(function (data) {
-                showMessage(data.message);
+                // showMessage(data.message);
                 if (!data.success) {
+                    console.error(data.message);
+                    showMessage(data.message, true);
                     localStorage.removeItem('token');
                     askUserInputToken();
                 } else {
@@ -34,20 +55,43 @@ function deleteFile(id, link) {
     }
 }
 
-function askUserInputToken() {
-    let token = prompt('Please input token for authentication');
-    token = token.trim();
-    localStorage.setItem('token', token);
-    return token;
+
+function onFileInputChange() {
+    let prompt = "";
+    let files = document.getElementById('fileInput').files;
+    if (files.length === 1) {
+        prompt = 'Selected file: ' + files[0].name;
+    } else {
+        prompt = files.length + " files selected";
+    }
+    document.getElementById('uploadFileDialogTitle').innerText = prompt;
 }
 
-function showMessage(message) {
+
+function updateToken() {
+    let token = document.getElementById('tokenInput').value;
+    token = token.trim();
+    localStorage.setItem('token', token);
+    closeModal('tokenModal');
+}
+
+function askUserInputToken() {
+    showModal('tokenModal');
+}
+
+function onUploaderNameChange() {
+    localStorage.setItem('uploaderName', document.getElementById('uploaderNameInput').value);
+}
+
+function showMessage(message, isError = false) {
     const messageToast = document.getElementById('messageToast');
     messageToast.style.display = 'block';
+    messageToast.className = isError ? "message is-danger" : "message";
+    let timeout = isError ? 5000 : 2000;
     document.getElementById('messageToastText').innerText = message;
     setTimeout(function () {
         messageToast.style.display = 'none';
-    }, 2000);
+    }, timeout);
 }
 
 function showQRCode(link) {
@@ -59,6 +103,7 @@ function showQRCode(link) {
         value: url,
         size: 200,
     });
+    showModal('qrcodeModal');
 }
 
 function init() {
