@@ -52,9 +52,8 @@ If you want to change the port and token, run it like this:`./go-file.exe -port 
 Your can also public a local path by providing a `path` like this : `./go-file.exe -path ./this/is/a/path` 
 
 ## Demo
-![desktop](https://user-images.githubusercontent.com/39998050/107188251-50aed700-6a22-11eb-9ee9-e8242f1850b8.png)
-![mobile](https://user-images.githubusercontent.com/39998050/107188296-61f7e380-6a22-11eb-9324-a394abd49b25.png)
-
+![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
 ## Others
 [Node.js version is here.](https://github.com/songquanpeng/lan-share)
 </div>
@@ -79,8 +78,8 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 注意，该路径下的所有文件都会被记录到数据库中，但不包括以 `.` 开头的子文件夹中的文件。
 
 ## 演示
-![desktop](https://user-images.githubusercontent.com/39998050/107188251-50aed700-6a22-11eb-9ee9-e8242f1850b8.png)
-![mobile](https://user-images.githubusercontent.com/39998050/107188296-61f7e380-6a22-11eb-9324-a394abd49b25.png)
+![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
 
 ## 其他
 [Node.js 版本在此](https://github.com/songquanpeng/lan-share)
