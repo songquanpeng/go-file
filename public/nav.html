@@ -20,6 +20,25 @@
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
+                        <p class="control is-expanded is-light">
+                            <input class="input" type="search" id="searchInput" autocomplete="off"
+                                   autofocus="" style="cursor: text;" placeholder="Search files..."/>
+                        </p>
+                        <script>
+                            const input = document.getElementById("searchInput");
+                            input.addEventListener("keyup", function (event) {
+                                if (event.key === 'Enter') {
+                                    let value = input.value.trim();
+                                    if (value === "") {
+                                        location.href = "/";
+                                    }else {
+                                        location.href = "/?query="+value;
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="navbar-item">
                         <div class="buttons">
                             <a class="button is-light" onclick="showUploadModal()">Upload</a>
                         </div>
