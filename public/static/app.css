@@ -74,11 +74,11 @@ code {
 }
 
 .shadow {
-    box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
 }
 
 .nav-shadow {
-    box-shadow: 0 2px 3px rgba(26,26,26,.1);
+    box-shadow: 0 2px 3px rgba(26, 26, 26, .1);
 }
 
 .box .article {
@@ -152,4 +152,9 @@ span.line {
 .files-table {
     min-width: 960px;
     overflow-x: scroll;
+}
+
+#searchInput:focus {
+    border: 1px #b5b5b5;
+    box-shadow: 0 0 5px #b5b5b5;
 }
