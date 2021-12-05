@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "header"}}
+<body>
+<div>
+    {{template "nav"}}
+    <div class="container">
+        <div class="normal-container">
+            <article id="messageToast" class="message is-danger" style="display: none">
+                <div class="message-body" id="messageToastText">
+
+                </div>
+            </article>
+            <div class="box">
+                <div class="table-container">
+                    <table class="table is-hoverable is-fullwidth" style="min-width: 700px">
+                        <thead>
+                        <tr>
+                            <th style="width:68%">Name</th>
+                            <th style="width:12%">Size</th>
+                            <th style="width:20%">Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{range $index, $file := .files}}
+                        <tr>
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">{{$file.Name}}</a></td>
+                            <td></td>
+                            {{ else }}
+                            <td><a class="file-link" href="{{$file.Link}}" download="{{$file.Name}}">{{$file.Name}}</a></td>
+                            <td>{{$file.Size}}</td>
+                            {{ end }}
+                            <td>{{$file.ModifiedTime}}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "footer"}}
+</div>
+
+{{template "modal"}}
+
+</body>
+</html>

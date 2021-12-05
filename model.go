@@ -19,6 +19,14 @@ type File struct {
 	IsLocalFile     bool   `json:"is_local_file" gorm:"type:bool"`
 }
 
+type LocalFile struct {
+	Name         string
+	Link         string
+	Size         string
+	IsFolder     bool
+	ModifiedTime string
+}
+
 var DB *gorm.DB
 
 func InitDB() (*gorm.DB, error) {

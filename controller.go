@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"net/http"
+	"net/url"
+	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
-
-var uploadPath = "./upload"
 
 type DeleteRequest struct {
 	Id    int
@@ -28,14 +30,67 @@ func GetIndex(c *gin.Context) {
 	})
 }
 
-func GetLocalFile(c *gin.Context) {
-	fileObj := &File{}
-	path := c.Param("path")
-	DB.Where("link = ?", "/local/"+path).First(&fileObj)
-	if fileObj.IsLocalFile {
-		c.File(path)
+func GetExplorerIndex(c *gin.Context) {
+	path := c.DefaultQuery("path", "/")
+	path, _ = url.QueryUnescape(path)
+
+	rootPath := filepath.Join(LocalFileRoot, path)
+	root, err := os.Stat(rootPath)
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"message": err.Error(),
+		})
+	}
+	if root.IsDir() {
+		var localFiles []LocalFile
+		var tempFiles []LocalFile
+		files, err := ioutil.ReadDir(rootPath)
+		if err != nil {
+			c.HTML(http.StatusBadRequest, "error.html", gin.H{
+				"message": err.Error(),
+			})
+		}
+		if path != "/" {
+			parts := strings.Split(path, "/")
+			if len(parts) > 0 {
+				parts = parts[:len(parts)-1]
+			}
+			parentPath := strings.Join(parts, "/")
+			parentFile := LocalFile{
+				Name:         "..",
+				Link:         "explorer?path=" + url.QueryEscape(parentPath),
+				Size:         "",
+				IsFolder:     true,
+				ModifiedTime: "",
+			}
+			localFiles = append(localFiles, parentFile)
+			path = strings.Trim(path, "/") + "/"
+		} else {
+			path = ""
+		}
+		for _, f := range files {
+			file := LocalFile{
+				Name:         f.Name(),
+				Link:         "explorer?path=" + url.QueryEscape(path+f.Name()),
+				Size:         Bytes2Size(f.Size()),
+				IsFolder:     f.Mode().IsDir(),
+				ModifiedTime: f.ModTime().String()[:19],
+			}
+			if file.IsFolder {
+				localFiles = append(localFiles, file)
+			} else {
+				tempFiles = append(tempFiles, file)
+			}
+
+		}
+		localFiles = append(localFiles, tempFiles...)
+
+		c.HTML(http.StatusOK, "explorer.html", gin.H{
+			"message": "",
+			"files":   localFiles,
+		})
 	} else {
-		c.AbortWithStatus(404)
+		c.File(filepath.Join(LocalFileRoot, path))
 	}
 }
 
@@ -68,7 +123,7 @@ func UploadFile(c *gin.Context) {
 	for _, file := range files {
 		filename := filepath.Base(file.Filename)
 		link := "/upload/" + filename
-		if err := c.SaveUploadedFile(file, uploadPath+"/"+filename); err != nil {
+		if err := c.SaveUploadedFile(file, UploadPath+"/"+filename); err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
 			return
 		}

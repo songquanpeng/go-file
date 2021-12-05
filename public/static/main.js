@@ -106,6 +106,11 @@ function showQRCode(link) {
     showModal('qrcodeModal');
 }
 
+function toLocalTime(str) {
+    let date = Date.parse(str);
+    return date.toLocaleString()
+}
+
 function init() {
     document.addEventListener('DOMContentLoaded', () => {
         const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);

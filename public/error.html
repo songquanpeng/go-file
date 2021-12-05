@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "header"}}
+<body>
+<div>
+    {{template "nav"}}
+    <div class="container">
+        <div class="normal-container">
+            <article id="messageToast" class="message is-danger">
+                <div class="message-body" id="messageToastText">
+                    {{.message}}
+                </div>
+            </article>
+        </div>
+    </div>
+    {{template "footer"}}
+</div>
+
+{{template "modal"}}
+
+</body>
+</html>

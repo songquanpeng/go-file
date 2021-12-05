@@ -79,7 +79,7 @@ func publicLocalPath(path string) {
 	for _, file := range files {
 		fileObj := &File{
 			Description: file,
-			Uploader:    "Local Path",
+			Uploader:    "Local Link",
 			Time:        currentTime,
 			Link:        "/local/" + file,
 			Filename:    filepath.Base(file),
@@ -90,4 +90,31 @@ func publicLocalPath(path string) {
 			_ = fmt.Errorf(err.Error())
 		}
 	}
+}
+
+var sizeKB = 1024
+var sizeMB = sizeKB * 1024
+var sizeGB = sizeMB * 1024
+var sizeTB = sizeGB * 1024
+
+func Bytes2Size(num int64) string {
+	numStr := ""
+	unit := "B"
+	if num/int64(sizeTB) > 1 {
+		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeTB))
+		unit = "TB"
+	} else if num/int64(sizeGB) > 1 {
+		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeGB))
+		unit = "GB"
+	} else if num/int64(sizeMB) > 1 {
+		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeMB))
+		unit = "MB"
+	} else if num/int64(sizeKB) > 1 {
+		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeKB))
+		unit = "KB"
+	} else {
+		numStr = fmt.Sprintf("%d", num)
+	}
+	numStr = strings.Split(numStr, ".")[0]
+	return numStr + " " + unit
 }

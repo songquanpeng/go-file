@@ -18,13 +18,15 @@ var (
 )
 
 var ServerUrl = ""
+var UploadPath = "./upload"
+var LocalFileRoot = UploadPath
 
 //go:embed public
 var fs embed.FS
 
 func init() {
-	if _, err := os.Stat(uploadPath); os.IsNotExist(err) {
-		_ = os.Mkdir(uploadPath, 0777)
+	if _, err := os.Stat(UploadPath); os.IsNotExist(err) {
+		_ = os.Mkdir(UploadPath, 0777)
 	}
 }
 
@@ -49,7 +51,7 @@ func main() {
 	SetIndexRouter(server)
 	SetApiRouter(server)
 	if *path != "" {
-		publicLocalPath(*path)
+		LocalFileRoot = *path
 	}
 	var realPort = os.Getenv("PORT")
 	if realPort == "" {
