@@ -53,6 +53,7 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 
 ## Demo
 ![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![explorer view](https://user-images.githubusercontent.com/39998050/144734218-d8969c22-f626-464d-b0c5-c32ec61b4e7d.png)
 ![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
 ## Others
 [Node.js version is here.](https://github.com/songquanpeng/lan-share)
@@ -73,12 +74,11 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 
 如果需要修改端口，加参数即可：`./go-file.exe -port 80 -token private`。
 
-如果需要分享文件夹，加 `path` 参数：`./go-file.exe -path ./this/is/a/path`。
-
-注意，该路径下的所有文件都会被记录到数据库中，但不包括以 `.` 开头的子文件夹中的文件。
+如果需要分享文件夹，加 `path` 参数：`./go-file.exe -path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
 
 ## 演示
 ![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![explorer view](https://user-images.githubusercontent.com/39998050/144734218-d8969c22-f626-464d-b0c5-c32ec61b4e7d.png)
 ![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
 
 ## 其他
