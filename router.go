@@ -6,7 +6,8 @@ import (
 
 func SetIndexRouter(router *gin.Engine) {
 	router.Static("/upload", "./upload")
-	router.GET("/explorer", GetExplorerIndex)
+	router.GET("/explorer", GetExplorerPage)
+	router.GET("/manage", GetManagePage)
 	router.GET("/public/static/:file", GetStaticFile)
 	router.GET("/public/lib/:file", GetLibFile)
 	router.GET("/", GetIndex)

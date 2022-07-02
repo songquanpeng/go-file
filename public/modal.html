@@ -1,5 +1,5 @@
 {{define "modal"}}
-    <div class="modal" id="uploadModal">
+    <div class="modal" id="uploadModal" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
         <div class="modal-background" onclick="closeUploadModal()"></div>
         <div class="modal-content">
             <div class="box">
@@ -25,7 +25,7 @@
                 </form>
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
-                        <button class="button is-light" onclick="onChooseBtnClicked()">Choose</button>
+                        <button class="button is-light" onclick="onChooseBtnClicked()">Choose Or Drop</button>
                     </div>
                     <div class="control">
                         <button class="button is-light" onclick="closeUploadModal()">Cancel</button>

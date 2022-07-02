@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "header"}}
+<body>
+<div>
+    {{template "nav"}}
+    <div class="container">
+        <div class="normal-container">
+            <article id="messageToast" class="message is-danger" style="display: none">
+                <div class="message-body" id="messageToastText">
+
+                </div>
+            </article>
+            <div class="box">
+                <div class="table-container">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <div class="page-card-title" style="color: #368CCB;">Temp</div>
+                                    <div class="page-card-text" id="dropZoneMessage">
+                                        Working On Progress
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "footer"}}
+</div>
+
+{{template "modal"}}
+
+</body>
+</html>

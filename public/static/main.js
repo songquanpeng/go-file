@@ -57,7 +57,7 @@ function deleteFile(id, link) {
 
 
 function onFileInputChange() {
-    let prompt = "";
+    let prompt;
     let files = document.getElementById('fileInput').files;
     if (files.length === 1) {
         prompt = 'Selected file: ' + files[0].name;
@@ -65,6 +65,17 @@ function onFileInputChange() {
         prompt = files.length + " files selected";
     }
     document.getElementById('uploadFileDialogTitle').innerText = prompt;
+}
+
+function dropHandler(ev) {
+    ev.preventDefault();
+    document.getElementById('fileInput').files = ev.dataTransfer.files;
+    onFileInputChange();
+}
+
+function dragOverHandler(ev) {
+    document.getElementById('uploadFileDialogTitle').innerText = "Release to this dialog";
+    ev.preventDefault();
 }
 
 
@@ -112,19 +123,17 @@ function toLocalTime(str) {
 }
 
 function init() {
-    document.addEventListener('DOMContentLoaded', () => {
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-        if ($navbarBurgers.length > 0) {
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-                });
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if ($navbarBurgers.length > 0) {
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
             });
-        }
-    });
+        });
+    }
 }
 
-init();
+document.addEventListener('DOMContentLoaded', init)

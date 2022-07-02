@@ -30,7 +30,7 @@ func GetIndex(c *gin.Context) {
 	})
 }
 
-func GetExplorerIndex(c *gin.Context) {
+func GetExplorerPage(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
 	path, _ = url.PathUnescape(path)
 
@@ -92,6 +92,12 @@ func GetExplorerIndex(c *gin.Context) {
 	} else {
 		c.File(filepath.Join(LocalFileRoot, path))
 	}
+}
+
+func GetManagePage(c *gin.Context) {
+	c.HTML(http.StatusOK, "manage.html", gin.H{
+		"message": "",
+	})
 }
 
 func GetStaticFile(c *gin.Context) {
