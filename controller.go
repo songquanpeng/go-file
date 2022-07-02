@@ -32,7 +32,7 @@ func GetIndex(c *gin.Context) {
 
 func GetExplorerIndex(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
-	path, _ = url.QueryUnescape(path)
+	path, _ = url.PathUnescape(path)
 
 	rootPath := filepath.Join(LocalFileRoot, path)
 	root, err := os.Stat(rootPath)
