@@ -25,10 +25,10 @@
                         {{range $index, $file := .files}}
                         <tr>
                             {{if $file.IsFolder }}
-                            <td><a class="folder-link" href="{{$file.Link}}">{{$file.Name}}</a></td>
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
                             <td></td>
                             {{ else }}
-                            <td><a class="file-link" href="{{$file.Link}}" download="{{$file.Name}}">{{$file.Name}}</a></td>
+                            <td><a class="file-link" href="{{$file.Link}}" download="{{$file.Name}}">📄 {{$file.Name}}</a></td>
                             <td>{{$file.Size}}</td>
                             {{ end }}
                             <td>{{$file.ModifiedTime}}</td>
