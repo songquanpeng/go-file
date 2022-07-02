@@ -1,6 +1,21 @@
 function showUploadModal() {
     document.getElementById('uploaderNameInput').value = localStorage.getItem('uploaderName');
+    if (location.href.split('/')[3].startsWith("explorer")) {
+        let path = getPathParam();
+        document.getElementById('uploadFileDialogTitle').innerText = `Upload files to "${path}"`;
+    }
     showModal('uploadModal');
+}
+
+function getPathParam() {
+    let url = new URL(location.href);
+    let searchParams = new URLSearchParams(url.search);
+    let path = "/";
+    if (searchParams.has('path')) {
+        path = searchParams.get('path');
+    }
+    if (path === "") path = "/";
+    return path;
 }
 
 function closeUploadModal() {
@@ -85,6 +100,13 @@ function uploadFile() {
     for (let i = 0; i < files.length; i++) {
         formData.append("file", files[i]);
     }
+
+    let path = "";
+    if (location.href.split('/')[3].startsWith("explorer")) {
+        path = getPathParam();
+    }
+    formData.append("path", path);
+
     if (files.length === 1) {
         fileUploadTitle.innerText = `Uploading 1 file`;
     } else {
@@ -99,6 +121,7 @@ function uploadFile() {
     }, false);
     fileUploader.addEventListener("load", ev => {
         fileUploadTitle.innerText = files.length === 1 ? `File uploaded.` : `Files uploaded.`;
+        location.reload();
         // setTimeout(()=>{
         //     fileUploadCard.style.display = 'none';
         // }, 5000);

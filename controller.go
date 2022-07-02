@@ -111,6 +111,14 @@ func GetLibFile(c *gin.Context) {
 }
 
 func UploadFile(c *gin.Context) {
+	uploadPath := UploadPath
+	saveToDatabase := true
+	path := c.PostForm("path")
+	if path != "" {
+		uploadPath = filepath.Join(LocalFileRoot, path)
+		saveToDatabase = false
+	}
+
 	description := c.PostForm("description")
 	if description == "" {
 		description = "No description."
@@ -129,22 +137,23 @@ func UploadFile(c *gin.Context) {
 	for _, file := range files {
 		filename := filepath.Base(file.Filename)
 		link := "/upload/" + filename
-		if err := c.SaveUploadedFile(file, UploadPath+"/"+filename); err != nil {
+		if err := c.SaveUploadedFile(file, filepath.Join(uploadPath, filename)); err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
 			return
 		}
-		fileObj := &File{
-			Description: description,
-			Uploader:    uploader,
-			Time:        currentTime,
-			Link:        link,
-			Filename:    filename,
+		if saveToDatabase {
+			fileObj := &File{
+				Description: description,
+				Uploader:    uploader,
+				Time:        currentTime,
+				Link:        link,
+				Filename:    filename,
+			}
+			err = fileObj.Insert()
+			if err != nil {
+				_ = fmt.Errorf(err.Error())
+			}
 		}
-		err = fileObj.Insert()
-		if err != nil {
-			_ = fmt.Errorf(err.Error())
-		}
-
 	}
 	c.Redirect(http.StatusSeeOther, "./")
 }
