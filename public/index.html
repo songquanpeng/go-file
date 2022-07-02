@@ -11,6 +11,7 @@
 
                 </div>
             </article>
+            {{template "progress"}}
             <div>
                 {{range $index, $file := .files}}
                     <div class="box" id="file-{{$file.Id}}">

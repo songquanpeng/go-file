@@ -3,7 +3,7 @@
         <div class="modal-background" onclick="closeUploadModal()"></div>
         <div class="modal-content">
             <div class="box">
-                <h3 class="title is-5" id="uploadFileDialogTitle">Upload files</h3>
+                <h3 class="title is-5" id="uploadFileDialogTitle">Choose or drag files to upload...</h3>
                 <form method="post" action="/upload" enctype="multipart/form-data">
                     <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" multiple="" required=""
                            style="display: none" onchange="onFileInputChange()">
@@ -25,13 +25,15 @@
                 </form>
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
-                        <button class="button is-light" onclick="onChooseBtnClicked()">Choose Or Drop</button>
+                        <button class="button is-light" onclick="onChooseBtnClicked()">Choose Or Drag</button>
                     </div>
                     <div class="control">
                         <button class="button is-light" onclick="closeUploadModal()">Cancel</button>
                     </div>
                     <div class="control">
-                        <button class="button is-light" onclick="document.getElementById('submitBtn').click()">Upload
+<!--                        <button class="button is-light" onclick="document.getElementById('submitBtn').click()">Upload-->
+<!--                        </button>-->
+                        <button class="button is-light" onclick="uploadFile()">Upload
                         </button>
                     </div>
                 </div>

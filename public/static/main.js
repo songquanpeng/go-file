@@ -67,6 +67,53 @@ function onFileInputChange() {
     document.getElementById('uploadFileDialogTitle').innerText = prompt;
 }
 
+function byte2mb(n) {
+    let sizeMb = 1024 * 1024;
+    n /= sizeMb;
+    return n.toFixed(2);
+}
+
+function uploadFile() {
+    let fileUploadCard = document.getElementById('fileUploadCard');
+    let fileUploadTitle = document.getElementById('fileUploadTitle');
+    let fileUploadProgress = document.getElementById('fileUploadProgress');
+    let fileUploadDetail = document.getElementById('fileUploadDetail');
+    fileUploadCard.style.display = 'block';
+    closeUploadModal();
+    let files = document.getElementById('fileInput').files;
+    let formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append("file", files[i]);
+    }
+    if (files.length === 1) {
+        fileUploadTitle.innerText = `Uploading 1 file`;
+    } else {
+        fileUploadTitle.innerText = `Uploading ${files.length} files`;
+    }
+
+    let fileUploader = new XMLHttpRequest();
+    fileUploader.upload.addEventListener("progress", ev => {
+        let percent = (ev.loaded / ev.total) * 100;
+        fileUploadProgress.value = Math.round(percent);
+        fileUploadDetail.innerText = `Processing ${byte2mb(ev.loaded)} MB / ${byte2mb(ev.total)} MB.`
+    }, false);
+    fileUploader.addEventListener("load", ev => {
+        fileUploadTitle.innerText = files.length === 1 ? `File uploaded.` : `Files uploaded.`;
+        // setTimeout(()=>{
+        //     fileUploadCard.style.display = 'none';
+        // }, 5000);
+    }, false);
+    fileUploader.addEventListener("error", ev => {
+        fileUploadTitle.innerText = `File uploading failed.`;
+        console.error(ev);
+    }, false);
+    fileUploader.addEventListener("abort", ev => {
+        fileUploadTitle.innerText = `File uploading aborted.`;
+    }, false);
+    fileUploader.open("POST", "/upload");
+    fileUploader.send(formData);
+}
+
 function dropHandler(ev) {
     ev.preventDefault();
     document.getElementById('fileInput').files = ev.dataTransfer.files;
