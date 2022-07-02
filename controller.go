@@ -35,6 +35,10 @@ func GetExplorerPage(c *gin.Context) {
 	path, _ = url.PathUnescape(path)
 
 	rootPath := filepath.Join(LocalFileRoot, path)
+	if !strings.HasPrefix(rootPath, LocalFileRoot) {
+		// We may being attacked!
+		rootPath = LocalFileRoot
+	}
 	root, err := os.Stat(rootPath)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
@@ -116,6 +120,10 @@ func UploadFile(c *gin.Context) {
 	path := c.PostForm("path")
 	if path != "" {
 		uploadPath = filepath.Join(LocalFileRoot, path)
+		if !strings.HasPrefix(uploadPath, LocalFileRoot) {
+			// We may being attacked!
+			uploadPath = LocalFileRoot
+		}
 		saveToDatabase = false
 	}
 
