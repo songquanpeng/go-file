@@ -66,8 +66,9 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 2. 自动打开浏览器，分享文件快人一步。
 3. 提供二维码，可供移动端扫描下载文件，告别手动输入链接。
 4. 支持分享本地文件夹。
-5. [开发中] 内置图床，支持直接粘贴上传图片，提供图片上传 API。
-6. [开发中] 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频。
+5. 移动端已适配。
+6. 内置图床，支持直接粘贴上传图片，提供图片上传 API。
+7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频。
 
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
@@ -83,9 +84,10 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 
 注意，以下展示图片可能没有得到及时跟新。
 
-![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
-![explorer view](https://user-images.githubusercontent.com/39998050/144734218-d8969c22-f626-464d-b0c5-c32ec61b4e7d.png)
-![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
+![index page](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![explorer page](https://user-images.githubusercontent.com/39998050/177032568-8af95d7e-87ab-4e60-804b-5e49addfb6ab.png)
+![image page](https://user-images.githubusercontent.com/39998050/177032659-c8c68186-09f4-4142-9f57-70bcb4a4cda1.png)
+![video page](https://user-images.githubusercontent.com/39998050/177032588-8946abde-a8da-45a2-a389-c16dba9cea34.png)
 
 ## 其他
 [Node.js 版本在此](https://github.com/songquanpeng/lan-share)

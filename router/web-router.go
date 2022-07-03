@@ -12,6 +12,7 @@ func setWebRouter(router *gin.Engine) {
 	router.GET("/manage", controller.GetManagePage)
 	router.GET("/image", controller.GetImagePage)
 	router.Static("/image", common.ImageUploadPath)
+	router.GET("/video", controller.GetVideoPage)
 	router.GET("/public/static/:file", controller.GetStaticFile)
 	router.GET("/public/lib/:file", controller.GetLibFile)
 	router.GET("/", controller.GetIndexPage)

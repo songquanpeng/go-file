@@ -8,7 +8,6 @@ import (
 	"html/template"
 	"log"
 	"os"
-	"path/filepath"
 	"strconv"
 )
 
@@ -30,9 +29,6 @@ func main() {
 	server := gin.Default()
 	server.SetHTMLTemplate(loadTemplate())
 	router.SetRouter(server)
-	if *common.Path != "" {
-		common.LocalFileRoot, _ = filepath.Abs(*common.Path)
-	}
 	var realPort = os.Getenv("PORT")
 	if realPort == "" {
 		realPort = strconv.Itoa(*common.Port)

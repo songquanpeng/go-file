@@ -8,6 +8,7 @@ import (
 var UploadPath = "upload"
 var LocalFileRoot = UploadPath
 var ImageUploadPath = "upload/image"
+var VideoServePath = ""
 
 //go:embed public
 var FS embed.FS
