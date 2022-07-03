@@ -6,6 +6,9 @@ import (
 )
 
 func setApiRouter(router *gin.Engine) {
-	router.POST("/upload", controller.UploadFile)
-	router.POST("/delete", controller.DeleteFile)
+	router.POST("/file", controller.UploadFile)
+	router.DELETE("/file", controller.DeleteFile)
+
+	router.POST("/image", controller.UploadImage)
+	router.DELETE("/image", controller.DeleteImage)
 }

@@ -1,9 +1,7 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"log"
 	"os"
 	"strings"
 )
@@ -27,24 +25,18 @@ type LocalFile struct {
 	ModifiedTime string
 }
 
-var DB *gorm.DB
-
-func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open("sqlite3", "./.go-file.db")
-	if err == nil {
-		DB = db
-		db.AutoMigrate(&File{})
-		return DB, err
-	} else {
-		log.Fatal(err)
-	}
-	return nil, err
-}
-
-func All() ([]*File, error) {
+func AllFiles() ([]*File, error) {
 	var files []*File
 	var err error
 	err = DB.Find(&files).Error
+	return files, err
+}
+
+func QueryFiles(query string) ([]*File, error) {
+	var files []*File
+	var err error
+	query = strings.ToLower(query)
+	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
 	return files, err
 }
 
@@ -61,12 +53,4 @@ func (file *File) Delete() error {
 		err = os.Remove("." + file.Link)
 	}
 	return err
-}
-
-func Query(query string) ([]*File, error) {
-	var files []*File
-	var err error
-	query = strings.ToLower(query)
-	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
-	return files, err
 }

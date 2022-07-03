@@ -44,8 +44,8 @@ function deleteFile(id, link) {
             deleteFile(id, link);
         }
     } else {
-        fetch("/delete", {
-            method: 'post',
+        fetch("/file", {
+            method: 'delete',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -133,7 +133,7 @@ function uploadFile() {
     fileUploader.addEventListener("abort", ev => {
         fileUploadTitle.innerText = `File uploading aborted.`;
     }, false);
-    fileUploader.open("POST", "/upload");
+    fileUploader.open("POST", "/file");
     fileUploader.send(formData);
 }
 
