@@ -32,7 +32,7 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 
 
 <details>
-<summary><strong><i>Click here to expend the English readme</i></strong></summary>
+<summary><strong><i>English</i></strong></summary>
 <div>
 
 ## Description
@@ -47,14 +47,33 @@ File sharing tool, can be used to share files in a LAN.
 ## Usage
 Just double-click to use with default port `3000` and default token (used to verify identity when user try to delete files) `token`.
 
-If you want to change the port and token, run it like this:`./go-file.exe -port 80 -token private`.
+If you want to change the port and token, run it like this:`./go-file.exe --port 80 --token private`.
 
-Your can also public a local path by providing a `path` like this : `./go-file.exe -path ./this/is/a/path` 
+Your can also public a local path by providing a `path` like this : `./go-file.exe --path ./this/is/a/path` 
+
+```
+Usage of go-file.exe:
+  -host string
+        the server's ip address or domain (default "localhost")
+  -path string
+        specify a local path to public
+  -port int
+        specify the server listening port. (default 3000)
+  -token string
+        specify the private token. (default "token")
+  -video string
+        specify a video folder to public
+```
 
 ## Demo
-![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
-![explorer view](https://user-images.githubusercontent.com/39998050/144734218-d8969c22-f626-464d-b0c5-c32ec61b4e7d.png)
-![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
+Please visit https://go-file.herokuapp.com/ to have a try yourself.
+
+![index page](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
+![explorer page](https://user-images.githubusercontent.com/39998050/177032568-8af95d7e-87ab-4e60-804b-5e49addfb6ab.png)
+![image page](https://user-images.githubusercontent.com/39998050/177032659-c8c68186-09f4-4142-9f57-70bcb4a4cda1.png)
+![video page](https://user-images.githubusercontent.com/39998050/177032588-8946abde-a8da-45a2-a389-c16dba9cea34.png)
+
+
 ## Others
 [Node.js version is here.](https://github.com/songquanpeng/lan-share)
 </div>
@@ -66,18 +85,30 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 2. 自动打开浏览器，分享文件快人一步。
 3. 提供二维码，可供移动端扫描下载文件，告别手动输入链接。
 4. 支持分享本地文件夹。
-5. 移动端已适配。
+5. 适配移动端。
 6. 内置图床，支持直接粘贴上传图片，提供图片上传 API。
 7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频。
+8. 支持拖拽上传，拷贝上传。
 
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
 
-注意，如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
+之后程序将自动为你打开浏览器，点击右上角的 `Upload` 按钮即可，支持拖放上传，支持同时上传多个文件。
 
-如果需要修改端口，加参数即可：`./go-file.exe --port 80 --token private`。
+进阶使用：
+1. 如果要修改端口，加参数即可：`./go-file.exe --port 80 --token private`。
+2. 如果需要分享文件夹，加 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
+3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `Video` 即可。
 
-如果需要分享文件夹，加 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
+如果你不知道怎么加参数：
+1. 打开 go-file 所在的文件夹，
+2. 按住 shift 并右键空白区域，
+3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
+4. 在打开的终端中输入：`./go-file --port 80 --token private_token --video ./path/to/video`
+
+注意：
+1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
+2. 当前版本如果需要部署公网请慎重，访客是可以上传文件的，后续版本将对权限控制进行更新。
 
 ## 演示
 在线试用（token 为 `token`）：https://go-file.herokuapp.com/
