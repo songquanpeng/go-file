@@ -95,18 +95,18 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 
 之后程序将自动为你打开浏览器，点击右上角的 `Upload` 按钮即可，支持拖放上传，支持同时上传多个文件。
 
-进阶使用：
+**进阶使用：**
 1. 如果要修改端口，加参数即可：`./go-file.exe --port 80 --token private`。
 2. 如果需要分享文件夹，加 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `Video` 即可。
 
-如果你不知道怎么加参数：
+**如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，
 2. 按住 shift 并右键空白区域，
 3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
 4. 在打开的终端中输入：`./go-file --port 80 --token private_token --video ./path/to/video`
 
-注意：
+**注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
 2. 当前版本如果需要部署公网请慎重，访客是可以上传文件的，后续版本将对权限控制进行更新。
 
