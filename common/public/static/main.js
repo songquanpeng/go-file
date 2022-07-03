@@ -1,3 +1,5 @@
+let hiddenTextArea = undefined;
+
 function showUploadModal() {
     document.getElementById('uploaderNameInput').value = localStorage.getItem('uploaderName');
     if (location.href.split('/')[3].startsWith("explorer")) {
@@ -148,6 +150,71 @@ function dragOverHandler(ev) {
     ev.preventDefault();
 }
 
+function imageDropHandler(ev) {
+    ev.preventDefault();
+    document.getElementById('fileInput').files = ev.dataTransfer.files;
+
+    let imageUploadProgress = document.getElementById('imageUploadProgress');
+    let imageUploadStatus = document.getElementById('imageUploadStatus');
+    imageUploadStatus.innerText = "Uploading..."
+
+    let files = document.getElementById('fileInput').files;
+    let formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append("image", files[i]);
+    }
+
+    let fileUploader = new XMLHttpRequest();
+    fileUploader.upload.addEventListener("progress", ev => {
+        let percent = (ev.loaded / ev.total) * 100;
+        imageUploadProgress.value = Math.round(percent);
+    }, false);
+    fileUploader.addEventListener("load", ev => {
+        // Uploading is done.
+        imageUploadStatus.innerText = "Uploading... Done.";
+    }, false);
+    fileUploader.addEventListener("error", ev => {
+        imageUploadStatus.innerText = "Uploading... Failed.";
+        console.error(ev);
+    }, false);
+    fileUploader.addEventListener("abort", ev => {
+        imageUploadStatus.innerText = "Uploading... Aborted.";
+    }, false);
+    fileUploader.addEventListener("readystatechange", ev => {
+        if (fileUploader.readyState === 4) {
+            let res = JSON.parse(fileUploader.response);
+            console.log(res);
+            let filenames = res.data;
+            let imageUploadPanel = document.getElementById('imageUploadPanel');
+            filenames.forEach(filename => {
+                let url = location.href + '/' + filename;
+                imageUploadPanel.insertAdjacentHTML('afterbegin', `
+                <div class="field has-addons">
+                    <div class="control is-light is-expanded">
+                        <input class="input url-input" type="text" value="${url}">
+                    </div>
+                    <div class="control">
+                        <a class="button is-light" onclick="copyText('${url}')">
+                            Copy Image URL
+                        </a>
+                    </div>
+                    <div class="control">
+                        <a class="button is-light" onclick="copyText('![${filename}](${url})')">
+                            Copy Markdown Code
+                        </a>
+                    </div>
+                </div>
+                `);
+            });
+        }
+    });
+    fileUploader.open("POST", "/image");
+    fileUploader.send(formData);
+}
+
+function imageDragOverHandler(ev) {
+    ev.preventDefault();
+}
 
 function updateToken() {
     let token = document.getElementById('tokenInput').value;
@@ -192,6 +259,14 @@ function toLocalTime(str) {
     return date.toLocaleString()
 }
 
+function copyText(text) {
+    const textArea = document.getElementById('hiddenTextArea');
+    textArea.textContent = text;
+    document.body.append(textArea);
+    textArea.select();
+    document.execCommand("copy");
+}
+
 function init() {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {
@@ -204,6 +279,11 @@ function init() {
             });
         });
     }
+
+    hiddenTextArea = document.createElement('textarea');
+    hiddenTextArea.setAttribute("id", "hiddenTextArea");
+    hiddenTextArea.style.cssText = "height: 0px; width: 0px";
+    document.body.appendChild(hiddenTextArea);
 }
 
 document.addEventListener('DOMContentLoaded', init)

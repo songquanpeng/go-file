@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
 	"os"
@@ -9,8 +8,7 @@ import (
 )
 
 type Image struct {
-	Id       string `json:"id"`
-	Type     string `json:"type" gorm:"type:string"`
+	Filename string `json:"type" gorm:"type:string"`
 	Uploader string `json:"uploader" gorm:"type:string"`
 	Time     string `json:"time" gorm:"type:string"`
 }
@@ -31,6 +29,6 @@ func (image *Image) Insert() error {
 func (image *Image) Delete() error {
 	var err error
 	err = DB.Delete(image).Error
-	err = os.Remove(filepath.Join(common.ImageUploadPath, fmt.Sprintf("%s.%s", image.Id, image.Type)))
+	err = os.Remove(filepath.Join(common.ImageUploadPath, image.Filename))
 	return err
 }

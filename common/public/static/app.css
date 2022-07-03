@@ -159,6 +159,11 @@ span.line {
     box-shadow: 0 0 5px #b5b5b5;
 }
 
+.url-input:focus {
+    border: 1px #b5b5b5;
+    box-shadow: #b5b5b5;
+}
+
 .folder-link {
     font-weight: bolder;
     color: #0a0a0a;
@@ -166,4 +171,16 @@ span.line {
 
 .file-link {
     color: #0a0a0a;
+}
+
+#imageDropZone {
+    padding: 3.5rem 2.5rem;
+    border: dashed #AAAAAA;
+}
+
+#imageDropZonePrompt {
+    text-align: center;
+    color: #AAAAAA;
+    /*font-weight: bold;*/
+    font-size: xx-large;
 }

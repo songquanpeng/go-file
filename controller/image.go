@@ -13,8 +13,8 @@ import (
 )
 
 type ImageDeleteRequest struct {
-	Id    string
-	Token string
+	Filename string
+	Token    string
 }
 
 func UploadImage(c *gin.Context) {
@@ -29,20 +29,20 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 	images := form.File["image"]
+	var filenames []string
 	for _, file := range images {
 		id := uuid.New().String()
 		ext := filepath.Ext(file.Filename)
-		if err := c.SaveUploadedFile(file, filepath.Join(common.ImageUploadPath, fmt.Sprintf("%s.%s", id, ext))); err != nil {
+		filename := fmt.Sprintf("%s%s", id, ext)
+		if err := c.SaveUploadedFile(file, filepath.Join(common.ImageUploadPath, filename)); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"success": false,
 				"message": fmt.Sprintf("upload file err: %s", err.Error()),
 			})
 			return
 		}
-
 		imageObj := &model.Image{
-			Id:       id,
-			Type:     ext,
+			Filename: filename,
 			Uploader: uploader,
 			Time:     currentTime,
 		}
@@ -50,11 +50,12 @@ func UploadImage(c *gin.Context) {
 		if err != nil {
 			_ = fmt.Errorf(err.Error())
 		}
-
+		filenames = append(filenames, filename)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
+		"data":    filenames,
 	})
 }
 
@@ -70,9 +71,9 @@ func DeleteImage(c *gin.Context) {
 	}
 	if *common.Token == deleteRequest.Token {
 		imageObj := &model.Image{
-			Id: deleteRequest.Id,
+			Filename: deleteRequest.Filename,
 		}
-		model.DB.Where("id = ?", deleteRequest.Id).First(&imageObj)
+		model.DB.Where("id = ?", deleteRequest.Filename).First(&imageObj)
 		err := imageObj.Delete()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
