@@ -2,18 +2,40 @@ package common
 
 import (
 	"embed"
+	"flag"
 	"os"
+	"path/filepath"
+)
+
+var (
+	Port      = flag.Int("port", 3000, "specify the server listening port.")
+	Token     = flag.String("token", "token", "specify the private token.")
+	Host      = flag.String("host", "localhost", "the server's ip address or domain")
+	Path      = flag.String("path", "", "specify a local path to public")
+	VideoPath = flag.String("video", "", "specify a video folder to public")
 )
 
 var UploadPath = "upload"
 var LocalFileRoot = UploadPath
-var ImageUploadPath = "upload/image"
-var VideoServePath = ""
+var ImageUploadPath = "upload/images"
+var VideoServePath = "upload"
 
 //go:embed public
 var FS embed.FS
 
 func init() {
+	flag.Parse()
+	if *Path != "" {
+		LocalFileRoot = *Path
+	}
+	if *VideoPath != "" {
+		VideoServePath = *VideoPath
+	}
+
+	LocalFileRoot, _ = filepath.Abs(LocalFileRoot)
+	VideoServePath, _ = filepath.Abs(VideoServePath)
+	ImageUploadPath, _ = filepath.Abs(ImageUploadPath)
+
 	if _, err := os.Stat(UploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(UploadPath, 0777)
 	}
