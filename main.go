@@ -8,14 +8,9 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 )
-
-func init() {
-	if _, err := os.Stat(common.UploadPath); os.IsNotExist(err) {
-		_ = os.Mkdir(common.UploadPath, 0777)
-	}
-}
 
 func loadTemplate() *template.Template {
 	t := template.Must(template.New("").ParseFS(common.FS, "public/*.html"))
@@ -36,7 +31,7 @@ func main() {
 	server.SetHTMLTemplate(loadTemplate())
 	router.SetRouter(server)
 	if *common.Path != "" {
-		common.LocalFileRoot = *common.Path
+		common.LocalFileRoot, _ = filepath.Abs(*common.Path)
 	}
 	var realPort = os.Getenv("PORT")
 	if realPort == "" {

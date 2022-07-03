@@ -25,7 +25,7 @@ func UploadFile(c *gin.Context) {
 	if path != "" {
 		uploadPath = filepath.Join(common.LocalFileRoot, path)
 		if !strings.HasPrefix(uploadPath, common.LocalFileRoot) {
-			// We may being attacked!
+			// In this case the given path is not valid, so we reset it to LocalFileRoot.
 			uploadPath = common.LocalFileRoot
 		}
 		saveToDatabase = false
@@ -47,6 +47,7 @@ func UploadFile(c *gin.Context) {
 	}
 	files := form.File["file"]
 	for _, file := range files {
+		// In case someone wants to upload to other folders.
 		filename := filepath.Base(file.Filename)
 		link := "/upload/" + filename
 		if err := c.SaveUploadedFile(file, filepath.Join(uploadPath, filename)); err != nil {

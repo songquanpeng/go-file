@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
@@ -30,13 +31,17 @@ func GetExplorerPage(c *gin.Context) {
 	rootPath := filepath.Join(common.LocalFileRoot, path)
 	if !strings.HasPrefix(rootPath, common.LocalFileRoot) {
 		// We may being attacked!
-		rootPath = common.LocalFileRoot
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"message": fmt.Sprintf("You can only access subfolders of the given path."),
+		})
+		return
 	}
 	root, err := os.Stat(rootPath)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 	if root.IsDir() {
 		var localFiles []model.LocalFile
@@ -46,6 +51,7 @@ func GetExplorerPage(c *gin.Context) {
 			c.HTML(http.StatusBadRequest, "error.html", gin.H{
 				"message": err.Error(),
 			})
+			return
 		}
 		if path != "/" {
 			parts := strings.Split(path, "/")
@@ -93,6 +99,12 @@ func GetExplorerPage(c *gin.Context) {
 
 func GetManagePage(c *gin.Context) {
 	c.HTML(http.StatusOK, "manage.html", gin.H{
+		"message": "",
+	})
+}
+
+func GetImagePage(c *gin.Context) {
+	c.HTML(http.StatusOK, "image.html", gin.H{
 		"message": "",
 	})
 }
