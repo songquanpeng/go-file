@@ -12,6 +12,7 @@ func InitDB() (*gorm.DB, error) {
 	if err == nil {
 		DB = db
 		db.AutoMigrate(&File{})
+		db.AutoMigrate(&Image{})
 		return DB, err
 	} else {
 		log.Fatal(err)

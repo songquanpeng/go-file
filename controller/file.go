@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-type DeleteRequest struct {
+type FileDeleteRequest struct {
 	Id    int
 	Link  string
 	Token string
@@ -72,7 +72,7 @@ func UploadFile(c *gin.Context) {
 }
 
 func DeleteFile(c *gin.Context) {
-	var deleteRequest DeleteRequest
+	var deleteRequest FileDeleteRequest
 	err := json.NewDecoder(c.Request.Body).Decode(&deleteRequest)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

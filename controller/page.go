@@ -16,7 +16,7 @@ import (
 func GetIndexPage(c *gin.Context) {
 	query := c.Query("query")
 
-	files, _ := model.Query(query)
+	files, _ := model.QueryFiles(query)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "",

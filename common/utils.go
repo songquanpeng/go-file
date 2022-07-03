@@ -2,15 +2,11 @@ package common
 
 import (
 	"fmt"
-	"go-file/model"
 	"log"
 	"net"
-	"os"
 	"os/exec"
-	"path/filepath"
 	"runtime"
 	"strings"
-	"time"
 )
 
 func OpenBrowser(url string) {
@@ -48,49 +44,6 @@ func GetIp() (ip string) {
 		}
 	}
 	return
-}
-
-func PublicLocalPath(path string) {
-	fi, err := os.Stat(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var files []string
-	switch mode := fi.Mode(); {
-	case mode.IsDir():
-		_ = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			// TODO: unable to public path that start with "."
-			// Skip dirs that start with "."
-			if info.IsDir() && strings.HasPrefix(path, ".") && !strings.HasPrefix(path, "./") {
-				return filepath.SkipDir
-			}
-			if info.IsDir() {
-				return nil
-			}
-			files = append(files, path)
-			return nil
-		})
-	case mode.IsRegular():
-		files = append(files, path)
-	}
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
-	for _, file := range files {
-		fileObj := &model.File{
-			Description: file,
-			Uploader:    "Local Link",
-			Time:        currentTime,
-			Link:        "/local/" + file,
-			Filename:    filepath.Base(file),
-			IsLocalFile: true,
-		}
-		err = fileObj.Insert()
-		if err != nil {
-			_ = fmt.Errorf(err.Error())
-		}
-	}
 }
 
 var sizeKB = 1024
