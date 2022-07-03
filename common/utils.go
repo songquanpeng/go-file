@@ -1,7 +1,8 @@
-package main
+package common
 
 import (
 	"fmt"
+	"go-file/model"
 	"log"
 	"net"
 	"os"
@@ -12,7 +13,7 @@ import (
 	"time"
 )
 
-func openBrowser(url string) {
+func OpenBrowser(url string) {
 	var err error
 
 	switch runtime.GOOS {
@@ -28,7 +29,7 @@ func openBrowser(url string) {
 	}
 }
 
-func getIp() (ip string) {
+func GetIp() (ip string) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		log.Println(err)
@@ -49,7 +50,7 @@ func getIp() (ip string) {
 	return
 }
 
-func publicLocalPath(path string) {
+func PublicLocalPath(path string) {
 	fi, err := os.Stat(path)
 	if err != nil {
 		log.Fatal(err)
@@ -77,7 +78,7 @@ func publicLocalPath(path string) {
 	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	for _, file := range files {
-		fileObj := &File{
+		fileObj := &model.File{
 			Description: file,
 			Uploader:    "Local Link",
 			Time:        currentTime,
