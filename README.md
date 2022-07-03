@@ -66,6 +66,8 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 2. 自动打开浏览器，分享文件快人一步。
 3. 提供二维码，可供移动端扫描下载文件，告别手动输入链接。
 4. 支持分享本地文件夹。
+5. [开发中] 内置图床，支持直接粘贴上传图片，提供图片上传 API。
+6. [开发中] 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频。
 
 ## 使用方法
 直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
@@ -77,6 +79,10 @@ Your can also public a local path by providing a `path` like this : `./go-file.e
 如果需要分享文件夹，加 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
 
 ## 演示
+在线试用（token 为 `token`）：https://go-file.herokuapp.com/
+
+注意，以下展示图片可能没有得到及时跟新。
+
 ![desktop](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
 ![explorer view](https://user-images.githubusercontent.com/39998050/144734218-d8969c22-f626-464d-b0c5-c32ec61b4e7d.png)
 ![mobile](https://user-images.githubusercontent.com/39998050/130427229-10da003f-8d9a-4591-b32c-efedbac419fb.png)
