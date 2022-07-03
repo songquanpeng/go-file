@@ -164,6 +164,11 @@ span.line {
     box-shadow: #b5b5b5;
 }
 
+.url-input:active {
+    border: 1px #b5b5b5;
+    box-shadow: #b5b5b5;
+}
+
 .folder-link {
     font-weight: bolder;
     color: #0a0a0a;

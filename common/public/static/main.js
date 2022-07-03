@@ -153,7 +153,10 @@ function dragOverHandler(ev) {
 function imageDropHandler(ev) {
     ev.preventDefault();
     document.getElementById('fileInput').files = ev.dataTransfer.files;
+    uploadImage();
+}
 
+function uploadImage() {
     let imageUploadProgress = document.getElementById('imageUploadProgress');
     let imageUploadStatus = document.getElementById('imageUploadStatus');
     imageUploadStatus.innerText = "Uploading..."
@@ -191,11 +194,11 @@ function imageDropHandler(ev) {
                 imageUploadPanel.insertAdjacentHTML('afterbegin', `
                 <div class="field has-addons">
                     <div class="control is-light is-expanded">
-                        <input class="input url-input" type="text" value="${url}">
+                        <input class="input url-input" type="text" value="${url}" readonly>
                     </div>
                     <div class="control">
                         <a class="button is-light" onclick="copyText('${url}')">
-                            Copy Image URL
+                            Copy URL
                         </a>
                     </div>
                     <div class="control">
