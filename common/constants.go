@@ -23,6 +23,8 @@ var VideoServePath = "upload"
 //go:embed public
 var FS embed.FS
 
+var SessionSecret = "I_LOVE_YOU"
+
 func init() {
 	flag.Parse()
 	if *Path != "" {

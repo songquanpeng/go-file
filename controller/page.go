@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
@@ -107,6 +108,36 @@ func GetImagePage(c *gin.Context) {
 	c.HTML(http.StatusOK, "image.html", gin.H{
 		"message": "",
 	})
+}
+
+func GetLoginPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "login.html", gin.H{
+		"message": "",
+	})
+}
+
+func Login(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	// TODO: query database to validate username & password, and find his rule
+	if username == "admin" && password == *common.Token {
+		session := sessions.Default(c)
+		session.Set("username", username)
+		err := session.Save()
+		if err != nil {
+			c.HTML(http.StatusForbidden, "login.html", gin.H{
+				"message": "Unable to save session, please try again.",
+			})
+			return
+		}
+		c.Redirect(http.StatusFound, "/manage")
+		return
+	} else {
+		c.HTML(http.StatusForbidden, "login.html", gin.H{
+			"message": "Wrong user name or password.",
+		})
+		return
+	}
 }
 
 func GetVideoPage(c *gin.Context) {
