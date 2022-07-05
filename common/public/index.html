@@ -11,20 +11,28 @@
 
                 </div>
             </article>
+            {{if not .files}}
+            <article class="message is-light">
+                <div class="message-body">
+                    No file currently. Please click the <a onclick="showUploadModal()">Upload</a> button to upload.
+                </div>
+            </article>
+            {{end}}
             {{template "progress"}}
             <div>
                 {{range $index, $file := .files}}
-                    <div class="box" id="file-{{$file.Id}}">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="content">
-                                    <div class="page-card-title"><a download="{{$file.Filename}}" href="{{$file.Link}}">{{$file.Filename}}</a></div>
-                                    <span class="tag is-light">{{$file.Uploader}}</span>
-                                    <span class="tag is-light">{{$file.Time}}</span>
-                                    <div class="page-card-text">
-                                        {{$file.Description}}
-                                    </div>
-                                    <div class="actions">
+                <div class="box" id="file-{{$file.Id}}">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="content">
+                                <div class="page-card-title"><a download="{{$file.Filename}}" href="{{$file.Link}}">{{$file.Filename}}</a>
+                                </div>
+                                <span class="tag is-light">{{$file.Uploader}}</span>
+                                <span class="tag is-light">{{$file.Time}}</span>
+                                <div class="page-card-text">
+                                    {{$file.Description}}
+                                </div>
+                                <div class="actions">
                                         <span onclick="deleteFile({{$file.Id}}, '{{$file.Link}}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  fill="#F44336"
@@ -32,7 +40,7 @@
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
                                         </span>
-                                        <span onclick="showQRCode('{{$file.Link}}')">
+                                    <span onclick="showQRCode('{{$file.Link}}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  fill="#2196F3"
                                                  class="bi bi-camera-fill" viewBox="0 0 16 16">
@@ -40,25 +48,25 @@
                                                 <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
                                             </svg>
                                         </span>
-                                        <a target="_blank" href="{{$file.Link}}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 fill="#3F51B5"
-                                                 class="bi bi-play-circle-fill" viewBox="0 0 16 16">
-                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
-                                            </svg>
-                                        </a>
-                                        <a download="{{$file.Filename}}" href="{{$file.Link}}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 fill="#4CAF50"
-                                                 class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
-                                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+                                    <a target="_blank" href="{{$file.Link}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             fill="#3F51B5"
+                                             class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+                                        </svg>
+                                    </a>
+                                    <a download="{{$file.Filename}}" href="{{$file.Link}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             fill="#4CAF50"
+                                             class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                            <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
-                        </article>
-                    </div>
+                        </div>
+                    </article>
+                </div>
                 {{end}}
             </div>
         </div>
