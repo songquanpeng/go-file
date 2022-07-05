@@ -12,10 +12,13 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 
 <p align="center">
   <a href="https://raw.githubusercontent.com/songquanpeng/go-file/master/LICENSE">
-    <img src="https://img.shields.io/github/license/songquanpeng/go-file" alt="license">
+    <img src="https://img.shields.io/github/license/songquanpeng/go-file?color=brightgreen" alt="license">
   </a>
   <a href="https://github.com/songquanpeng/go-file/releases/latest">
     <img src="https://img.shields.io/github/v/release/songquanpeng/go-file?color=brightgreen&include_prereleases" alt="release">
+  </a>
+  <a href="https://github.com/songquanpeng/go-file/releases/latest">
+    <img src="https://img.shields.io/github/downloads/songquanpeng/go-file/total?color=brightgreen&include_prereleases" alt="release">
   </a>
   <a href="https://goreportcard.com/report/github.com/songquanpeng/go-file">
   <img src="https://goreportcard.com/badge/github.com/songquanpeng/go-file" alt="GoReportCard">
