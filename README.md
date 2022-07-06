@@ -48,6 +48,8 @@ File sharing tool, can be used to share files in a LAN.
 4. Easily share all the content of a local dir.
 
 ## Usage
+*For v0.3.4 and below.*
+
 Just double-click to use with default port `3000` and default token (used to verify identity when user try to delete files) `token`.
 
 If you want to change the port and token, run it like this:`./go-file.exe --port 80 --token private`.
@@ -94,7 +96,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 8. 支持拖拽上传，拷贝上传。
 
 ## 使用方法
-直接双击即可使用，默认端口为 `3000`，默认的 token（用于删除文件时验证身份）为 `token`。
+直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `password`。
 
 之后程序将自动为你打开浏览器，点击右上角的 `Upload` 按钮即可，支持拖放上传，支持同时上传多个文件。
 
@@ -107,14 +109,14 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 1. 打开 go-file 所在的文件夹，
 2. 按住 shift 并右键空白区域，
 3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
-4. 在打开的终端中输入：`./go-file --port 80 --token private_token --video ./path/to/video`
+4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
 2. 当前版本如果需要部署公网请慎重，访客是可以上传文件的，后续版本将对权限控制进行更新。
 
 ## 演示
-在线试用（token 为 `token`）：https://go-file.herokuapp.com/
+在线试用（用户名为 `admin`，密码为 `password`）：https://go-file.herokuapp.com/
 
 注意，以下展示图片可能没有得到及时跟新。
 

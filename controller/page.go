@@ -119,25 +119,30 @@ func GetLoginPage(c *gin.Context) {
 func Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
-	// TODO: query database to validate username & password, and find his rule
-	if username == "admin" && password == *common.Token {
-		session := sessions.Default(c)
-		session.Set("username", username)
-		err := session.Save()
-		if err != nil {
-			c.HTML(http.StatusForbidden, "login.html", gin.H{
-				"message": "Unable to save session, please try again.",
-			})
-			return
-		}
-		c.Redirect(http.StatusFound, "/manage")
-		return
-	} else {
+	user := model.User{
+		Username: username,
+		Password: password,
+	}
+	user.ValidateAndFill()
+	if user.Status != "active" {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
-			"message": "Wrong user name or password.",
+			"message": "The credentials are incorrect or this account has been banned.",
 		})
 		return
 	}
+
+	session := sessions.Default(c)
+	session.Set("username", username)
+	session.Set("rule", user.Role)
+	err := session.Save()
+	if err != nil {
+		c.HTML(http.StatusForbidden, "login.html", gin.H{
+			"message": "Unable to save session, please try again.",
+		})
+		return
+	}
+	c.Redirect(http.StatusFound, c.Request.Referer())
+	return
 }
 
 func GetVideoPage(c *gin.Context) {
