@@ -12,11 +12,21 @@
                 </div>
             </article>
             {{if not .files}}
-            <article class="message is-light">
-                <div class="message-body">
-                    No file currently. Please click the <a onclick="showUploadModal()">Upload</a> button to upload.
+            <div class="box">
+                <div class="table-container">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <div class="page-card-title" style="color: #AAAAAA;" id="imageUploadStatus">
+                                        No file currently. Please click the <a class="button is-light" onclick="showUploadModal()">Upload</a> button to upload.
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-            </article>
+            </div>
             {{end}}
             {{template "progress"}}
             <div>
