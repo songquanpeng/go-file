@@ -158,7 +158,9 @@ function uploadImage() {
     let files = document.getElementById('fileInput').files;
     let formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-        formData.append("image", files[i]);
+        if (files[i]['type'].split('/')[0] === 'image') {
+            formData.append("image", files[i]);
+        }
     }
 
     let fileUploader = new XMLHttpRequest();
