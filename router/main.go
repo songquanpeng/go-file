@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
+	"go-file/controller"
 )
 
 func SetRouter(router *gin.Engine) {
@@ -13,4 +14,5 @@ func SetRouter(router *gin.Engine) {
 
 	setWebRouter(router)
 	setApiRouter(router)
+	router.NoRoute(controller.Get404Page)
 }
