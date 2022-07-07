@@ -60,10 +60,12 @@ func GetExplorerPage(c *gin.Context) {
 		} else {
 			path = ""
 		}
+		readmeFileLink := ""
 		for _, f := range files {
+			link := "explorer?path=" + url.QueryEscape(path+f.Name())
 			file := model.LocalFile{
 				Name:         f.Name(),
-				Link:         "explorer?path=" + url.QueryEscape(path+f.Name()),
+				Link:         link,
 				Size:         common.Bytes2Size(f.Size()),
 				IsFolder:     f.Mode().IsDir(),
 				ModifiedTime: f.ModTime().String()[:19],
@@ -73,13 +75,16 @@ func GetExplorerPage(c *gin.Context) {
 			} else {
 				tempFiles = append(tempFiles, file)
 			}
-
+			if f.Name() == "README.md" {
+				readmeFileLink = link
+			}
 		}
 		localFiles = append(localFiles, tempFiles...)
 
 		c.HTML(http.StatusOK, "explorer.html", gin.H{
-			"message": "",
-			"files":   localFiles,
+			"message":        "",
+			"files":          localFiles,
+			"readmeFileLink": readmeFileLink,
 		})
 	} else {
 		c.File(filepath.Join(common.LocalFileRoot, path))
