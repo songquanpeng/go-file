@@ -1,7 +1,6 @@
 let hiddenTextArea = undefined;
 
 function showUploadModal() {
-    document.getElementById('uploaderNameInput').value = localStorage.getItem('uploaderName');
     if (location.href.split('/')[3].startsWith("explorer")) {
         let path = getPathParam();
         document.getElementById('uploadFileDialogTitle').innerText = `Upload files to "${path}"`;
@@ -39,37 +38,26 @@ function onChooseBtnClicked(e) {
 }
 
 function deleteFile(id, link) {
-    let token = localStorage.getItem('token');
-    if (!token) {
-        token = askUserInputToken();
-        if (token) {
-            deleteFile(id, link);
-        }
-    } else {
-        fetch("/file", {
-            method: 'delete',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id,
-                link: link,
-                token: token
-            })
-        }).then(function (res) {
-            res.json().then(function (data) {
-                // showMessage(data.message);
-                if (!data.success) {
-                    console.error(data.message);
-                    showMessage(data.message, true);
-                    localStorage.removeItem('token');
-                    askUserInputToken();
-                } else {
-                    document.getElementById("file-" + id).style.display = 'none';
-                }
-            })
-        });
-    }
+    fetch("/file", {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            link: link
+        })
+    }).then(function (res) {
+        res.json().then(function (data) {
+            // showMessage(data.message);
+            if (!data.success) {
+                console.error(data.message);
+                showMessage(data.message, true);
+            } else {
+                document.getElementById("file-" + id).style.display = 'none';
+            }
+        })
+    });
 }
 
 
@@ -102,6 +90,7 @@ function uploadFile() {
     for (let i = 0; i < files.length; i++) {
         formData.append("file", files[i]);
     }
+    formData.append("description", document.getElementById("fileUploadDescription").value);
 
     let path = "";
     if (location.href.split('/')[3].startsWith("explorer")) {
@@ -123,13 +112,19 @@ function uploadFile() {
     }, false);
     fileUploader.addEventListener("load", ev => {
         fileUploadTitle.innerText = files.length === 1 ? `File uploaded.` : `Files uploaded.`;
-        location.reload();
+        if (fileUploader.status === 403) {
+            location.href = "/login";
+        } else {
+            location.reload();
+        }
         // setTimeout(()=>{
         //     fileUploadCard.style.display = 'none';
         // }, 5000);
     }, false);
     fileUploader.addEventListener("error", ev => {
-        fileUploadTitle.innerText = `File uploading failed.`;
+        if (fileUploader.status === 403) {
+            location.href = "/login";
+        }
         console.error(ev);
     }, false);
     fileUploader.addEventListener("abort", ev => {
@@ -174,7 +169,11 @@ function uploadImage() {
     }, false);
     fileUploader.addEventListener("load", ev => {
         // Uploading is done.
-        imageUploadStatus.innerText = "Uploading... Done.";
+        if (fileUploader.status == 200) {
+            imageUploadStatus.innerText = "Uploading... Done.";
+        } else if (fileUploader.status === 403) {
+            location.href = "/login";
+        }
     }, false);
     fileUploader.addEventListener("error", ev => {
         imageUploadStatus.innerText = "Uploading... Failed.";
@@ -187,11 +186,12 @@ function uploadImage() {
         if (fileUploader.readyState === 4) {
             let res = JSON.parse(fileUploader.response);
             console.log(res);
-            let filenames = res.data;
-            let imageUploadPanel = document.getElementById('imageUploadPanel');
-            filenames.forEach(filename => {
-                let url = location.href + '/' + filename;
-                imageUploadPanel.insertAdjacentHTML('afterbegin', `
+            if (fileUploader.status == 200) {
+                let filenames = res.data;
+                let imageUploadPanel = document.getElementById('imageUploadPanel');
+                filenames.forEach(filename => {
+                    let url = location.href + '/' + filename;
+                    imageUploadPanel.insertAdjacentHTML('afterbegin', `
                 <div class="field has-addons">
                     <div class="control is-light is-expanded">
                         <input class="input url-input" type="text" value="${url}" readonly>
@@ -208,7 +208,10 @@ function uploadImage() {
                     </div>
                 </div>
                 `);
-            });
+                });
+            } else if (fileUploader.status === 403) {
+                location.href = "/login";
+            }
         }
     });
     fileUploader.open("POST", "/image");
@@ -230,9 +233,6 @@ function askUserInputToken() {
     showModal('tokenModal');
 }
 
-function onUploaderNameChange() {
-    localStorage.setItem('uploaderName', document.getElementById('uploaderNameInput').value);
-}
 
 function showMessage(message, isError = false) {
     const messageToast = document.getElementById('messageToast');

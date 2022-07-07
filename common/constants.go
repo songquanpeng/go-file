@@ -9,7 +9,6 @@ import (
 
 var (
 	Port      = flag.Int("port", 3000, "specify the server listening port.")
-	Token     = flag.String("token", "token", "specify the private token.")
 	Host      = flag.String("host", "localhost", "the server's ip address or domain")
 	Path      = flag.String("path", "", "specify a local path to public")
 	VideoPath = flag.String("video", "", "specify a video folder to public")

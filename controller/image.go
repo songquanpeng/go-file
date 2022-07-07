@@ -14,11 +14,14 @@ import (
 
 type ImageDeleteRequest struct {
 	Filename string
-	Token    string
+	//Token    string
 }
 
 func UploadImage(c *gin.Context) {
-	uploader := "User" // TODO: check token and find who own it
+	uploader := c.GetString("username")
+	if uploader == "" {
+		uploader = "Anonymous User"
+	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -69,29 +72,23 @@ func DeleteImage(c *gin.Context) {
 		})
 		return
 	}
-	if *common.Token == deleteRequest.Token {
-		imageObj := &model.Image{
-			Filename: deleteRequest.Filename,
-		}
-		model.DB.Where("id = ?", deleteRequest.Filename).First(&imageObj)
-		err := imageObj.Delete()
-		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"message": err.Error(),
-			})
-		} else {
-			message := "Image deleted successfully."
-			c.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"message": message,
-			})
-		}
 
-	} else {
+	imageObj := &model.Image{
+		Filename: deleteRequest.Filename,
+	}
+	model.DB.Where("id = ?", deleteRequest.Filename).First(&imageObj)
+	err = imageObj.Delete()
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "Token is invalid.",
+			"success": true,
+			"message": err.Error(),
+		})
+	} else {
+		message := "Image deleted successfully."
+		c.JSON(http.StatusOK, gin.H{
+			"success": true,
+			"message": message,
 		})
 	}
+
 }

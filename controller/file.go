@@ -13,9 +13,9 @@ import (
 )
 
 type FileDeleteRequest struct {
-	Id    int
-	Link  string
-	Token string
+	Id   int
+	Link string
+	//Token string
 }
 
 func UploadFile(c *gin.Context) {
@@ -35,7 +35,7 @@ func UploadFile(c *gin.Context) {
 	if description == "" {
 		description = "No description."
 	}
-	uploader := c.PostForm("uploader")
+	uploader := c.GetString("username")
 	if uploader == "" {
 		uploader = "Anonymous User"
 	}
@@ -81,32 +81,26 @@ func DeleteFile(c *gin.Context) {
 		})
 		return
 	}
-	if *common.Token == deleteRequest.Token {
-		fileObj := &model.File{
-			Id: deleteRequest.Id,
-		}
-		model.DB.Where("id = ?", deleteRequest.Id).First(&fileObj)
-		err := fileObj.Delete()
-		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"message": err.Error(),
-			})
-		} else {
-			message := "File deleted successfully."
-			if fileObj.IsLocalFile {
-				message = "Record deleted successfully."
-			}
-			c.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"message": message,
-			})
-		}
 
-	} else {
+	fileObj := &model.File{
+		Id: deleteRequest.Id,
+	}
+	model.DB.Where("id = ?", deleteRequest.Id).First(&fileObj)
+	err = fileObj.Delete()
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "Token is invalid.",
+			"success": true,
+			"message": err.Error(),
+		})
+	} else {
+		message := "File deleted successfully."
+		if fileObj.IsLocalFile {
+			message = "Record deleted successfully."
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"success": true,
+			"message": message,
 		})
 	}
+
 }

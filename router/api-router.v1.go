@@ -3,12 +3,16 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"go-file/controller"
+	"go-file/middleware"
 )
 
 func setApiRouter(router *gin.Engine) {
-	router.POST("/file", controller.UploadFile)
-	router.DELETE("/file", controller.DeleteFile)
-
-	router.POST("/image", controller.UploadImage)
-	router.DELETE("/image", controller.DeleteImage)
+	basicAuth := router.Group("/")
+	basicAuth.Use(middleware.ApiAuth())
+	{
+		basicAuth.POST("/file", controller.UploadFile)
+		basicAuth.DELETE("/file", controller.DeleteFile)
+		basicAuth.POST("/image", controller.UploadImage)
+		basicAuth.DELETE("/image", controller.DeleteImage)
+	}
 }

@@ -1,8 +1,6 @@
 package router
 
 import (
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/controller"
@@ -10,9 +8,6 @@ import (
 )
 
 func setWebRouter(router *gin.Engine) {
-	store := cookie.NewStore([]byte(common.SessionSecret))
-	router.Use(sessions.Sessions("main", store))
-
 	// Always available
 	router.GET("/", controller.GetIndexPage)
 	router.GET("/public/static/:file", controller.GetStaticFile)

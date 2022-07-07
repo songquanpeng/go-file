@@ -8,17 +8,9 @@
                     <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" multiple="" required=""
                            style="display: none" onchange="onFileInputChange()">
                     <div class="field">
-                        <label class="label">Your Name</label>
-                        <div class="control">
-                            <input id='uploaderNameInput' name="uploader" onchange="onUploaderNameChange()"
-                                   class="input" type="text" placeholder="Your name (optional)">
-                        </div>
-                    </div>
-
-                    <div class="field">
                         <label class="label">Description</label>
                         <div class="control">
-                            <input class="input" name="description" type="text" placeholder="Description (optional)">
+                            <textarea class="textarea" id="fileUploadDescription" name="description" placeholder="Description (optional)"></textarea>
                         </div>
                     </div>
                     <input id='submitBtn' type="submit" name="Upload" style="display: none">
