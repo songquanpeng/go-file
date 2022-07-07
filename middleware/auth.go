@@ -12,7 +12,7 @@ func WebAuth() func(c *gin.Context) {
 		username := session.Get("username")
 		if username == nil {
 			c.HTML(http.StatusForbidden, "login.html", gin.H{
-				"message": "Please login first to visit this page.",
+				"message": "请先登录",
 			})
 			c.Abort()
 			return
@@ -30,7 +30,7 @@ func ApiAuth() func(c *gin.Context) {
 		if username == nil {
 			c.JSON(http.StatusForbidden, gin.H{
 				"success": false,
-				"message": "Not authorized to perform this operation, please contact the administrator.",
+				"message": "无权进行此操作，请登录后重试",
 			})
 			c.Abort()
 			return

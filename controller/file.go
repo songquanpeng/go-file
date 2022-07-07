@@ -33,11 +33,11 @@ func UploadFile(c *gin.Context) {
 
 	description := c.PostForm("description")
 	if description == "" {
-		description = "No description."
+		description = "无描述信息"
 	}
 	uploader := c.GetString("username")
 	if uploader == "" {
-		uploader = "Anonymous User"
+		uploader = "匿名用户"
 	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	form, err := c.MultipartForm()
@@ -77,7 +77,7 @@ func DeleteFile(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
-			"message": "Invalid parameter",
+			"message": "无效的参数",
 		})
 		return
 	}
@@ -93,10 +93,7 @@ func DeleteFile(c *gin.Context) {
 			"message": err.Error(),
 		})
 	} else {
-		message := "File deleted successfully."
-		if fileObj.IsLocalFile {
-			message = "Record deleted successfully."
-		}
+		message := "文件删除成功"
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": message,

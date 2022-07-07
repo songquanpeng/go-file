@@ -20,7 +20,7 @@ type ImageDeleteRequest struct {
 func UploadImage(c *gin.Context) {
 	uploader := c.GetString("username")
 	if uploader == "" {
-		uploader = "Anonymous User"
+		uploader = "匿名用户"
 	}
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	form, err := c.MultipartForm()
@@ -68,7 +68,7 @@ func DeleteImage(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
-			"message": "Invalid parameter",
+			"message": "无效的参数",
 		})
 		return
 	}
@@ -84,7 +84,7 @@ func DeleteImage(c *gin.Context) {
 			"message": err.Error(),
 		})
 	} else {
-		message := "Image deleted successfully."
+		message := "图片删除成功"
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": message,

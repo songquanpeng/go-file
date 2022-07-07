@@ -3,7 +3,7 @@ let hiddenTextArea = undefined;
 function showUploadModal() {
     if (location.href.split('/')[3].startsWith("explorer")) {
         let path = getPathParam();
-        document.getElementById('uploadFileDialogTitle').innerText = `Upload files to "${path}"`;
+        document.getElementById('uploadFileDialogTitle').innerText = `上传文件到 "${path}"`;
     }
     showModal('uploadModal');
 }
@@ -65,9 +65,9 @@ function onFileInputChange() {
     let prompt;
     let files = document.getElementById('fileInput').files;
     if (files.length === 1) {
-        prompt = 'Selected file: ' + files[0].name;
+        prompt = '已选择文件: ' + files[0].name;
     } else {
-        prompt = files.length + " files selected";
+        prompt = `已选择 ${files.length}个文件`;
     }
     document.getElementById('uploadFileDialogTitle').innerText = prompt;
 }
@@ -108,10 +108,10 @@ function uploadFile() {
     fileUploader.upload.addEventListener("progress", ev => {
         let percent = (ev.loaded / ev.total) * 100;
         fileUploadProgress.value = Math.round(percent);
-        fileUploadDetail.innerText = `Processing ${byte2mb(ev.loaded)} MB / ${byte2mb(ev.total)} MB.`
+        fileUploadDetail.innerText = `处理中 ${byte2mb(ev.loaded)} MB / ${byte2mb(ev.total)} MB...`
     }, false);
     fileUploader.addEventListener("load", ev => {
-        fileUploadTitle.innerText = files.length === 1 ? `File uploaded.` : `Files uploaded.`;
+        fileUploadTitle.innerText = `已上传 ${files.length} 个文件`;
         if (fileUploader.status === 403) {
             location.href = "/login";
         } else {
@@ -124,11 +124,13 @@ function uploadFile() {
     fileUploader.addEventListener("error", ev => {
         if (fileUploader.status === 403) {
             location.href = "/login";
+        } else {
+            fileUploadTitle.innerText = `文件上传失败`;
         }
         console.error(ev);
     }, false);
     fileUploader.addEventListener("abort", ev => {
-        fileUploadTitle.innerText = `File uploading aborted.`;
+        fileUploadTitle.innerText = `文件上传已终止`;
     }, false);
     fileUploader.open("POST", "/file");
     fileUploader.send(formData);
@@ -141,7 +143,7 @@ function dropHandler(ev) {
 }
 
 function dragOverHandler(ev) {
-    document.getElementById('uploadFileDialogTitle').innerText = "Release to this dialog";
+    document.getElementById('uploadFileDialogTitle').innerText = "释放文件至此对话框";
     ev.preventDefault();
 }
 
@@ -170,17 +172,17 @@ function uploadImage() {
     fileUploader.addEventListener("load", ev => {
         // Uploading is done.
         if (fileUploader.status == 200) {
-            imageUploadStatus.innerText = "Uploading... Done.";
+            imageUploadStatus.innerText = "文件上传成功";
         } else if (fileUploader.status === 403) {
             location.href = "/login";
         }
     }, false);
     fileUploader.addEventListener("error", ev => {
-        imageUploadStatus.innerText = "Uploading... Failed.";
+        imageUploadStatus.innerText = "文件上传失败";
         console.error(ev);
     }, false);
     fileUploader.addEventListener("abort", ev => {
-        imageUploadStatus.innerText = "Uploading... Aborted.";
+        imageUploadStatus.innerText = "文件上传终止";
     }, false);
     fileUploader.addEventListener("readystatechange", ev => {
         if (fileUploader.readyState === 4) {
@@ -198,12 +200,12 @@ function uploadImage() {
                     </div>
                     <div class="control">
                         <a class="button is-light" onclick="copyText('${url}')">
-                            Copy URL
+                            复制链接
                         </a>
                     </div>
                     <div class="control">
                         <a class="button is-light" onclick="copyText('![${filename}](${url})')">
-                            Copy Markdown Code
+                            复制 Markdown 代码
                         </a>
                     </div>
                 </div>
@@ -221,18 +223,6 @@ function uploadImage() {
 function imageDragOverHandler(ev) {
     ev.preventDefault();
 }
-
-function updateToken() {
-    let token = document.getElementById('tokenInput').value;
-    token = token.trim();
-    localStorage.setItem('token', token);
-    closeModal('tokenModal');
-}
-
-function askUserInputToken() {
-    showModal('tokenModal');
-}
-
 
 function showMessage(message, isError = false) {
     const messageToast = document.getElementById('messageToast');
