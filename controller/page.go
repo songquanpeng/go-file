@@ -116,6 +116,13 @@ func GetLoginPage(c *gin.Context) {
 	})
 }
 
+func GetHelpPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "help.html", gin.H{
+		"message": "",
+		"version": common.Version,
+	})
+}
+
 func Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")

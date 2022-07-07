@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 )
 
+var Version = "v0.4.0"
+
 var (
 	Port      = flag.Int("port", 3000, "specify the server listening port.")
 	Host      = flag.String("host", "localhost", "the server's ip address or domain")

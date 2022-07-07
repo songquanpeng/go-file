@@ -14,6 +14,7 @@ func setWebRouter(router *gin.Engine) {
 	router.GET("/public/lib/:file", controller.GetLibFile)
 	router.GET("/login", controller.GetLoginPage)
 	router.POST("/login", controller.Login)
+	router.GET("/help", controller.GetHelpPage)
 
 	// Download files
 	router.Static("/upload", common.UploadPath)
