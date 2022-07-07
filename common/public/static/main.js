@@ -98,11 +98,7 @@ function uploadFile() {
     }
     formData.append("path", path);
 
-    if (files.length === 1) {
-        fileUploadTitle.innerText = `Uploading 1 file`;
-    } else {
-        fileUploadTitle.innerText = `Uploading ${files.length} files`;
-    }
+    fileUploadTitle.innerText = `正在上传 ${files.length} 个文件`;
 
     let fileUploader = new XMLHttpRequest();
     fileUploader.upload.addEventListener("progress", ev => {
@@ -154,9 +150,10 @@ function imageDropHandler(ev) {
 }
 
 function uploadImage() {
+    document.getElementById("promptBox").style.display = "block";
     let imageUploadProgress = document.getElementById('imageUploadProgress');
     let imageUploadStatus = document.getElementById('imageUploadStatus');
-    imageUploadStatus.innerText = "Uploading..."
+    imageUploadStatus.innerText = "上传中..."
 
     let files = document.getElementById('fileInput').files;
     let formData = new FormData();

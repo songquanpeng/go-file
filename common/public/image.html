@@ -18,11 +18,13 @@
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                    <p id="imageDropZonePrompt">Drag & Drop or Copy & Paste</p>
+                                    <p id="imageDropZonePrompt" style="margin-bottom: 0">拖拽上传或者复制粘贴</p>
                                     <script>
                                         document.onpaste = function (ev) {
-                                            document.getElementById('fileInput').files = ev.clipboardData.files;
-                                            uploadImage();
+                                            if (ev.clipboardData.files.length) {
+                                                document.getElementById('fileInput').files = ev.clipboardData.files;
+                                                uploadImage();
+                                            }
                                         }
                                     </script>
                                 </div>
@@ -31,21 +33,23 @@
                     </div>
                 </div>
             </div>
-            <progress class="progress is-success" value="0" max="100" id="imageUploadProgress"></progress>
-            <div class="box">
-                <div class="table-container">
-                    <div class="box">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="content">
-                                    <div class="page-card-title" style="color: #AAAAAA;" id="imageUploadStatus">
-                                    </div>
-                                    <div class="page-card-text" id="imageUploadPanel">
+            <div style="display: none" id="promptBox">
+                <progress class="progress is-success" value="0" max="100" id="imageUploadProgress"></progress>
+                <div class="box">
+                    <div class="table-container">
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <div class="page-card-title" style="color: #AAAAAA;" id="imageUploadStatus">
+                                        </div>
+                                        <div class="page-card-text" id="imageUploadPanel">
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </article>
+                            </article>
+                        </div>
                     </div>
                 </div>
             </div>
