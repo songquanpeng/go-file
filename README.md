@@ -96,6 +96,8 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 8. 支持拖拽上传，拷贝上传。
 
 ## 使用方法
+> v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
+
 直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `password`。
 
 之后程序将自动为你打开浏览器，点击右上角的 `Upload` 按钮即可，支持拖放上传，支持同时上传多个文件。
