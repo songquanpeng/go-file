@@ -12,15 +12,69 @@
                 </div>
             </article>
             {{template "progress"}}
-            <div class="box">
+            <div class="box" style="padding-top: 0">
                 <div class="table-container">
-                    <div class="box">
+                    <div class="box" style="padding-top: 0">
+                        <script>
+                            // Credit: https://codepen.io/t7team/pen/ZowdRN
+                            function openTab(e, tabName) {
+                                let i, x, tabLinks;
+                                x = document.getElementsByClassName('content-tab');
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = 'none';
+                                }
+                                tabLinks = document.getElementsByClassName('tab');
+                                for (i = 0; i < x.length; i++) {
+                                    tabLinks[i].className = tabLinks[i].className.replace(' is-active', '');
+                                }
+                                document.getElementById(tabName).style.display = 'block';
+                                e.className += ' is-active';
+                            }
+                        </script>
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                    <div class="page-card-title" style="color: #368CCB;">Temp</div>
-                                    <div class="page-card-text" id="dropZoneMessage">
-                                        Working On Progress
+                                    <div>
+                                        <div class="tabs">
+                                            <ul style="margin-left: 0">
+                                                <li class="tab is-active" onclick="openTab(this,'statusTab')"><a>系统状况</a></li>
+                                                <li class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
+                                                <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+                                                <li class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div id="statusTab" class="content-tab" style="display: block;">
+                                            <p>这里将用于显示系统运行状态，例如运行时间，内存占用，用户数，下载统计等。</p>
+                                        </div>
+                                        <div id="userTab" class="content-tab" style="display: none;">
+                                            <div class="field">
+                                                <label class="label">我的用户名</label>
+                                                <div class="control">
+                                                    <input class="input" name="username" type="text" placeholder="请输入新的用户名，留空则不做更新">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">我的密码</label>
+                                                <div class="control">
+                                                    <input class="input" name="password" type="text" placeholder="请输入新的密码，留空则不做更新">
+                                                </div>
+                                            </div>
+                                            <div class="field is-grouped is-grouped-right" style="margin-top: 16px">
+                                                <div class="control">
+                                                    <input type="submit" class="button is-light" value="更新我的用户名或密码">
+                                                </div>
+                                                <div class="control">
+                                                    <input type="reset" class="button is-light" value="重置">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="fileTab" class="content-tab" style="display: none;">
+                                            <p>主要是管理图床文件</p>
+                                        </div>
+                                        <div id="settingTab" class="content-tab" style="display: none;">
+                                            <p>系统设置，包括权限设置，系统自定义</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
