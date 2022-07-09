@@ -5,15 +5,22 @@ import (
 )
 
 type User struct {
-	Username string `json:"username" gorm:"primaryKey;type:string"`
-	Password string `json:"password" gorm:"not null;type:string;"`
-	Role     string `json:"role" gorm:"type:string;default:common"`   // admin, common
-	Status   string `json:"status" gorm:"type:string;default:active"` // active, banned
+	Username    string `json:"username" gorm:"primaryKey;type:string"`
+	Password    string `json:"password" gorm:"not null;type:string;"`
+	DisplayName string `json:"displayName" gorm:"unique;type:string;"`
+	Role        string `json:"role" gorm:"type:string;default:common"`   // admin, common
+	Status      string `json:"status" gorm:"type:string;default:active"` // active, banned
 }
 
 func (user *User) Insert() error {
 	var err error
 	err = DB.Create(user).Error
+	return err
+}
+
+func (user *User) Update() error {
+	var err error
+	err = DB.Model(&user).Updates(user).Error
 	return err
 }
 

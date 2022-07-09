@@ -37,7 +37,8 @@
                                     <div>
                                         <div class="tabs">
                                             <ul style="margin-left: 0">
-                                                <li class="tab is-active" onclick="openTab(this,'statusTab')"><a>系统状况</a></li>
+                                                <li class="tab is-active" onclick="openTab(this,'statusTab')">
+                                                    <a>系统状况</a></li>
                                                 <li class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
                                                 <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
                                                 <li class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
@@ -48,24 +49,30 @@
                                             <p>这里将用于显示系统运行状态，例如运行时间，内存占用，用户数，下载统计等。</p>
                                         </div>
                                         <div id="userTab" class="content-tab" style="display: none;">
-                                            <div class="field">
-                                                <label class="label">我的用户名</label>
-                                                <div class="control">
-                                                    <input class="input" name="username" type="text" placeholder="请输入新的用户名，留空则不做更新">
+                                            <div class="columns">
+                                                <div class="column">
+                                                    <label class="label">更改显示名称</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control is-expanded">
+                                                            <input class="input" name="username" id="inputDisplayName" type="text"
+                                                                   placeholder="请输入新的显示名称">
+                                                        </p>
+                                                        <p class="control">
+                                                            <a class="button" onclick="updateUser('displayName', 'inputDisplayName')">提交</a>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="field">
-                                                <label class="label">我的密码</label>
-                                                <div class="control">
-                                                    <input class="input" name="password" type="text" placeholder="请输入新的密码，留空则不做更新">
-                                                </div>
-                                            </div>
-                                            <div class="field is-grouped is-grouped-right" style="margin-top: 16px">
-                                                <div class="control">
-                                                    <input type="submit" class="button is-light" value="更新我的用户名或密码">
-                                                </div>
-                                                <div class="control">
-                                                    <input type="reset" class="button is-light" value="重置">
+                                                <div class="column">
+                                                    <label class="label">更改密码</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control is-expanded">
+                                                            <input class="input" name="username" id="inputPassword" type="text"
+                                                                   placeholder="请输入新的密码">
+                                                        </p>
+                                                        <p class="control">
+                                                            <a class="button" onclick="updateUser('password', 'inputPassword')">提交</a>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

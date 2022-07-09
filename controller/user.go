@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go-file/model"
@@ -46,4 +47,37 @@ func Logout(c *gin.Context) {
 	session.Options(sessions.Options{MaxAge: -1})
 	session.Save()
 	c.Redirect(http.StatusFound, "/login")
+}
+
+func UpdateUser(c *gin.Context) {
+	var user model.User
+	err := json.NewDecoder(c.Request.Body).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无效的参数",
+		})
+		return
+	}
+	username := c.GetString("username")
+	user.Username = username
+	role := c.GetString("role")
+	if role != "admin" {
+		user.Role = ""
+		user.Status = ""
+	}
+	// TODO: check Display Name to avoid XSS attack
+	if err := user.Update(); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+	})
+	return
 }

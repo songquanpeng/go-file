@@ -38,7 +38,7 @@ function onChooseBtnClicked(e) {
 }
 
 function deleteFile(id, link) {
-    fetch("/file", {
+    fetch("/api/file", {
         method: 'delete',
         headers: {
             'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ function uploadFile() {
     fileUploader.addEventListener("abort", ev => {
         fileUploadTitle.innerText = `文件上传已终止`;
     }, false);
-    fileUploader.open("POST", "/file");
+    fileUploader.open("POST", "/api/file");
     fileUploader.send(formData);
 }
 
@@ -170,7 +170,7 @@ function uploadImage() {
     }, false);
     fileUploader.addEventListener("load", ev => {
         // Uploading is done.
-        if (fileUploader.status == 200) {
+        if (fileUploader.status === 200) {
             imageUploadStatus.innerText = "文件上传成功";
         } else if (fileUploader.status === 403) {
             location.href = "/login";
@@ -187,7 +187,7 @@ function uploadImage() {
         if (fileUploader.readyState === 4) {
             let res = JSON.parse(fileUploader.response);
             console.log(res);
-            if (fileUploader.status == 200) {
+            if (fileUploader.status === 200) {
                 let filenames = res.data;
                 let imageUploadPanel = document.getElementById('imageUploadPanel');
                 filenames.forEach(filename => {
@@ -215,7 +215,7 @@ function uploadImage() {
             }
         }
     });
-    fileUploader.open("POST", "/image");
+    fileUploader.open("POST", "/api/image");
     fileUploader.send(formData);
 }
 
@@ -257,6 +257,57 @@ function copyText(text) {
     document.body.append(textArea);
     textArea.select();
     document.execCommand("copy");
+}
+
+function showToast(message, type = "success", timeout = 3000) {
+    let toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.className = `show notification is-${type}`;
+    setTimeout(() => {
+        toast.className = "";
+    }, timeout);
+}
+
+async function updateOption(key, inputElementId) {
+    let inputElement = document.getElementById(inputElementId);
+    let value = inputElement.value;
+    let response = await fetch("/api/option", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            key: key,
+            value: value
+        })
+    });
+    let result = await response.json();
+    if (result.success) {
+        showToast(`更新成功`, "success");
+    } else {
+        showToast(`更新失败：${result.message}`, "danger");
+    }
+}
+
+async function updateUser(key, inputElementId) {
+    let inputElement = document.getElementById(inputElementId);
+    let value = inputElement.value;
+    if (value === "") return
+    let data = {};
+    data[key] = value;
+    let response = await fetch("/api/user", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    let result = await response.json();
+    if (result.success) {
+        showToast(`更新成功`, "success");
+    } else {
+        showToast(`更新失败：${result.message}`, "danger");
+    }
 }
 
 function init() {
