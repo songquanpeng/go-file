@@ -9,12 +9,14 @@ import (
 
 func GetIndexPage(c *gin.Context) {
 	query := c.Query("query")
+	isQuery := query != ""
 
 	files, _ := model.QueryFiles(query)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "",
 		"files":   files,
+		"isQuery": isQuery,
 	})
 }
 

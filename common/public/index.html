@@ -19,7 +19,12 @@
                             <div class="media-content">
                                 <div class="content">
                                     <div class="page-card-title" style="color: #AAAAAA;" id="imageUploadStatus">
-                                        当前无任何文件，请点击 <a class="button is-light" onclick="showUploadModal()">上传</a> 按钮以上传文件.
+                                        {{if .isQuery}}
+                                        无匹配文件
+                                        {{else}}
+                                        当前无任何文件，请点击 <a class="button is-light" onclick="showUploadModal()">上传</a>
+                                        按钮以上传文件.
+                                        {{end}}
                                     </div>
                                 </div>
                             </div>
