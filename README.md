@@ -98,9 +98,9 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
 
-直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `password`。
+直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `password`，记得登录后到 `管理页面` 下的 `账户管理` 标签页中更改你的用户密码。
 
-之后程序将自动为你打开浏览器，点击右上角的 `Upload` 按钮即可，支持拖放上传，支持同时上传多个文件。
+之后程序将自动为你打开浏览器，点击右上角的 `上传` 按钮即可上传，支持拖放上传，支持同时上传多个文件。
 
 **进阶使用：**
 1. 如果要修改端口，加参数即可：`./go-file.exe --port 80 --token private`。
@@ -121,11 +121,12 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 在线试用（用户名为 `admin`，密码为 `password`）：https://go-file.herokuapp.com/
 
 注意，以下展示图片可能没有得到及时跟新。
-
-![index page](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
-![explorer page](https://user-images.githubusercontent.com/39998050/177032568-8af95d7e-87ab-4e60-804b-5e49addfb6ab.png)
-![image page](https://user-images.githubusercontent.com/39998050/177032659-c8c68186-09f4-4142-9f57-70bcb4a4cda1.png)
+![index page](https://user-images.githubusercontent.com/39998050/178138784-2fc53a83-917d-4d2e-9aad-6c6c796bd9c8.png)
+![file page](https://user-images.githubusercontent.com/39998050/178138792-1d9256f2-2ada-43c4-b646-28a93a919596.png)
+![image page](https://user-images.githubusercontent.com/39998050/178138803-2a4da042-c29a-47c5-9e71-ebfac02cdf48.png)
 ![video page](https://user-images.githubusercontent.com/39998050/177032588-8946abde-a8da-45a2-a389-c16dba9cea34.png)
+![setting page](https://user-images.githubusercontent.com/39998050/178138817-3f9caf95-ffc9-45fe-b2af-32c4a2e7b085.png)
+![setting page 2](https://user-images.githubusercontent.com/39998050/178138833-d10e6f5a-aeea-4af3-8ae1-c0b3ab1d92f7.png)
 
 ## 其他
 [Node.js 版本在此](https://github.com/songquanpeng/lan-share)
