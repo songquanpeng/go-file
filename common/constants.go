@@ -10,11 +10,19 @@ import (
 
 var StartTime = time.Now()
 var Version = "v0.4.0"
-var OptionMap map[string]string
+var OptionMap map[string]interface{}
 
 const (
+	RoleGuestUser  = 0
 	RoleCommonUser = 1
 	RoleAdminUser  = 10
+)
+
+var (
+	FileUploadPermission    = RoleCommonUser
+	FileDownloadPermission  = RoleGuestUser
+	ImageUploadPermission   = RoleCommonUser
+	ImageDownloadPermission = RoleGuestUser
 )
 
 const (

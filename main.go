@@ -26,6 +26,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+	model.InitOptionMap()
 	server := gin.Default()
 	server.SetHTMLTemplate(loadTemplate())
 	router.SetRouter(server)

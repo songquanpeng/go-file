@@ -18,8 +18,17 @@ func setWebRouter(router *gin.Engine) {
 	router.GET("/help", controller.GetHelpPage)
 
 	// Download files
-	router.Static("/upload", common.UploadPath)
-	router.Static("/image", common.ImageUploadPath)
+	fileDownloadAuth := router.Group("/")
+	fileDownloadAuth.Use(middleware.FileDownloadPermissionCheck())
+	{
+		fileDownloadAuth.Static("/upload", common.UploadPath)
+	}
+
+	imageDownloadAuth := router.Group("/")
+	imageDownloadAuth.Use(middleware.ImageDownloadPermissionCheck())
+	{
+		imageDownloadAuth.Static("/image", common.ImageUploadPath)
+	}
 
 	router.GET("/explorer", controller.GetExplorerPage)
 	router.GET("/image", controller.GetImagePage)
