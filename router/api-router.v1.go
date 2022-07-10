@@ -21,5 +21,6 @@ func setApiRouter(router *gin.Engine) {
 	adminAuth.Use(middleware.ApiAdminAuth())
 	{
 		adminAuth.POST("/user", controller.CreateUser)
+		adminAuth.PUT("/manage_user", controller.ManageUser)
 	}
 }

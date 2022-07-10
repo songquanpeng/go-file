@@ -17,7 +17,7 @@ func Login(c *gin.Context) {
 		Password: password,
 	}
 	user.ValidateAndFill()
-	if user.Status != "active" {
+	if user.Status != "enabled" {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
 			"message": "用户名或密码错误，或者该用户已被封禁",
 		})
@@ -97,6 +97,69 @@ func CreateUser(c *gin.Context) {
 	}
 
 	if err := user.Insert(); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+	})
+	return
+}
+
+type ManageRequest struct {
+	Username string `json:"username"`
+	Action   string `json:"action"`
+}
+
+// ManageUser Only admin user can do this
+func ManageUser(c *gin.Context) {
+	var req ManageRequest
+	err := json.NewDecoder(c.Request.Body).Decode(&req)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无效的参数",
+		})
+		return
+	}
+	user := model.User{
+		Username: req.Username,
+	}
+	// Fill attributes
+	model.DB.Where(&user).First(&user)
+	if user.Id == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "用户不存在",
+		})
+		return
+	}
+	switch req.Action {
+	case "disable":
+		user.Status = "disabled"
+	case "enable":
+		user.Status = "enabled"
+	case "delete":
+		if err := user.Delete(); err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+			return
+		}
+	case "promote":
+		user.Role = "admin"
+	case "demote":
+		user.Role = "common"
+	}
+
+	if err := user.Update(); err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
 			"message": err.Error(),

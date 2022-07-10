@@ -335,6 +335,30 @@ async function createUser() {
     }
 }
 
+async function manageUser() {
+    let username = document.getElementById("manageUserName").value;
+    let action = document.getElementById("manageAction").value;
+    if (!username) return;
+
+    let data = {
+        username: username,
+        action: action,
+    }
+    let response = await fetch("/api/manage_user", {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    let result = await response.json();
+    if (result.success) {
+        showToast(`操作成功`, "success");
+    } else {
+        showToast(`操作失败：${result.message}`, "danger");
+    }
+}
+
 function init() {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {

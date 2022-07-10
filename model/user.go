@@ -9,8 +9,8 @@ type User struct {
 	Username    string `json:"username" gorm:"unique;type:string"`
 	Password    string `json:"password" gorm:"not null;type:string;"`
 	DisplayName string `json:"displayName" gorm:"type:string;"`
-	Role        string `json:"role" gorm:"type:string;default:common"`   // admin, common
-	Status      string `json:"status" gorm:"type:string;default:active"` // active, banned
+	Role        string `json:"role" gorm:"type:string;default:common"`    // admin, common
+	Status      string `json:"status" gorm:"type:string;default:enabled"` // enabled, disabled
 }
 
 func (user *User) Insert() error {

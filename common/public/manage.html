@@ -76,7 +76,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h3>添加用户</h3>
+                                            <h3 style="margin-top: 16px">添加用户</h3>
                                             <div class="field has-addons">
                                                 <p class="control">
                                                     <span class="select">
@@ -90,10 +90,34 @@
                                                     <input class="input" type="text" placeholder="用户名" id="newUserName">
                                                 </p>
                                                 <p class="control">
-                                                    <input class="input" type="password" placeholder="密码" id="newUserPassword">
+                                                    <input class="input" type="password" placeholder="密码"
+                                                           id="newUserPassword">
                                                 </p>
                                                 <p class="control">
                                                     <a class="button" onclick="createUser()">
+                                                        提交
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <h3>管理用户</h3>
+                                            <div class="field has-addons">
+                                                <p class="control">
+                                                    <span class="select">
+                                                      <select id="manageAction">
+                                                        <option value="disable">封禁用户</option>
+                                                        <option value="enable">解封用户</option>
+                                                        <option value="delete">删除用户</option>
+                                                        <option value="promote">提升为管理员</option>
+                                                        <option value="demote">降级为普通用户</option>
+                                                      </select>
+                                                    </span>
+                                                </p>
+                                                <p class="control">
+                                                    <input class="input" type="text" placeholder="用户名"
+                                                           id="manageUserName">
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button" onclick="manageUser()">
                                                         提交
                                                     </a>
                                                 </p>
