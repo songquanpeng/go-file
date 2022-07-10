@@ -20,9 +20,9 @@ const (
 )
 
 var (
-	FileUploadPermission    = RoleCommonUser
+	FileUploadPermission    = RoleGuestUser
 	FileDownloadPermission  = RoleGuestUser
-	ImageUploadPermission   = RoleCommonUser
+	ImageUploadPermission   = RoleGuestUser
 	ImageDownloadPermission = RoleGuestUser
 )
 

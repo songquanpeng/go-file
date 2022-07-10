@@ -117,7 +117,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
-2. 当前版本如果需要部署公网请慎重，访客是可以上传文件的，后续版本将对权限控制进行更新。
+2. 默认配置下访客可以上传和下载文件，可在 `管理` -> `系统设置` 中修改权限配置。
 
 ## 演示
 在线试用（用户名为 `admin`，密码为 `password`）：https://go-file.herokuapp.com/
