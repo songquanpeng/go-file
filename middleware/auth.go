@@ -19,6 +19,7 @@ func WebAuth() func(c *gin.Context) {
 		}
 		c.Set("username", username)
 		c.Set("role", session.Get("role"))
+		c.Set("id", session.Get("id"))
 		c.Next()
 	}
 }
@@ -37,6 +38,26 @@ func ApiAuth() func(c *gin.Context) {
 		}
 		c.Set("username", username)
 		c.Set("role", session.Get("role"))
+		c.Set("id", session.Get("id"))
+		c.Next()
+	}
+}
+
+func ApiAdminAuth() func(c *gin.Context) {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		role := session.Get("role")
+		if role == nil || role != "admin" {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"message": "无权进行此操作，请检查你是否登录或者有相关权限",
+			})
+			c.Abort()
+			return
+		}
+		c.Set("username", session.Get("username"))
+		c.Set("role", role)
+		c.Set("id", session.Get("id"))
 		c.Next()
 	}
 }

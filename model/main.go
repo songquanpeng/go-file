@@ -10,10 +10,11 @@ var DB *gorm.DB
 func createAdminAccount() {
 	var user User
 	DB.Where(User{Role: "admin"}).Attrs(User{
-		Username: "admin",
-		Password: "123456",
-		Role:     "admin",
-		Status:   "active",
+		Username:    "admin",
+		Password:    "123456",
+		Role:        "admin",
+		Status:      "active",
+		DisplayName: "Administrator",
 	}).FirstOrCreate(&user)
 }
 

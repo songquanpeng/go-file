@@ -5,9 +5,10 @@ import (
 )
 
 type User struct {
-	Username    string `json:"username" gorm:"primaryKey;type:string"`
+	Id          int    `json:"id"`
+	Username    string `json:"username" gorm:"unique;type:string"`
 	Password    string `json:"password" gorm:"not null;type:string;"`
-	DisplayName string `json:"displayName" gorm:"unique;type:string;"`
+	DisplayName string `json:"displayName" gorm:"type:string;"`
 	Role        string `json:"role" gorm:"type:string;default:common"`   // admin, common
 	Status      string `json:"status" gorm:"type:string;default:active"` // active, banned
 }
@@ -20,7 +21,7 @@ func (user *User) Insert() error {
 
 func (user *User) Update() error {
 	var err error
-	err = DB.Model(&user).Updates(user).Error
+	err = DB.Model(user).Updates(user).Error
 	return err
 }
 

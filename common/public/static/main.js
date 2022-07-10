@@ -296,6 +296,31 @@ async function updateUser(key, inputElementId) {
     let data = {};
     data[key] = value;
     let response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    let result = await response.json();
+    if (result.success) {
+        showToast(`更新信息成功`, "success");
+    } else {
+        showToast(`更新信息失败：${result.message}`, "danger");
+    }
+}
+
+async function createUser() {
+    let username = document.getElementById("newUserName").value;
+    let password = document.getElementById("newUserPassword").value;
+    if (!username || !password) return;
+    let type = document.getElementById("newUserType").value;
+    let data = {
+        username: username,
+        password: password,
+        type: type
+    }
+    let response = await fetch("/api/user", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -304,9 +329,9 @@ async function updateUser(key, inputElementId) {
     });
     let result = await response.json();
     if (result.success) {
-        showToast(`更新成功`, "success");
+        showToast(`添加用户成功`, "success");
     } else {
-        showToast(`更新失败：${result.message}`, "danger");
+        showToast(`添加用户失败：${result.message}`, "danger");
     }
 }
 

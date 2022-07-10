@@ -192,16 +192,19 @@ span.line {
 
 
 /* Reference: https://www.w3schools.com/howto/howto_js_snackbar.asp */
+/* Reference 2： https://apvarun.github.io/toastify-js/ */
 /* The snackbar - position it at the bottom and in the middle of the screen */
 #toast {
     visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
     text-align: center; /* Centered text */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
+    padding: 16px 32px; /* Padding */
+    /*position: fixed!important; !* Sit on top of the screen *!*/
+    z-index: 99999; /* Add a z-index if needed */
     bottom: 30px; /* 30px from the bottom */
 }
 

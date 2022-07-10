@@ -25,8 +25,9 @@ func Login(c *gin.Context) {
 	}
 
 	session := sessions.Default(c)
+	session.Set("id", user.Id)
 	session.Set("username", username)
-	session.Set("rule", user.Role)
+	session.Set("role", user.Role)
 	err := session.Save()
 	if err != nil {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
@@ -49,7 +50,7 @@ func Logout(c *gin.Context) {
 	c.Redirect(http.StatusFound, "/login")
 }
 
-func UpdateUser(c *gin.Context) {
+func UpdateSelf(c *gin.Context) {
 	var user model.User
 	err := json.NewDecoder(c.Request.Body).Decode(&user)
 	if err != nil {
@@ -59,8 +60,7 @@ func UpdateUser(c *gin.Context) {
 		})
 		return
 	}
-	username := c.GetString("username")
-	user.Username = username
+	user.Id = c.GetInt("id")
 	role := c.GetString("role")
 	if role != "admin" {
 		user.Role = ""
@@ -68,6 +68,35 @@ func UpdateUser(c *gin.Context) {
 	}
 	// TODO: check Display Name to avoid XSS attack
 	if err := user.Update(); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+	})
+	return
+}
+
+// CreateUser Only admin user can call this, so we can trust it
+func CreateUser(c *gin.Context) {
+	var user model.User
+	err := json.NewDecoder(c.Request.Body).Decode(&user)
+	user.DisplayName = user.Username
+	// TODO: Check user.Status && user.Role
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无效的参数",
+		})
+		return
+	}
+
+	if err := user.Insert(); err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
 			"message": err.Error(),

@@ -49,6 +49,7 @@
                                             <p>这里将用于显示系统运行状态，例如运行时间，内存占用，用户数，下载统计等。</p>
                                         </div>
                                         <div id="userTab" class="content-tab" style="display: none;">
+                                            <h3>修改基本信息</h3>
                                             <div class="columns">
                                                 <div class="column">
                                                     <label class="label">更改显示名称</label>
@@ -74,6 +75,28 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <h3>添加用户</h3>
+                                            <div class="field has-addons">
+                                                <p class="control">
+                                                    <span class="select">
+                                                      <select id="newUserType">
+                                                        <option value="common">普通用户</option>
+                                                        <option value="admin">管理员用户</option>
+                                                      </select>
+                                                    </span>
+                                                </p>
+                                                <p class="control">
+                                                    <input class="input" type="text" placeholder="用户名" id="newUserName">
+                                                </p>
+                                                <p class="control">
+                                                    <input class="input" type="password" placeholder="密码" id="newUserPassword">
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button" onclick="createUser()">
+                                                        提交
+                                                    </a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div id="fileTab" class="content-tab" style="display: none;">
