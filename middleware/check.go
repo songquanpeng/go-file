@@ -22,10 +22,16 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 		return
 	}
 	if role == nil || role.(int) < requiredPermission {
-		c.JSON(http.StatusForbidden, gin.H{
-			"success": false,
-			"message": "无权进行此操作，请检查你是否登录或者有相关权限",
-		})
+		if c.Request.URL.Path == "/explorer" {
+			c.HTML(http.StatusForbidden, "error.html", gin.H{
+				"message": "无权访问此页面，请检查你是否登录或者是否有相关权限",
+			})
+		} else {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"message": "无权进行此操作，请检查你是否登录或者是否有相关权限",
+			})
+		}
 		c.Abort()
 		return
 	}
