@@ -28,9 +28,11 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 <p align="center">
   <a href="https://github.com/songquanpeng/go-file/projects/1">开发规划</a>
   ·
-  <a href="https://github.com/songquanpeng/go-file/releases">下载</a>
+  <a href="https://github.com/songquanpeng/go-file/releases">程序下载</a>
   ·
   <a href="https://iamazing.cn/page/LAN-SHARE-使用教程">使用教程</a>
+  ·
+  <a href="#演示">截图展示</a>
 </p>
 
 
