@@ -60,6 +60,32 @@ function deleteFile(id, link) {
     });
 }
 
+function deleteImage() {
+    let e = document.getElementById("inputDeleteImage");
+    if (e.value === "") return;
+    let tmpList = e.value.split("/");
+    let filename = tmpList[tmpList.length - 1];
+
+    fetch("/api/image", {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            filename: filename,
+        })
+    }).then(function (res) {
+        res.json().then(function (data) {
+            if (data.success) {
+                e.value = "";
+                showToast("图片已成功删除");
+            } else {
+                showToast(data.message, "danger");
+            }
+        })
+    });
+}
+
 
 function onFileInputChange() {
     let prompt;

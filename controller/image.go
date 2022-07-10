@@ -13,7 +13,7 @@ import (
 )
 
 type ImageDeleteRequest struct {
-	Filename string
+	Filename string `json:"filename"`
 	//Token    string
 }
 
@@ -76,19 +76,24 @@ func DeleteImage(c *gin.Context) {
 	imageObj := &model.Image{
 		Filename: deleteRequest.Filename,
 	}
-	model.DB.Where("id = ?", deleteRequest.Filename).First(&imageObj)
+	rowsAffected := model.DB.Where("filename = ?", deleteRequest.Filename).First(&imageObj).RowsAffected
+	if rowsAffected == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "文件不存在！",
+		})
+		return
+	}
 	err = imageObj.Delete()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": err.Error(),
 		})
-	} else {
-		message := "图片删除成功"
-		c.JSON(http.StatusOK, gin.H{
-			"success": true,
-			"message": message,
-		})
+		return
 	}
-
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+	})
 }

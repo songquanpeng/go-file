@@ -162,7 +162,17 @@
                                             </div>
                                         </div>
                                         <div id="fileTab" class="content-tab" style="display: none;">
-                                            <p>主要是管理图床文件</p>
+                                            <label class="label">删除指定图片</label>
+                                            <div class="field has-addons">
+                                                <div class="control is-light is-expanded">
+                                                    <input class="input url-input" id="inputDeleteImage" type="url" value="" placeholder="请输入待删除图片的 URL">
+                                                </div>
+                                                <div class="control">
+                                                    <a class="button is-light" onclick="deleteImage()">
+                                                        删除
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="settingTab" class="content-tab" style="display: none;">
                                             <div class="columns">
