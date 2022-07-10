@@ -13,7 +13,7 @@ func WebAuth() func(c *gin.Context) {
 		username := session.Get("username")
 		if username == nil {
 			c.HTML(http.StatusForbidden, "login.html", gin.H{
-				"message": "请先登录",
+				"message": "未登录或登录已过期",
 			})
 			c.Abort()
 			return

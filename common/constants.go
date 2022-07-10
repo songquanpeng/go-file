@@ -3,6 +3,7 @@ package common
 import (
 	"embed"
 	"flag"
+	"github.com/google/uuid"
 	"os"
 	"path/filepath"
 	"time"
@@ -45,7 +46,7 @@ var VideoServePath = "upload"
 //go:embed public
 var FS embed.FS
 
-var SessionSecret = "I_LOVE_YOU"
+var SessionSecret = uuid.New().String()
 
 func init() {
 	flag.Parse()
