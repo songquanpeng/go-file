@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func GetExplorerPage(c *gin.Context) {
+func GetExplorerPageOrFile(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
 	path, _ = url.PathUnescape(path)
 

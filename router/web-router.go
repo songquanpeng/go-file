@@ -22,6 +22,7 @@ func setWebRouter(router *gin.Engine) {
 	fileDownloadAuth.Use(middleware.FileDownloadPermissionCheck())
 	{
 		fileDownloadAuth.Static("/upload", common.UploadPath)
+		fileDownloadAuth.GET("/explorer", controller.GetExplorerPageOrFile)
 	}
 
 	imageDownloadAuth := router.Group("/")
@@ -30,7 +31,6 @@ func setWebRouter(router *gin.Engine) {
 		imageDownloadAuth.Static("/image", common.ImageUploadPath)
 	}
 
-	router.GET("/explorer", controller.GetExplorerPage)
 	router.GET("/image", controller.GetImagePage)
 
 	router.GET("/video", controller.GetVideoPage)
