@@ -40,6 +40,8 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 <summary><strong><i>English</i></strong></summary>
 <div>
 
+Warning: The English version is outdated.
+
 ## Description
 File sharing tool, can be used to share files in a LAN.
 
@@ -94,8 +96,9 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 4. 支持分享本地文件夹。
 5. 适配移动端。
 6. 内置图床，支持直接粘贴上传图片，提供图片上传 API。
-7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频。
+7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频，轻松跨设备在线看视频。
 8. 支持拖拽上传，拷贝上传。
+9. 允许对不同类型的用户设置文件访问权限限制。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -105,9 +108,9 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 之后程序将自动为你打开浏览器，点击右上角的 `上传` 按钮即可上传，支持拖放上传，支持同时上传多个文件。
 
 **进阶使用：**
-1. 如果要修改端口，加参数即可：`./go-file.exe --port 80 --token private`。
-2. 如果需要分享文件夹，加 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `Explorer` 即可。
-3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `Video` 即可。
+1. 如果要修改端口，动时请指定 port 参数：`./go-file.exe --port 80`。
+2. 如果需要分享文件夹，启动时请指定 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `文件` 即可。
+3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
 
 **如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，
@@ -116,8 +119,9 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
 **注意：**
-1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则其他设备将无法访问！
+1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
 2. 默认配置下访客可以上传和下载文件，可在 `管理` -> `系统设置` 中修改权限配置。
+3. 如果是公网部署，务必记得第一时间更改默认密码！
 
 ## 演示
 在线试用（用户名为 `admin`，密码为 `password`）：https://go-file.herokuapp.com/
