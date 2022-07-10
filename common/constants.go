@@ -5,8 +5,10 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"time"
 )
 
+var StartTime = time.Now()
 var Version = "v0.4.0"
 
 var (

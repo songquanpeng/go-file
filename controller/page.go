@@ -1,10 +1,13 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
 	"net/http"
+	"runtime"
+	"time"
 )
 
 func GetIndexPage(c *gin.Context) {
@@ -21,8 +24,16 @@ func GetIndexPage(c *gin.Context) {
 }
 
 func GetManagePage(c *gin.Context) {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	var uptime = time.Since(common.StartTime)
 	c.HTML(http.StatusOK, "manage.html", gin.H{
-		"message": "",
+		"message":  "",
+		"memory":   fmt.Sprintf("%d MB", m.Sys/1024/1024),
+		"uptime":   uptime.String(),
+		"userNum":  model.CountTable("users"),
+		"fileNum":  model.CountTable("files"),
+		"imageNum": model.CountTable("images"),
 	})
 }
 

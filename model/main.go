@@ -18,6 +18,11 @@ func createAdminAccount() {
 	}).FirstOrCreate(&user)
 }
 
+func CountTable(tableName string) (num int) {
+	DB.Table(tableName).Count(&num)
+	return
+}
+
 func InitDB() (*gorm.DB, error) {
 	db, err := gorm.Open("sqlite3", "./.go-file.db")
 	if err == nil {

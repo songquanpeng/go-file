@@ -46,10 +46,44 @@
                                         </div>
 
                                         <div id="statusTab" class="content-tab" style="display: block;">
-                                            <p>这里将用于显示系统运行状态，例如运行时间，内存占用，用户数，下载统计等。</p>
+                                            <div class="field is-grouped is-grouped-multiline">
+                                                <div class="control">
+                                                    <div class="tags has-addons">
+                                                        <span class="tag is-dark">系统运行时间</span>
+                                                        <span class="tag is-info">{{.uptime}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="control">
+                                                    <div class="tags has-addons">
+                                                        <span class="tag is-dark">系统内存占用</span>
+                                                        <span class="tag is-info">{{.memory}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="control">
+                                                    <div class="tags has-addons">
+                                                        <span class="tag is-dark">注册用户数</span>
+                                                        <span class="tag is-success">{{.userNum}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="control">
+                                                    <div class="tags has-addons">
+                                                        <span class="tag is-dark">上传文件数</span>
+                                                        <span class="tag is-primary">{{.fileNum}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="control">
+                                                    <div class="tags has-addons">
+                                                        <span class="tag is-dark">上传图片数</span>
+                                                        <span class="tag is-primary">{{.imageNum}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="userTab" class="content-tab" style="display: none;">
-                                            <h3>修改基本信息</h3>
+                                            <h3>我的账户</h3>
                                             <div class="columns">
                                                 <div class="column">
                                                     <label class="label">更改显示名称</label>
