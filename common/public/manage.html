@@ -89,11 +89,13 @@
                                                     <label class="label">更改显示名称</label>
                                                     <div class="field has-addons">
                                                         <p class="control is-expanded">
-                                                            <input class="input" name="username" id="inputDisplayName" type="text"
+                                                            <input class="input" name="username" id="inputDisplayName"
+                                                                   type="text"
                                                                    placeholder="请输入新的显示名称">
                                                         </p>
                                                         <p class="control">
-                                                            <a class="button" onclick="updateUser('displayName', 'inputDisplayName')">提交</a>
+                                                            <a class="button"
+                                                               onclick="updateUser('displayName', 'inputDisplayName')">提交</a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -101,11 +103,13 @@
                                                     <label class="label">更改密码</label>
                                                     <div class="field has-addons">
                                                         <p class="control is-expanded">
-                                                            <input class="input" name="username" id="inputPassword" type="text"
+                                                            <input class="input" name="username" id="inputPassword"
+                                                                   type="text"
                                                                    placeholder="请输入新的密码">
                                                         </p>
                                                         <p class="control">
-                                                            <a class="button" onclick="updateUser('password', 'inputPassword')">提交</a>
+                                                            <a class="button"
+                                                               onclick="updateUser('password', 'inputPassword')">提交</a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -161,7 +165,74 @@
                                             <p>主要是管理图床文件</p>
                                         </div>
                                         <div id="settingTab" class="content-tab" style="display: none;">
-                                            <p>系统设置，包括权限设置，系统自定义</p>
+                                            <div class="columns">
+                                                <div class="column">
+                                                    <h3>权限设置</h3>
+                                                    <label class="label">文件上传的最低权限要求：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="FileUploadPermission"
+                                                              onchange="updateOption('FileUploadPermission', 'FileUploadPermission')">
+                                                          <option value=0>访客用户</option>
+                                                          <option value=1>普通用户</option>
+                                                          <option value=10>管理员用户</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <label class="label">文件下载的最低权限要求：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="FileDownloadPermission"
+                                                              onchange="updateOption('FileDownloadPermission', 'FileDownloadPermission')">
+                                                          <option value=0>访客用户</option>
+                                                          <option value=1>普通用户</option>
+                                                          <option value=10>管理员用户</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <label class="label">图片上传的最低权限要求：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="ImageUploadPermission"
+                                                              onchange="updateOption('ImageUploadPermission', 'ImageUploadPermission')">
+                                                          <option value=0>访客用户</option>
+                                                          <option value=1>普通用户</option>
+                                                          <option value=10>管理员用户</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <label class="label">图片下载的最低权限要求：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="ImageDownloadPermission"
+                                                              onchange="updateOption('ImageDownloadPermission', 'ImageDownloadPermission')">
+                                                          <option value=0>访客用户</option>
+                                                          <option value=1>普通用户</option>
+                                                          <option value=10>管理员用户</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <script>
+                                                        (function () {
+                                                            document.getElementById('FileUploadPermission').value = "{{.FileUploadPermission}}";
+                                                            document.getElementById('FileDownloadPermission').value = "{{.FileDownloadPermission}}";
+                                                            document.getElementById('ImageUploadPermission').value = "{{.ImageUploadPermission}}";
+                                                            document.getElementById('ImageDownloadPermission').value = "{{.ImageDownloadPermission}}";
+                                                        })();
+                                                    </script>
+                                                </div>
+                                                <div class="column">
+                                                    <h3>系统自定义</h3>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

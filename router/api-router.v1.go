@@ -29,5 +29,7 @@ func setApiRouter(router *gin.Engine) {
 	{
 		adminAuth.POST("/user", controller.CreateUser)
 		adminAuth.PUT("/manage_user", controller.ManageUser)
+		adminAuth.GET("/option", controller.GetOptions)
+		adminAuth.PUT("/option", controller.UpdateOption)
 	}
 }

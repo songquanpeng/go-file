@@ -17,9 +17,10 @@ func GetIndexPage(c *gin.Context) {
 	files, _ := model.QueryFiles(query)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"message": "",
-		"files":   files,
-		"isQuery": isQuery,
+		"message":   "",
+		"files":     files,
+		"isQuery":   isQuery,
+		"OptionMap": common.OptionMap,
 	})
 }
 
@@ -28,12 +29,16 @@ func GetManagePage(c *gin.Context) {
 	runtime.ReadMemStats(&m)
 	var uptime = time.Since(common.StartTime)
 	c.HTML(http.StatusOK, "manage.html", gin.H{
-		"message":  "",
-		"memory":   fmt.Sprintf("%d MB", m.Sys/1024/1024),
-		"uptime":   uptime.String(),
-		"userNum":  model.CountTable("users"),
-		"fileNum":  model.CountTable("files"),
-		"imageNum": model.CountTable("images"),
+		"message":                 "",
+		"memory":                  fmt.Sprintf("%d MB", m.Sys/1024/1024),
+		"uptime":                  uptime.String(),
+		"userNum":                 model.CountTable("users"),
+		"fileNum":                 model.CountTable("files"),
+		"imageNum":                model.CountTable("images"),
+		"FileUploadPermission":    common.FileUploadPermission,
+		"FileDownloadPermission":  common.FileDownloadPermission,
+		"ImageUploadPermission":   common.ImageUploadPermission,
+		"ImageDownloadPermission": common.ImageDownloadPermission,
 	})
 }
 
