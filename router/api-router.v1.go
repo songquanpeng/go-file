@@ -7,16 +7,9 @@ import (
 )
 
 func setApiRouter(router *gin.Engine) {
-	fileUploadAuth := router.Group("/api")
-	fileUploadAuth.Use(middleware.FileUploadPermissionCheck())
-	{
-		fileUploadAuth.POST("/file", controller.UploadFile)
-	}
-	imageUploadAuth := router.Group("/api")
-	imageUploadAuth.Use(middleware.ImageUploadPermissionCheck())
-	{
-		imageUploadAuth.POST("/image", controller.UploadImage)
-	}
+	router.POST("/api/file", middleware.FileUploadPermissionCheck(), controller.UploadFile)
+	router.POST("/api/image", middleware.ImageUploadPermissionCheck(), controller.UploadImage)
+
 	basicAuth := router.Group("/api")
 	basicAuth.Use(middleware.ApiAuth())
 	{

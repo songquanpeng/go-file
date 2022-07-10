@@ -8,15 +8,19 @@ import (
 )
 
 func permissionCheckHelper(c *gin.Context, requiredPermission int) {
-	c.Set("username", "访客")
 	c.Set("role", common.RoleGuestUser)
-	c.Set("id", 0)
+	session := sessions.Default(c)
+	role := session.Get("role")
+	username := session.Get("username")
+	if username != nil {
+		c.Set("username", username)
+	} else {
+		c.Set("username", "访客用户")
+	}
 	if requiredPermission == common.RoleGuestUser {
 		c.Next()
 		return
 	}
-	session := sessions.Default(c)
-	role := session.Get("role")
 	if role == nil || role.(int) < requiredPermission {
 		c.JSON(http.StatusForbidden, gin.H{
 			"success": false,
@@ -25,6 +29,7 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 		c.Abort()
 		return
 	}
+	c.Set("role", role)
 	c.Next()
 }
 
