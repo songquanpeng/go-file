@@ -99,6 +99,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频，轻松跨设备在线看视频。
 8. 支持拖拽上传，拷贝上传。
 9. 允许对不同类型的用户设置文件访问权限限制。
+10. 访问频率限制。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -111,6 +112,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 1. 如果要修改端口，动时请指定 port 参数：`./go-file.exe --port 80`。
 2. 如果需要分享文件夹，启动时请指定 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `文件` 即可。
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
+4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`。 
 
 **如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，

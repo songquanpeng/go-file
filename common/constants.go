@@ -26,6 +26,13 @@ var (
 	ImageDownloadPermission = RoleGuestUser
 )
 
+var (
+	GlobalApiRateLimit = 20
+	GlobalWebRateLimit = 60
+	DownloadRateLimit  = 10
+	CriticalRateLimit  = 3
+)
+
 const (
 	UserStatusEnabled  = 1
 	UserStatusDisabled = 2 // don't use 0

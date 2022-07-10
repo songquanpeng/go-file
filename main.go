@@ -20,13 +20,23 @@ func main() {
 	if os.Getenv("GIN_MODE") != "debug" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-
+	// Initialize SQL Database
 	db, err := model.InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	// Initialize Redis
+	err = common.InitRedisClient()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	// Initialize options
 	model.InitOptionMap()
+
+	// Initialize HTTP server
 	server := gin.Default()
 	server.SetHTMLTemplate(loadTemplate())
 	router.SetRouter(server)
