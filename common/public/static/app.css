@@ -203,7 +203,7 @@ span.line {
     right: 0;
     text-align: center; /* Centered text */
     padding: 16px 32px; /* Padding */
-    /*position: fixed!important; !* Sit on top of the screen *!*/
+    position: fixed!important; /* Sit on top of the screen */
     z-index: 99999; /* Add a z-index if needed */
     bottom: 30px; /* 30px from the bottom */
 }
