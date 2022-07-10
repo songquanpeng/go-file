@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/jinzhu/gorm"
+	"go-file/common"
 	"log"
 )
 
@@ -9,11 +10,11 @@ var DB *gorm.DB
 
 func createAdminAccount() {
 	var user User
-	DB.Where(User{Role: "admin"}).Attrs(User{
+	DB.Where(User{Role: common.RoleAdminUser}).Attrs(User{
 		Username:    "admin",
 		Password:    "123456",
-		Role:        "admin",
-		Status:      "active",
+		Role:        common.RoleAdminUser,
+		Status:      common.UserStatusEnabled,
 		DisplayName: "Administrator",
 	}).FirstOrCreate(&user)
 }
@@ -30,6 +31,7 @@ func InitDB() (*gorm.DB, error) {
 		db.AutoMigrate(&File{})
 		db.AutoMigrate(&Image{})
 		db.AutoMigrate(&User{})
+		db.AutoMigrate(&Option{})
 		createAdminAccount()
 		return DB, err
 	} else {

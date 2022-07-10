@@ -10,6 +10,17 @@ import (
 
 var StartTime = time.Now()
 var Version = "v0.4.0"
+var OptionMap map[string]string
+
+const (
+	RoleCommonUser = 1
+	RoleAdminUser  = 10
+)
+
+const (
+	UserStatusEnabled  = 1
+	UserStatusDisabled = 2 // don't use 0
+)
 
 var (
 	Port      = flag.Int("port", 3000, "specify the server listening port.")
@@ -47,4 +58,8 @@ func init() {
 	if _, err := os.Stat(ImageUploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(ImageUploadPath, 0777)
 	}
+
+	// TODO Initialize OptionMap
+	//
+	//OptionMap[""] = ""
 }

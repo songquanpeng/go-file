@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"go-file/common"
 	"net/http"
 )
 
@@ -47,7 +48,7 @@ func ApiAdminAuth() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		role := session.Get("role")
-		if role == nil || role != "admin" {
+		if role == nil || role != common.RoleAdminUser {
 			c.JSON(http.StatusForbidden, gin.H{
 				"success": false,
 				"message": "无权进行此操作，请检查你是否登录或者有相关权限",

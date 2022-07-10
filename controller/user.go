@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"go-file/common"
 	"go-file/model"
 	"net/http"
 	"strings"
@@ -17,7 +18,7 @@ func Login(c *gin.Context) {
 		Password: password,
 	}
 	user.ValidateAndFill()
-	if user.Status != "enabled" {
+	if user.Status != common.UserStatusEnabled {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
 			"message": "用户名或密码错误，或者该用户已被封禁",
 		})
@@ -61,10 +62,10 @@ func UpdateSelf(c *gin.Context) {
 		return
 	}
 	user.Id = c.GetInt("id")
-	role := c.GetString("role")
-	if role != "admin" {
-		user.Role = ""
-		user.Status = ""
+	role := c.GetInt("role")
+	if role != common.RoleAdminUser {
+		user.Role = 0
+		user.Status = 0
 	}
 	// TODO: check Display Name to avoid XSS attack
 	if err := user.Update(); err != nil {
@@ -142,9 +143,9 @@ func ManageUser(c *gin.Context) {
 	}
 	switch req.Action {
 	case "disable":
-		user.Status = "disabled"
+		user.Status = common.UserStatusDisabled
 	case "enable":
-		user.Status = "enabled"
+		user.Status = common.UserStatusEnabled
 	case "delete":
 		if err := user.Delete(); err != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -154,9 +155,9 @@ func ManageUser(c *gin.Context) {
 			return
 		}
 	case "promote":
-		user.Role = "admin"
+		user.Role = common.RoleAdminUser
 	case "demote":
-		user.Role = "common"
+		user.Role = common.RoleCommonUser
 	}
 
 	if err := user.Update(); err != nil {
