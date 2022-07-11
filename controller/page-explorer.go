@@ -22,6 +22,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 		// We may being attacked!
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": fmt.Sprintf("只能访问指定文件夹的子目录"),
+			"option":  common.OptionMap,
 		})
 		return
 	}
@@ -29,6 +30,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": "处理路径时发生了错误，请确认路径正确",
+			"option":  common.OptionMap,
 		})
 		return
 	}
@@ -39,6 +41,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "error.html", gin.H{
 				"message": err.Error(),
+				"option":  common.OptionMap,
 			})
 			return
 		}
@@ -83,6 +86,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "explorer.html", gin.H{
 			"message":        "",
+			"option":         common.OptionMap,
 			"files":          localFiles,
 			"readmeFileLink": readmeFileLink,
 		})

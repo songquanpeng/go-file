@@ -3,7 +3,7 @@
 {{template "header"}}
 <body>
 <div>
-    {{template "nav"}}
+    {{template "nav" .}}
     <div class="container">
         <div class="normal-container">
             <article id="messageToast" class="message is-danger" style="display: none">
@@ -18,7 +18,7 @@
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                    <div class="page-card-title" style="color: #368CCB;">Go File {{.version}} 帮助文档</div>
+                                    <div class="page-card-title" style="color: #368CCB;">Go File {{.option.Version}} 帮助文档</div>
                                     <div class="page-card-text">
                                         <h4>基本功能</h4>
                                         <ul>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    {{template "footer"}}
+    {{template "footer" .}}
 </div>
 
 {{template "modal"}}

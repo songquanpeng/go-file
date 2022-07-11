@@ -18,6 +18,7 @@ func GetIndexPage(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "",
+		"option":  common.OptionMap,
 		"files":   files,
 		"isQuery": isQuery,
 	})
@@ -29,6 +30,7 @@ func GetManagePage(c *gin.Context) {
 	var uptime = time.Since(common.StartTime)
 	c.HTML(http.StatusOK, "manage.html", gin.H{
 		"message":                 "",
+		"option":                  common.OptionMap,
 		"memory":                  fmt.Sprintf("%d MB", m.Sys/1024/1024),
 		"uptime":                  uptime.String(),
 		"userNum":                 model.CountTable("users"),
@@ -44,25 +46,27 @@ func GetManagePage(c *gin.Context) {
 func GetImagePage(c *gin.Context) {
 	c.HTML(http.StatusOK, "image.html", gin.H{
 		"message": "",
+		"option":  common.OptionMap,
 	})
 }
 
 func GetLoginPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.html", gin.H{
 		"message": "",
+		"option":  common.OptionMap,
 	})
 }
 
 func GetHelpPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "help.html", gin.H{
 		"message": "",
-		"version": common.Version,
+		"option":  common.OptionMap,
 	})
 }
 
 func Get404Page(c *gin.Context) {
 	c.HTML(http.StatusOK, "404.html", gin.H{
 		"message": "",
-		"version": common.Version,
+		"option":  common.OptionMap,
 	})
 }

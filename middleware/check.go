@@ -25,6 +25,7 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 		if c.Request.URL.Path == "/explorer" {
 			c.HTML(http.StatusForbidden, "error.html", gin.H{
 				"message": "无权访问此页面，请检查你是否登录或者是否有相关权限",
+				"option":  common.OptionMap,
 			})
 		} else {
 			c.JSON(http.StatusForbidden, gin.H{

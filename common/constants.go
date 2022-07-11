@@ -11,7 +11,7 @@ import (
 
 var StartTime = time.Now()
 var Version = "v0.4.0"
-var OptionMap map[string]interface{}
+var OptionMap map[string]string
 
 const (
 	RoleGuestUser  = 0

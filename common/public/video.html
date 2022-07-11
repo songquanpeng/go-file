@@ -3,7 +3,7 @@
 {{template "header"}}
 <body style="height: 100%">
 <div>
-    {{template "nav"}}
+    {{template "nav" .}}
     <div class="container">
         <article id="messageToast" class="message is-danger" style="display: none">
             <div class="message-body" id="messageToastText">
@@ -42,7 +42,7 @@
             </script>
         </div>
     </div>
-    {{template "footer"}}
+    {{template "footer" .}}
 </div>
 
 {{template "modal"}}

@@ -3,7 +3,7 @@
 {{template "header"}}
 <body>
 <div>
-    {{template "nav"}}
+    {{template "nav" .}}
     <div class="container">
         <div class="narrow-container">
             {{if .message }}
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    {{template "footer"}}
+    {{template "footer" .}}
 </div>
 
 {{template "modal"}}

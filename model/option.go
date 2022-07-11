@@ -20,12 +20,13 @@ func AllOption() ([]*Option, error) {
 }
 
 func InitOptionMap() {
-	common.OptionMap = make(map[string]interface{})
-	common.OptionMap["FileUploadPermission"] = common.FileUploadPermission
-	common.OptionMap["FileDownloadPermission"] = common.FileDownloadPermission
-	common.OptionMap["ImageUploadPermission"] = common.ImageUploadPermission
-	common.OptionMap["ImageDownloadPermission"] = common.ImageDownloadPermission
+	common.OptionMap = make(map[string]string)
+	common.OptionMap["FileUploadPermission"] = strconv.Itoa(common.FileUploadPermission)
+	common.OptionMap["FileDownloadPermission"] = strconv.Itoa(common.FileDownloadPermission)
+	common.OptionMap["ImageUploadPermission"] = strconv.Itoa(common.ImageUploadPermission)
+	common.OptionMap["ImageDownloadPermission"] = strconv.Itoa(common.ImageDownloadPermission)
 	common.OptionMap["WebsiteName"] = "Go File"
+	common.OptionMap["Version"] = common.Version
 	options, _ := AllOption()
 	for _, option := range options {
 		updateOptionMap(option.Key, option.Value)
@@ -46,9 +47,9 @@ func UpdateOption(key string, value string) {
 }
 
 func updateOptionMap(key string, value string) {
+	common.OptionMap[key] = value
 	if strings.HasSuffix(key, "Permission") {
 		intValue, _ := strconv.Atoi(value)
-		common.OptionMap[key] = intValue
 		switch key {
 		case "FileUploadPermission":
 			common.FileUploadPermission = intValue
@@ -59,8 +60,5 @@ func updateOptionMap(key string, value string) {
 		case "ImageDownloadPermission":
 			common.ImageDownloadPermission = intValue
 		}
-
-	} else {
-		common.OptionMap[key] = value
 	}
 }

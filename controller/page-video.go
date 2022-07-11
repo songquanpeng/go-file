@@ -22,6 +22,7 @@ func GetVideoPage(c *gin.Context) {
 		// We may being attacked!
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": fmt.Sprintf("只能访问指定路径下的文件"),
+			"option":  common.OptionMap,
 		})
 		return
 	}
@@ -29,6 +30,7 @@ func GetVideoPage(c *gin.Context) {
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": err.Error(),
+			"option":  common.OptionMap,
 		})
 		return
 	}
@@ -40,6 +42,7 @@ func GetVideoPage(c *gin.Context) {
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "error.html", gin.H{
 				"message": err.Error(),
+				"option":  common.OptionMap,
 			})
 			return
 		}
@@ -89,6 +92,7 @@ func GetVideoPage(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "video.html", gin.H{
 			"message":   "",
+			"option":    common.OptionMap,
 			"files":     localFiles,
 			"videoPath": videoPath,
 		})
