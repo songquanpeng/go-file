@@ -104,7 +104,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
 
-直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `password`，记得登录后到 `管理页面` 下的 `账户管理` 标签页中更改你的用户密码。
+直接双击即可使用，默认端口为 `3000`，程序在第一次启动时会自动创建管理员账户，用户名为 `admin`，密码为 `123456`，记得登录后到 `管理页面` 下的 `账户管理` 标签页中更改你的用户密码。
 
 之后程序将自动为你打开浏览器，点击右上角的 `上传` 按钮即可上传，支持拖放上传，支持同时上传多个文件。
 
@@ -126,7 +126,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 如果是公网部署，务必记得第一时间更改默认密码！
 
 ## 演示
-在线试用（用户名为 `admin`，密码为 `password`）：https://go-file.herokuapp.com/
+在线试用（用户名为 `admin`，密码为 `123456`）：https://go-file.herokuapp.com/
 
 注意，以下展示图片可能没有得到及时跟新。
 ![index page](https://user-images.githubusercontent.com/39998050/178138784-2fc53a83-917d-4d2e-9aad-6c6c796bd9c8.png)
