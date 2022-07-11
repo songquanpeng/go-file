@@ -26,6 +26,7 @@ func InitOptionMap() {
 	common.OptionMap["ImageUploadPermission"] = strconv.Itoa(common.ImageUploadPermission)
 	common.OptionMap["ImageDownloadPermission"] = strconv.Itoa(common.ImageDownloadPermission)
 	common.OptionMap["WebsiteName"] = "Go File"
+	common.OptionMap["FooterInfo"] = ""
 	common.OptionMap["Version"] = common.Version
 	options, _ := AllOption()
 	for _, option := range options {

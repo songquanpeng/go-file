@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net"
 	"os/exec"
@@ -89,4 +90,8 @@ func Interface2String(inter interface{}) string {
 		return fmt.Sprintf("%f", inter.(float64))
 	}
 	return "Not Implemented"
+}
+
+func UnescapeHTML(x string) interface{} {
+	return template.HTML(x)
 }

@@ -12,7 +12,10 @@ import (
 )
 
 func loadTemplate() *template.Template {
-	t := template.Must(template.New("").ParseFS(common.FS, "public/*.html"))
+	var funcMap = template.FuncMap{
+		"unescape": common.UnescapeHTML,
+	}
+	t := template.Must(template.New("").Funcs(funcMap).ParseFS(common.FS, "public/*.html"))
 	return t
 }
 
