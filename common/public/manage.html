@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{{template "header"}}
+{{template "header" .}}
 <body>
 <div>
     {{template "nav" .}}
@@ -242,7 +242,17 @@
                                                 </div>
                                                 <div class="column">
                                                     <h3>系统自定义</h3>
-                                                    <p>敬请期待！</p>
+                                                    <label class="label">修改网站名</label>
+                                                    <div class="field has-addons">
+                                                        <div class="control is-light is-expanded">
+                                                            <input class="input url-input" id="inputWebsiteName" type="text" value="" placeholder="请输入新的站点名称">
+                                                        </div>
+                                                        <div class="control">
+                                                            <a class="button is-light" onclick="updateOption('WebsiteName', 'inputWebsiteName')">
+                                                                更新
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
