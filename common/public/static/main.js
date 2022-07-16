@@ -261,6 +261,9 @@ function showMessage(message, isError = false) {
     messageToast.className = isError ? "message is-danger" : "message";
     let timeout = isError ? 5000 : 2000;
     document.getElementById('messageToastText').innerText = message;
+    if (isError) {
+        document.getElementById("nav").scrollIntoView();
+    }
     setTimeout(function () {
         messageToast.style.display = 'none';
     }, timeout);
