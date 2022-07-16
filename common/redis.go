@@ -27,3 +27,11 @@ func InitRedisClient() (err error) {
 	_, err = RDB.Ping(ctx).Result()
 	return err
 }
+
+func ParseRedisOption() *redis.Options {
+	opt, err := redis.ParseURL(os.Getenv("REDIS_CONN_STRING"))
+	if err != nil {
+		panic(err)
+	}
+	return opt
+}

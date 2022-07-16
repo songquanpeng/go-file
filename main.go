@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
@@ -42,6 +45,17 @@ func main() {
 	// Initialize HTTP server
 	server := gin.Default()
 	server.SetHTMLTemplate(loadTemplate())
+
+	// Initialize session store
+	if common.RedisEnabled {
+		opt := common.ParseRedisOption()
+		store, _ := redis.NewStore(opt.MinIdleConns, opt.Network, opt.Addr, opt.Password, []byte(common.SessionSecret))
+		server.Use(sessions.Sessions("session", store))
+	} else {
+		store := cookie.NewStore([]byte(common.SessionSecret))
+		server.Use(sessions.Sessions("session", store))
+	}
+
 	router.SetRouter(server)
 	var realPort = os.Getenv("PORT")
 	if realPort == "" {
