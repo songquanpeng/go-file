@@ -69,12 +69,11 @@ func UploadFile(c *gin.Context) {
 			timestamp := t.Format("_2006-01-02_15-04-05")
 			ext := filepath.Ext(filename)
 			if ext == "" {
-				filename += timestamp
+				link += timestamp
 			} else {
-				filename = filename[:len(filename)-len(ext)] + timestamp + ext
+				link = filename[:len(filename)-len(ext)] + timestamp + ext
 			}
-			savePath = filepath.Join(uploadPath, filename)
-			link = filename
+			savePath = filepath.Join(uploadPath, link)
 		}
 		if err := c.SaveUploadedFile(file, savePath); err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
