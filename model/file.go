@@ -2,6 +2,7 @@ package model
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"go-file/common"
 	"os"
 	"strings"
 )
@@ -32,11 +33,11 @@ func AllFiles() ([]*File, error) {
 	return files, err
 }
 
-func QueryFiles(query string) ([]*File, error) {
+func QueryFiles(query string, startIdx int) ([]*File, error) {
 	var files []*File
 	var err error
 	query = strings.ToLower(query)
-	err = DB.Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
+	err = DB.Limit(common.ItemsPerPage).Offset(startIdx).Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
 	return files, err
 }
 

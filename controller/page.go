@@ -7,20 +7,41 @@ import (
 	"go-file/model"
 	"net/http"
 	"runtime"
+	"strconv"
 	"time"
 )
 
 func GetIndexPage(c *gin.Context) {
 	query := c.Query("query")
 	isQuery := query != ""
+	p, _ := strconv.Atoi(c.Query("p"))
+	if p < 0 {
+		p = 0
+	}
+	next := p + 1
+	prev := common.IntMax(0, p-1)
 
-	files, _ := model.QueryFiles(query)
+	startIdx := p * common.ItemsPerPage
+
+	files, err := model.QueryFiles(query, startIdx)
+	if err != nil {
+		c.HTML(http.StatusOK, "error.html", gin.H{
+			"message": err.Error(),
+			"option":  common.OptionMap,
+		})
+		return
+	}
+	if len(files) < common.ItemsPerPage {
+		next = 0
+	}
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "",
 		"option":  common.OptionMap,
 		"files":   files,
 		"isQuery": isQuery,
+		"next":    next,
+		"prev":    prev,
 	})
 }
 

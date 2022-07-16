@@ -13,6 +13,8 @@ var StartTime = time.Now()
 var Version = "v0.4.0"
 var OptionMap map[string]string
 
+var ItemsPerPage = 10
+
 const (
 	RoleGuestUser  = 0
 	RoleCommonUser = 1
