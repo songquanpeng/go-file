@@ -2,8 +2,11 @@ package model
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
 	"log"
+	"os"
 )
 
 var DB *gorm.DB
@@ -24,8 +27,14 @@ func CountTable(tableName string) (num int) {
 	return
 }
 
-func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open("sqlite3", "./.go-file.db")
+func InitDB() (db *gorm.DB, err error) {
+	if os.Getenv("SQL_DSN") != "" {
+		// Use MySQL
+		db, err = gorm.Open("mysql", os.Getenv("SQL_DSN"))
+	} else {
+		// Use SQLite
+		db, err = gorm.Open("sqlite3", "./.go-file.db")
+	}
 	if err == nil {
 		DB = db
 		db.AutoMigrate(&File{})

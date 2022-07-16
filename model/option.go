@@ -1,15 +1,14 @@
 package model
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
 	"strconv"
 	"strings"
 )
 
 type Option struct {
-	Key   string `json:"key" gorm:"primaryKey;type:string"`
-	Value string `json:"value" gorm:"type:string;"`
+	Key   string `json:"key" gorm:"primaryKey"`
+	Value string `json:"value"`
 }
 
 func AllOption() ([]*Option, error) {

@@ -11,13 +11,12 @@ import (
 
 type File struct {
 	Id              int    `json:"id"`
-	Filename        string `json:"filename" gorm:"type:string"`
-	Description     string `json:"description" gorm:"type:string"`
-	Uploader        string `json:"uploader" gorm:"type:string"`
-	Link            string `json:"link" gorm:"type:string unique"`
-	Time            string `json:"time" gorm:"type:string"`
-	DownloadCounter int    `json:"download_counter" gorm:"type:int"`
-	IsLocalFile     bool   `json:"is_local_file" gorm:"type:bool"`
+	Filename        string `json:"filename"`
+	Description     string `json:"description"`
+	Uploader        string `json:"uploader"`
+	Link            string `json:"link" gorm:"unique"`
+	Time            string `json:"time"`
+	DownloadCounter int    `json:"download_counter"`
 }
 
 type LocalFile struct {

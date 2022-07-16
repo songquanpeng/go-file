@@ -8,9 +8,9 @@ import (
 )
 
 type Image struct {
-	Filename string `json:"type" gorm:"type:string"`
-	Uploader string `json:"uploader" gorm:"type:string"`
-	Time     string `json:"time" gorm:"type:string"`
+	Filename string `json:"type"`
+	Uploader string `json:"uploader"`
+	Time     string `json:"time"`
 }
 
 func AllImage() ([]*Image, error) {

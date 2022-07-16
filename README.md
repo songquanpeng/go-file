@@ -113,6 +113,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 2. 如果需要分享文件夹，启动时请指定 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `文件` 即可。
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
 4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`。 
+5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`,然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`，.
 
 **如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，
