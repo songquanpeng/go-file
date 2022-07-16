@@ -40,7 +40,9 @@ func UpdateOption(key string, value string) {
 		Key:   key,
 		Value: value,
 	}
-	if DB.Model(&option).Where("key = ?", key).Updates(&option).RowsAffected == 0 {
+	// When updating with struct it will only update non-zero fields by default
+	// So we have to use Select here
+	if DB.Model(&option).Where("key = ?", key).Update("value", option.Value).RowsAffected == 0 {
 		DB.Create(&option)
 	}
 	// Update OptionMap
