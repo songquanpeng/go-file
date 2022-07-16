@@ -68,7 +68,9 @@ func main() {
 		}
 	}
 	serverUrl := "http://" + *common.Host + ":" + realPort + "/"
-	common.OpenBrowser(serverUrl)
+	if !*common.NoBrowser {
+		common.OpenBrowser(serverUrl)
+	}
 	err = server.Run(":" + realPort)
 	if err != nil {
 		log.Println(err)

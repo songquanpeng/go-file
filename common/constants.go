@@ -5,6 +5,7 @@ import (
 	"flag"
 	"github.com/google/uuid"
 	"os"
+	"path"
 	"path/filepath"
 	"time"
 )
@@ -48,8 +49,10 @@ var (
 	Host      = flag.String("host", "localhost", "the server's ip address or domain")
 	Path      = flag.String("path", "", "specify a local path to public")
 	VideoPath = flag.String("video", "", "specify a video folder to public")
+	NoBrowser = flag.Bool("no-browser", false, "open browser or not")
 )
 
+// UploadPath Maybe override by ENV_VAR
 var UploadPath = "upload"
 var ExplorerRootPath = UploadPath
 var ImageUploadPath = "upload/images"
@@ -60,7 +63,21 @@ var FS embed.FS
 
 var SessionSecret = uuid.New().String()
 
+var SQLitePath = ".go-file.db"
+
 func init() {
+	if os.Getenv("SESSION_SECRET") != "" {
+		SessionSecret = os.Getenv("SESSION_SECRET")
+	}
+	if os.Getenv("SQLITE_PATH") != "" {
+		SQLitePath = os.Getenv("SQLITE_PATH")
+	}
+	if os.Getenv("UPLOAD_PATH") != "" {
+		UploadPath = os.Getenv("UPLOAD_PATH")
+		ExplorerRootPath = UploadPath
+		ImageUploadPath = path.Join(UploadPath, "images")
+		VideoServePath = UploadPath
+	}
 	flag.Parse()
 	if *Path != "" {
 		ExplorerRootPath = *Path
@@ -79,8 +96,4 @@ func init() {
 	if _, err := os.Stat(ImageUploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(ImageUploadPath, 0777)
 	}
-
-	// TODO Initialize OptionMap
-	//
-	//OptionMap[""] = ""
 }

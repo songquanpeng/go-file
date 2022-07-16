@@ -33,7 +33,7 @@ func InitDB() (db *gorm.DB, err error) {
 		db, err = gorm.Open("mysql", os.Getenv("SQL_DSN"))
 	} else {
 		// Use SQLite
-		db, err = gorm.Open("sqlite3", "./.go-file.db")
+		db, err = gorm.Open("sqlite3", common.SQLitePath)
 	}
 	if err == nil {
 		DB = db

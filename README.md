@@ -109,11 +109,15 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 之后程序将自动为你打开浏览器，点击右上角的 `上传` 按钮即可上传，支持拖放上传，支持同时上传多个文件。
 
 **进阶使用：**
-1. 如果要修改端口，动时请指定 port 参数：`./go-file.exe --port 80`。
+1. 如果要修改端口，启动时请指定 `port` 参数：`./go-file.exe --port 80`。
 2. 如果需要分享文件夹，启动时请指定 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `文件` 即可。
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
 4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`。 
-5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`,然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`，.
+5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`，然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`。
+6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量。
+7. 设置会话密钥（默认随机生成），请设置 `SESSION_SECRET` 环境变量。
+8. 设置文件上传路径（默认为工作目录下面的 `upload` 目录），请设置 `UPLOAD_PATH` 环境变量。
+9. 禁止自动打开浏览器，启动时请指定 `no-browser` 参数：`./go-file.exe --no-browser true`。
 
 **如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，
@@ -124,7 +128,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
 2. 默认配置下访客可以上传和下载文件，可在 `管理` -> `系统设置` 中修改权限配置。
-3. 如果是公网部署，务必记得第一时间更改默认密码！
+3. 如果是公网部署，务必记得第一时间更改默认密码！ 
 
 ## 演示
 在线试用（用户名为 `admin`，密码为 `123456`）：https://go-file.herokuapp.com/
