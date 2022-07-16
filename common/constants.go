@@ -15,6 +15,9 @@ var OptionMap map[string]string
 
 var ItemsPerPage = 10
 
+var ExplorerCacheEnabled = false // After my test, enable this will make the server slower...
+var ExplorerCacheTimeout = 600
+
 const (
 	RoleGuestUser  = 0
 	RoleCommonUser = 1

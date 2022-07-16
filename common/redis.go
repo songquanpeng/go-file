@@ -13,6 +13,8 @@ var RedisEnabled = true
 func InitRedisClient() (err error) {
 	if os.Getenv("REDIS_CONN_STRING") == "" {
 		RedisEnabled = false
+		// The cache depends on Redis
+		ExplorerCacheEnabled = false
 		return nil
 	}
 	opt, err := redis.ParseURL(os.Getenv("REDIS_CONN_STRING"))

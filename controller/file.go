@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -30,6 +31,16 @@ func UploadFile(c *gin.Context) {
 			uploadPath = common.LocalFileRoot
 		}
 		saveToDatabase = false
+
+		// Start a go routine to delete explorer' cache
+		if common.ExplorerCacheEnabled {
+			go func() {
+				ctx := context.Background()
+				rdb := common.RDB
+				key := "cacheExplorer:" + uploadPath
+				rdb.Del(ctx, key)
+			}()
+		}
 	}
 
 	description := c.PostForm("description")
