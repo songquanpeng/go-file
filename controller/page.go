@@ -53,7 +53,7 @@ func GetManagePage(c *gin.Context) {
 		"message":                 "",
 		"option":                  common.OptionMap,
 		"memory":                  fmt.Sprintf("%d MB", m.Sys/1024/1024),
-		"uptime":                  uptime.String(),
+		"uptime":                  common.Seconds2Time(int(uptime.Seconds())),
 		"userNum":                 model.CountTable("users"),
 		"fileNum":                 model.CountTable("files"),
 		"imageNum":                model.CountTable("images"),
