@@ -132,6 +132,9 @@ func GetReqs(c *gin.Context) {
 			Time:  iter.Val()[8:],
 			Count: count,
 		})
+		sort.Slice(reqs, func(i, j int) bool {
+			return reqs[i].Time < reqs[j].Time
+		})
 	}
 
 	if err := iter.Err(); err != nil {
