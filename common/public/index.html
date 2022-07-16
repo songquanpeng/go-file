@@ -40,10 +40,11 @@
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
-                                <div class="page-card-title"><a download="{{$file.Filename}}" href="{{$file.Link}}">{{$file.Filename}}</a>
+                                <div class="page-card-title"><a download="{{$file.Filename}}" href="/upload/{{$file.Link}}">{{$file.Filename}}</a>
                                 </div>
                                 <span class="tag is-light">{{$file.Uploader}}</span>
                                 <span class="tag is-light">{{$file.Time}}</span>
+                                <span class="tag is-light" id="counter-{{$file.Id}}">{{$file.DownloadCounter}} 次下载</span>
                                 <div class="page-card-text">
                                     {{$file.Description}}
                                 </div>
@@ -55,7 +56,7 @@
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
                                         </span>
-                                    <span onclick="showQRCode('{{$file.Link}}')">
+                                    <span onclick="showQRCode('/upload/{{$file.Link}}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  fill="#2196F3"
                                                  class="bi bi-camera-fill" viewBox="0 0 16 16">
@@ -63,14 +64,14 @@
                                                 <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
                                             </svg>
                                         </span>
-                                    <a target="_blank" href="{{$file.Link}}">
+                                    <a target="_blank" href="/upload/{{$file.Link}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              fill="#3F51B5"
                                              class="bi bi-play-circle-fill" viewBox="0 0 16 16">
                                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
                                         </svg>
                                     </a>
-                                    <a download="{{$file.Filename}}" href="{{$file.Link}}">
+                                    <a download="{{$file.Filename}}" href="/upload/{{$file.Link}}" onclick="updateDownloadCounter('counter-{{$file.Id}}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              fill="#4CAF50"
                                              class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">

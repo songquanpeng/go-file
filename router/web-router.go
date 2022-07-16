@@ -22,7 +22,7 @@ func setWebRouter(router *gin.Engine) {
 	fileDownloadAuth := router.Group("/")
 	fileDownloadAuth.Use(middleware.DownloadRateLimit(), middleware.FileDownloadPermissionCheck())
 	{
-		fileDownloadAuth.Static("/upload", common.UploadPath)
+		fileDownloadAuth.GET("/upload/:file", controller.DownloadFile)
 		fileDownloadAuth.GET("/explorer", controller.GetExplorerPageOrFile)
 	}
 

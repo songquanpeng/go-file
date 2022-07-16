@@ -51,7 +51,7 @@ var (
 )
 
 var UploadPath = "upload"
-var LocalFileRoot = UploadPath
+var ExplorerRootPath = UploadPath
 var ImageUploadPath = "upload/images"
 var VideoServePath = "upload"
 
@@ -63,13 +63,13 @@ var SessionSecret = uuid.New().String()
 func init() {
 	flag.Parse()
 	if *Path != "" {
-		LocalFileRoot = *Path
+		ExplorerRootPath = *Path
 	}
 	if *VideoPath != "" {
 		VideoServePath = *VideoPath
 	}
 
-	LocalFileRoot, _ = filepath.Abs(LocalFileRoot)
+	ExplorerRootPath, _ = filepath.Abs(ExplorerRootPath)
 	VideoServePath, _ = filepath.Abs(VideoServePath)
 	ImageUploadPath, _ = filepath.Abs(ImageUploadPath)
 

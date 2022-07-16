@@ -24,11 +24,11 @@ func UploadFile(c *gin.Context) {
 	uploadPath := common.UploadPath
 	saveToDatabase := true
 	path := c.PostForm("path")
-	if path != "" {
-		uploadPath = filepath.Join(common.LocalFileRoot, path)
-		if !strings.HasPrefix(uploadPath, common.LocalFileRoot) {
-			// In this case the given path is not valid, so we reset it to LocalFileRoot.
-			uploadPath = common.LocalFileRoot
+	if path != "" { // Upload to explorer's path
+		uploadPath = filepath.Join(common.ExplorerRootPath, path)
+		if !strings.HasPrefix(uploadPath, common.ExplorerRootPath) {
+			// In this case the given path is not valid, so we reset it to ExplorerRootPath.
+			uploadPath = common.ExplorerRootPath
 		}
 		saveToDatabase = false
 
@@ -61,7 +61,7 @@ func UploadFile(c *gin.Context) {
 	for _, file := range files {
 		// In case someone wants to upload to other folders.
 		filename := filepath.Base(file.Filename)
-		link := "/upload/" + filename
+		link := filename
 		savePath := filepath.Join(uploadPath, filename)
 		if _, err := os.Stat(savePath); err == nil {
 			// File already existed.
@@ -74,7 +74,7 @@ func UploadFile(c *gin.Context) {
 				filename = filename[:len(filename)-len(ext)] + timestamp + ext
 			}
 			savePath = filepath.Join(uploadPath, filename)
-			link = "/upload/" + filename
+			link = filename
 		}
 		if err := c.SaveUploadedFile(file, savePath); err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
@@ -126,4 +126,19 @@ func DeleteFile(c *gin.Context) {
 		})
 	}
 
+}
+
+func DownloadFile(c *gin.Context) {
+	path := c.Param("file")
+	fullPath := filepath.Join(common.UploadPath, path)
+	if !strings.HasPrefix(fullPath, common.UploadPath) {
+		// We may being attacked!
+		c.Status(403)
+		return
+	}
+	c.File(fullPath)
+	// Update download counter
+	go func() {
+		model.UpdateDownloadCounter(path)
+	}()
 }

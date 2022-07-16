@@ -1,9 +1,11 @@
 package model
 
 import (
+	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -47,11 +49,14 @@ func (file *File) Insert() error {
 	return err
 }
 
+// Delete Make sure link is valid! Because we will use os.Remove to delete it!
 func (file *File) Delete() error {
 	var err error
 	err = DB.Delete(file).Error
-	if !file.IsLocalFile {
-		err = os.Remove("." + file.Link)
-	}
+	err = os.Remove(path.Join(common.UploadPath, file.Link))
 	return err
+}
+
+func UpdateDownloadCounter(link string) {
+	DB.Model(&File{}).Where("link = ?", link).UpdateColumn("download_counter", gorm.Expr("download_counter + 1"))
 }

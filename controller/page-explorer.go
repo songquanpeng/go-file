@@ -20,8 +20,8 @@ func GetExplorerPageOrFile(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
 	path, _ = url.PathUnescape(path)
 
-	fullPath := filepath.Join(common.LocalFileRoot, path)
-	if !strings.HasPrefix(fullPath, common.LocalFileRoot) {
+	fullPath := filepath.Join(common.ExplorerRootPath, path)
+	if !strings.HasPrefix(fullPath, common.ExplorerRootPath) {
 		// We may being attacked!
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
 			"message": fmt.Sprintf("只能访问指定文件夹的子目录"),
@@ -54,7 +54,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 			"readmeFileLink": readmeFileLink,
 		})
 	} else {
-		c.File(filepath.Join(common.LocalFileRoot, path))
+		c.File(filepath.Join(common.ExplorerRootPath, path))
 	}
 }
 

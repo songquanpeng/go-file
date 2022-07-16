@@ -87,6 +87,12 @@ function deleteImage() {
 }
 
 
+function updateDownloadCounter(id) {
+    let e = document.getElementById(id);
+    let n = parseInt(e.innerText.replace("次下载", ""));
+    e.innerText = `${n + 1} 次下载`;
+}
+
 function onFileInputChange() {
     let prompt;
     let files = document.getElementById('fileInput').files;
