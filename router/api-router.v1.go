@@ -25,5 +25,11 @@ func setApiRouter(router *gin.Engine) {
 		adminAuth.PUT("/manage_user", controller.ManageUser)
 		adminAuth.GET("/option", controller.GetOptions)
 		adminAuth.PUT("/option", controller.UpdateOption)
+		statRouter := adminAuth.Group("/stat")
+		{
+			statRouter.GET("/ip", controller.GetIPs)
+			statRouter.GET("/url", controller.GetURLs)
+			statRouter.GET("/req", controller.GetReqs)
+		}
 	}
 }

@@ -81,6 +81,147 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <script src="/public/lib/echarts.min.js"></script>
+
+                                            <div id="reqChart" style="height: 500px"></div>
+                                            <div id="urlChart" style="height: 500px"></div>
+                                            <div id="ipChart" style="height: 500px"></div>
+                                            <script>
+                                                // https://echarts.apache.org/examples/zh/index.html
+                                                (async function () {
+                                                    let dom = document.getElementById("reqChart");
+                                                    let res = await fetch("/api/stat/req");
+                                                    let data = await res.json();
+
+                                                    let myChart = echarts.init(dom, null, {
+                                                        renderer: 'canvas',
+                                                        useDirtyRect: false
+                                                    });
+                                                    let names = [];
+                                                    let values = [];
+                                                    for (let i = 0; i < data.data.length; i ++) {
+                                                        names.push(data.data[i].name);
+                                                        values.push(data.data[i].value);
+                                                    }
+                                                    let option = {
+                                                        title: {
+                                                            text: '访问趋势图'
+                                                        },
+                                                        xAxis: {
+                                                            type: 'category',
+                                                            data: names
+                                                        },
+                                                        yAxis: {
+                                                            type: 'value'
+                                                        },
+                                                        series: [
+                                                            {
+                                                                data: values,
+                                                                type: 'line',
+                                                                smooth: true
+                                                            }
+                                                        ]
+                                                    };
+
+                                                    if (option && typeof option === 'object') {
+                                                        myChart.setOption(option);
+                                                    }
+
+                                                    window.addEventListener('resize', myChart.resize);
+                                                })();
+                                                (async function () {
+                                                    let dom = document.getElementById("ipChart");
+                                                    let res = await fetch("/api/stat/ip");
+                                                    let data = await res.json();
+
+                                                    let myChart = echarts.init(dom, null, {
+                                                        renderer: 'canvas',
+                                                        useDirtyRect: false
+                                                    });
+
+                                                    let option = {
+                                                        title: {
+                                                            text: '高频访问 IP',
+                                                            subtext: `Top ${data.data.length}`,
+                                                            left: 'center'
+                                                        },
+                                                        tooltip: {
+                                                            trigger: 'item'
+                                                        },
+                                                        legend: {
+                                                            orient: 'vertical',
+                                                            left: 'left'
+                                                        },
+                                                        series: [
+                                                            {
+                                                                name: 'Access From',
+                                                                type: 'pie',
+                                                                radius: '50%',
+                                                                data: data.data,
+                                                                emphasis: {
+                                                                    itemStyle: {
+                                                                        shadowBlur: 10,
+                                                                        shadowOffsetX: 0,
+                                                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    };
+
+                                                    if (option && typeof option === 'object') {
+                                                        myChart.setOption(option);
+                                                    }
+
+                                                    window.addEventListener('resize', myChart.resize);
+                                                })();
+                                                (async function () {
+                                                    let dom = document.getElementById("urlChart");
+                                                    let res = await fetch("/api/stat/url");
+                                                    let data = await res.json();
+
+                                                    let myChart = echarts.init(dom, null, {
+                                                        renderer: 'canvas',
+                                                        useDirtyRect: false
+                                                    });
+
+                                                    let option = {
+                                                        title: {
+                                                            text: '高频访问 URL',
+                                                            subtext: `Top ${data.data.length}`,
+                                                            left: 'center'
+                                                        },
+                                                        tooltip: {
+                                                            trigger: 'item'
+                                                        },
+                                                        legend: {
+                                                            orient: 'vertical',
+                                                            left: 'left'
+                                                        },
+                                                        series: [
+                                                            {
+                                                                name: '来自',
+                                                                type: 'pie',
+                                                                radius: '50%',
+                                                                data: data.data,
+                                                                emphasis: {
+                                                                    itemStyle: {
+                                                                        shadowBlur: 10,
+                                                                        shadowOffsetX: 0,
+                                                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    };
+
+                                                    if (option && typeof option === 'object') {
+                                                        myChart.setOption(option);
+                                                    }
+
+                                                    window.addEventListener('resize', myChart.resize);
+                                                })();
+                                            </script>
                                         </div>
                                         <div id="userTab" class="content-tab" style="display: none;">
                                             <h3>我的账户</h3>
@@ -166,7 +307,8 @@
                                             <label class="label">删除指定图片</label>
                                             <div class="field has-addons">
                                                 <div class="control is-light is-expanded">
-                                                    <input class="input url-input" id="inputDeleteImage" type="url" value="" placeholder="请输入待删除图片的 URL">
+                                                    <input class="input url-input" id="inputDeleteImage" type="url"
+                                                           value="" placeholder="请输入待删除图片的 URL">
                                                 </div>
                                                 <div class="control">
                                                     <a class="button is-light" onclick="deleteImage()">
@@ -245,10 +387,12 @@
                                                     <label class="label">修改网站名</label>
                                                     <div class="field has-addons">
                                                         <div class="control is-light is-expanded">
-                                                            <input class="input url-input" id="inputWebsiteName" type="text" value="" placeholder="请输入新的站点名称">
+                                                            <input class="input url-input" id="inputWebsiteName"
+                                                                   type="text" value="" placeholder="请输入新的站点名称">
                                                         </div>
                                                         <div class="control">
-                                                            <a class="button is-light" onclick="updateOption('WebsiteName', 'inputWebsiteName')">
+                                                            <a class="button is-light"
+                                                               onclick="updateOption('WebsiteName', 'inputWebsiteName')">
                                                                 更新
                                                             </a>
                                                         </div>
@@ -256,10 +400,12 @@
                                                     <label class="label">修改底部信息</label>
                                                     <div class="field has-addons">
                                                         <div class="control is-light is-expanded">
-                                                            <input class="input url-input" id="inputFooterInfo" type="text" value="" placeholder="请输入 HTML 代码">
+                                                            <input class="input url-input" id="inputFooterInfo"
+                                                                   type="text" value="" placeholder="请输入 HTML 代码">
                                                         </div>
                                                         <div class="control">
-                                                            <a class="button is-light" onclick="updateOption('FooterInfo', 'inputFooterInfo')">
+                                                            <a class="button is-light"
+                                                               onclick="updateOption('FooterInfo', 'inputFooterInfo')">
                                                                 更新
                                                             </a>
                                                         </div>

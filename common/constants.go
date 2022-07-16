@@ -11,13 +11,18 @@ import (
 )
 
 var StartTime = time.Now()
-var Version = "v0.4.0"
+var Version = "v0.4.1"
 var OptionMap map[string]string
 
 var ItemsPerPage = 10
 
 var ExplorerCacheEnabled = false // After my test, enable this will make the server slower...
-var ExplorerCacheTimeout = 600
+var ExplorerCacheTimeout = 600   // Second
+
+var StatCacheTimeout = 24 // Hour
+var StatReqTimeout = 30   // Day
+var StatIPNum = 20
+var StatURLNum = 20
 
 const (
 	RoleGuestUser  = 0
