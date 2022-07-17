@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
+	"go-file/model"
 	"net/http"
 )
 
@@ -15,7 +16,17 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 	if username != nil {
 		c.Set("username", username)
 	} else {
-		c.Set("username", "访客用户")
+		// Check token
+		token := c.Request.Header.Get("Authorization")
+		user := model.ValidateUserToken(token)
+		if user != nil && user.Username != "" {
+			// Token is valid
+			username = user.Username
+			role = user.Role
+			c.Set("username", username)
+		} else {
+			c.Set("username", "访客用户")
+		}
 	}
 	if requiredPermission == common.RoleGuestUser {
 		c.Next()
