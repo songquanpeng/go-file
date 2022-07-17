@@ -30,6 +30,8 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
   ·
   <a href="https://github.com/songquanpeng/go-file/releases">程序下载</a>
   ·
+  <a href="https://github.com/songquanpeng/gofile-lancher/releases/latest">启动器下载</a>
+  ·
   <a href="https://iamazing.cn/page/LAN-SHARE-使用教程">使用教程</a>
   ·
   <a href="#演示">截图展示</a>
@@ -101,7 +103,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 9. 允许对不同类型的用户设置文件访问权限限制。
 10. 访问频率限制。
 11. 支持 Token API 验证，便于与其他系统整合。
-12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-lancher)。
+12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
