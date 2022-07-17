@@ -429,6 +429,23 @@
                                                             </a>
                                                         </div>
                                                     </div>
+                                                    <h3>统计设置</h3>
+                                                    <label class="label">是否启用访问数据统计：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="StatEnabled" onchange="updateOption('StatEnabled', 'StatEnabled', '{{.StatEnabled}}')">
+                                                          <option value="false">不启用</option>
+                                                          <option value="true">启用</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <script>
+                                                        (function () {
+                                                            document.getElementById('StatEnabled').value = "{{.StatEnabled}}";
+                                                        })();
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>

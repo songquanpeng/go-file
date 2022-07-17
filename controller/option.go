@@ -34,7 +34,14 @@ func UpdateOption(c *gin.Context) {
 		})
 		return
 	}
-	model.UpdateOption(option.Key, option.Value)
+	err = model.UpdateOption(option.Key, option.Value)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",

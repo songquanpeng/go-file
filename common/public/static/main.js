@@ -331,7 +331,7 @@ async function loadOptions() {
     tab.innerHTML = html;
 }
 
-async function updateOption(key, inputElementId) {
+async function updateOption(key, inputElementId, originValue="") {
     let inputElement = document.getElementById(inputElementId);
     let value = inputElement.value;
     let response = await fetch("/api/option", {
@@ -349,6 +349,9 @@ async function updateOption(key, inputElementId) {
         showToast(`更新成功`, "success");
     } else {
         showToast(`更新失败：${result.message}`, "danger");
+        if (originValue !== "") {
+            inputElement.value = originValue;
+        }
     }
 }
 
