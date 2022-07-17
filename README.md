@@ -100,6 +100,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 8. 支持拖拽上传，拷贝上传。
 9. 允许对不同类型的用户设置文件访问权限限制。
 10. 访问频率限制。
+11. 支持 Token API 验证，便于与其他系统整合。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -118,6 +119,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 7. 设置会话密钥（默认随机生成），请设置 `SESSION_SECRET` 环境变量。
 8. 设置文件上传路径（默认为工作目录下面的 `upload` 目录），请设置 `UPLOAD_PATH` 环境变量。
 9. 禁止自动打开浏览器，启动时请指定 `no-browser` 参数：`./go-file.exe --no-browser true`。
+10. 如果想要使用 Token 访问 API，请先前往个人账户管理页面生成 Token，之后在请求时加上 `Authorization` HTTP 头部，值为 `YOUR_TOKEN` 或者 `Bearer YOUR_TOKEN`。
 
 **如果你不知道怎么加参数：**
 1. 打开 go-file 所在的文件夹，
