@@ -425,6 +425,21 @@ async function manageUser() {
     }
 }
 
+async function generateNewToken() {
+    let response = await fetch("/api/token", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    let result = await response.json();
+    if (result.success) {
+        showToast(`Token 已重置为：${result.data}`, "success", 3000);
+    } else {
+        showToast(`操作失败：${result.message}`, "danger");
+    }
+}
+
 function init() {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {

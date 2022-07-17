@@ -2,6 +2,7 @@ package model
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"strings"
 )
 
 type User struct {
@@ -11,6 +12,7 @@ type User struct {
 	DisplayName string `json:"displayName"`
 	Role        int    `json:"role" gorm:"type:int;default:1"`   // admin, common
 	Status      int    `json:"status" gorm:"type:int;default:1"` // enabled, disabled
+	Token       string `json:"token"`
 }
 
 func (user *User) Insert() error {
@@ -36,4 +38,16 @@ func (user *User) ValidateAndFill() {
 	// that means if your field’s value is 0, '', false or other zero values,
 	// it won’t be used to build query conditions
 	DB.Where(&user).First(&user)
+}
+
+func ValidateUserToken(token string) (user *User) {
+	if token == "" {
+		return nil
+	}
+	token = strings.Replace(token, "Bearer ", "", 1)
+	user = &User{}
+	if DB.Where("token = ?", token).First(user).RowsAffected == 1 {
+		return user
+	}
+	return nil
 }

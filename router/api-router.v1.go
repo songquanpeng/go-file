@@ -16,7 +16,8 @@ func setApiRouter(router *gin.Engine) {
 	{
 		basicAuth.DELETE("/file", controller.DeleteFile)
 		basicAuth.DELETE("/image", controller.DeleteImage)
-		basicAuth.PUT("/user", controller.UpdateSelf)
+		basicAuth.PUT("/user", middleware.NoTokenAuth(), controller.UpdateSelf)
+		basicAuth.POST("/token", controller.GenerateNewUserToken)
 	}
 	adminAuth := router.Group("/api")
 	adminAuth.Use(middleware.ApiAdminAuth())

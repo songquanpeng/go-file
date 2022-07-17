@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go-file/common"
 	"go-file/model"
 	"net/http"
@@ -173,6 +174,37 @@ func ManageUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
+	})
+	return
+}
+
+func GenerateNewUserToken(c *gin.Context) {
+	var user model.User
+	user.Id = c.GetInt("id")
+	// Fill attributes
+	model.DB.Where(&user).First(&user)
+	if user.Id == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "用户不存在",
+		})
+		return
+	}
+	user.Token = uuid.New().String()
+	user.Token = strings.Replace(user.Token, "-", "", -1)
+
+	if err := user.Update(); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    user.Token,
 	})
 	return
 }
