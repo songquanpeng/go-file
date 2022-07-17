@@ -25,7 +25,9 @@
                                 }
                                 tabLinks = document.getElementsByClassName('tab');
                                 for (i = 0; i < x.length; i++) {
-                                    tabLinks[i].className = tabLinks[i].className.replace(' is-active', '');
+                                    if (tabLinks[i]) {
+                                        tabLinks[i].className = tabLinks[i].className.replace(' is-active', '');
+                                    }
                                 }
                                 document.getElementById(tabName).style.display = 'block';
                                 e.className += ' is-active';
@@ -37,15 +39,24 @@
                                     <div>
                                         <div class="tabs">
                                             <ul style="margin-left: 0">
+                                                {{if .isAdmin}}
                                                 <li class="tab is-active" onclick="openTab(this,'statusTab')">
                                                     <a>系统状况</a></li>
                                                 <li class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
                                                 <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
                                                 <li class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
+                                                {{else}}
+                                                <li class="tab is-active" onclick="openTab(this,'userTab')"><a>账户管理</a>
+                                                </li>
+                                                <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+                                                {{end}}
                                             </ul>
                                         </div>
-
+                                        {{if .isAdmin}}
                                         <div id="statusTab" class="content-tab" style="display: block;">
+                                        {{else}}
+                                        <div id="statusTab" class="content-tab" style="display: none;">
+                                        {{end}}
                                             <div class="field is-grouped is-grouped-multiline">
                                                 <div class="control">
                                                     <div class="tags has-addons">
@@ -81,6 +92,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{if .StatEnabled}}
                                             <script src="/public/lib/echarts.min.js"></script>
 
                                             <div id="reqChart" style="height: 500px"></div>
@@ -99,7 +111,7 @@
                                                     });
                                                     let names = [];
                                                     let values = [];
-                                                    for (let i = 0; i < data.data.length; i ++) {
+                                                    for (let i = 0; i < data.data.length; i++) {
                                                         names.push(data.data[i].name);
                                                         values.push(data.data[i].value);
                                                     }
@@ -222,8 +234,13 @@
                                                     window.addEventListener('resize', myChart.resize);
                                                 })();
                                             </script>
+                                            {{end}}
                                         </div>
-                                        <div id="userTab" class="content-tab" style="display: none;">
+                                            {{if .isAdmin}}
+                                            <div id="userTab" class="content-tab" style="display: none;">
+                                            {{else}}
+                                            <div id="userTab" class="content-tab" style="display: block;">
+                                            {{end}}
                                             <h3>我的账户</h3>
                                             <div class="columns">
                                                 <div class="column">
@@ -256,6 +273,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{if .isAdmin}}
                                             <h3 style="margin-top: 16px">添加用户</h3>
                                             <div class="field has-addons">
                                                 <p class="control">
@@ -302,6 +320,7 @@
                                                     </a>
                                                 </p>
                                             </div>
+                                            {{end}}
                                         </div>
                                         <div id="fileTab" class="content-tab" style="display: none;">
                                             <label class="label">删除指定图片</label>

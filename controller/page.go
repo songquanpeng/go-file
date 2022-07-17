@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
@@ -49,6 +50,8 @@ func GetManagePage(c *gin.Context) {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
 	var uptime = time.Since(common.StartTime)
+	session := sessions.Default(c)
+	role := session.Get("role")
 	c.HTML(http.StatusOK, "manage.html", gin.H{
 		"message":                 "",
 		"option":                  common.OptionMap,
@@ -61,6 +64,8 @@ func GetManagePage(c *gin.Context) {
 		"FileDownloadPermission":  common.FileDownloadPermission,
 		"ImageUploadPermission":   common.ImageUploadPermission,
 		"ImageDownloadPermission": common.ImageDownloadPermission,
+		"isAdmin":                 role == common.RoleAdminUser,
+		"StatEnabled":             common.StatEnabled,
 	})
 }
 

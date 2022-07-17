@@ -25,7 +25,7 @@ func statHelper(ip string, url string) {
 
 func AllStat() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if common.RedisEnabled {
+		if common.StatEnabled {
 			go statHelper(c.ClientIP(), c.Request.URL.String())
 		}
 		c.Next()

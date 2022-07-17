@@ -19,6 +19,7 @@ var ItemsPerPage = 10
 var ExplorerCacheEnabled = false // After my test, enable this will make the server slower...
 var ExplorerCacheTimeout = 600   // Second
 
+var StatEnabled = true
 var StatCacheTimeout = 24 // Hour
 var StatReqTimeout = 30   // Day
 var StatIPNum = 20

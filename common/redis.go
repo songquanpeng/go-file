@@ -10,11 +10,14 @@ import (
 var RDB *redis.Client
 var RedisEnabled = true
 
+// InitRedisClient This function is called after init()
 func InitRedisClient() (err error) {
 	if os.Getenv("REDIS_CONN_STRING") == "" {
 		RedisEnabled = false
 		// The cache depends on Redis
 		ExplorerCacheEnabled = false
+		// This stat feature also depends on Redis
+		StatEnabled = false
 		return nil
 	}
 	opt, err := redis.ParseURL(os.Getenv("REDIS_CONN_STRING"))
