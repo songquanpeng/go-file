@@ -101,6 +101,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 9. 允许对不同类型的用户设置文件访问权限限制。
 10. 访问频率限制。
 11. 支持 Token API 验证，便于与其他系统整合。
+12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-lancher)。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
