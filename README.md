@@ -148,6 +148,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 ![setting page 2](https://user-images.githubusercontent.com/39998050/178138833-d10e6f5a-aeea-4af3-8ae1-c0b3ab1d92f7.png)
 
 [启动器](https://github.com/songquanpeng/gofile-launcher)截图：
+
 ![launcher](https://raw.githubusercontent.com/songquanpeng/gofile-launcher/main/demo.png)
 ## 其他
 [Node.js 版本在此](https://github.com/songquanpeng/lan-share)
