@@ -57,15 +57,11 @@ func GetIp() (ip string) {
 var sizeKB = 1024
 var sizeMB = sizeKB * 1024
 var sizeGB = sizeMB * 1024
-var sizeTB = sizeGB * 1024
 
 func Bytes2Size(num int64) string {
 	numStr := ""
 	unit := "B"
-	if num/int64(sizeTB) > 1 {
-		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeTB))
-		unit = "TB"
-	} else if num/int64(sizeGB) > 1 {
+	if num/int64(sizeGB) > 1 {
 		numStr = fmt.Sprintf("%f", float64(num)/float64(sizeGB))
 		unit = "GB"
 	} else if num/int64(sizeMB) > 1 {
@@ -87,11 +83,11 @@ func Seconds2Time(num int) (time string) {
 		num %= 31104000
 	}
 	if num/2592000 > 0 {
-		time += strconv.Itoa(num/2592000) + " 月 "
+		time += strconv.Itoa(num/2592000) + " 个月 "
 		num %= 2592000
 	}
 	if num/86400 > 0 {
-		time += strconv.Itoa(num/86400) + " 日 "
+		time += strconv.Itoa(num/86400) + " 天 "
 		num %= 86400
 	}
 	if num/3600 > 0 {
