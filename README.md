@@ -104,6 +104,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 10. 访问频率限制。
 11. 支持 Token API 验证，便于与其他系统整合。
 12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
+13. 支持 Docker 部署。
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -132,8 +133,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
 **使用 Docker 部署：**
-1. 拉取镜像：`docker pull justsong/go-file:latest`
-2. 运行：`docker -p 3000:3000 run justsong/go-file:latest`
+执行：`docker run -d -p 3000:3000 justsong/go-file:v0.4.3`
 
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
