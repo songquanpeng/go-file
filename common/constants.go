@@ -3,6 +3,7 @@ package common
 import (
 	"embed"
 	"flag"
+	"fmt"
 	"github.com/google/uuid"
 	"os"
 	"path"
@@ -11,7 +12,7 @@ import (
 )
 
 var StartTime = time.Now()
-var Version = "v0.4.2"
+var Version = "v0.4.3"
 var OptionMap map[string]string
 
 var ItemsPerPage = 10
@@ -51,11 +52,12 @@ const (
 )
 
 var (
-	Port      = flag.Int("port", 3000, "specify the server listening port.")
-	Host      = flag.String("host", "localhost", "the server's ip address or domain")
-	Path      = flag.String("path", "", "specify a local path to public")
-	VideoPath = flag.String("video", "", "specify a video folder to public")
-	NoBrowser = flag.Bool("no-browser", false, "open browser or not")
+	Port         = flag.Int("port", 3000, "specify the server listening port.")
+	Host         = flag.String("host", "localhost", "the server's ip address or domain")
+	Path         = flag.String("path", "", "specify a local path to public")
+	VideoPath    = flag.String("video", "", "specify a video folder to public")
+	NoBrowser    = flag.Bool("no-browser", false, "open browser or not")
+	PrintVersion = flag.Bool("version", false, "print version")
 )
 
 // UploadPath Maybe override by ENV_VAR
@@ -72,6 +74,13 @@ var SessionSecret = uuid.New().String()
 var SQLitePath = ".go-file.db"
 
 func init() {
+	flag.Parse()
+
+	if *PrintVersion {
+		fmt.Println(Version)
+		os.Exit(0)
+	}
+
 	if os.Getenv("SESSION_SECRET") != "" {
 		SessionSecret = os.Getenv("SESSION_SECRET")
 	}
@@ -84,7 +93,6 @@ func init() {
 		ImageUploadPath = path.Join(UploadPath, "images")
 		VideoServePath = UploadPath
 	}
-	flag.Parse()
 	if *Path != "" {
 		ExplorerRootPath = *Path
 	}

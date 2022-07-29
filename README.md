@@ -131,6 +131,10 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
+**使用 Docker 部署：**
+1. 拉取镜像：`docker pull justsong/go-file:latest`
+2. 运行：`docker -p 3000:3000 run justsong/go-file:latest`
+
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
 2. 默认配置下访客可以上传和下载文件，可在 `管理` -> `系统设置` 中修改权限配置。
