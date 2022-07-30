@@ -133,7 +133,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
 **使用 Docker 部署：**
-执行：`docker run -d -p 3000:3000 justsong/go-file:v0.4.3`
+执行：`docker run -d -p 3000:3000 justsong/go-file`
 
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
