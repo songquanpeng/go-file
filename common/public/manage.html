@@ -434,6 +434,17 @@
                                                             </a>
                                                         </div>
                                                     </div>
+                                                    <label class="label">公告设置</label>
+                                                    <div class="field">
+                                                        <div class="control is-light">
+                                                            <textarea class="textarea" id="inputNotice" placeholder="请输入 HTML 代码">{{.option.Notice}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <a class="button is-light" onclick="updateOption('Notice', 'inputNotice')">
+                                                            更新
+                                                        </a>
+                                                    </div>
                                                     <h3>统计设置</h3>
                                                     <label class="label">是否启用访问数据统计：</label>
                                                     <div class="field has-addons">

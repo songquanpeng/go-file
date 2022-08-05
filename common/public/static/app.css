@@ -237,3 +237,21 @@ span.line {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+#notice {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 0.375em;
+    width: 23rem;
+    padding: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    #notice {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+    }
+}

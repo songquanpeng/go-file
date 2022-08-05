@@ -10,7 +10,7 @@ func setApiRouter(router *gin.Engine) {
 	router.Use(middleware.GlobalAPIRateLimit())
 	router.POST("/api/file", middleware.FileUploadPermissionCheck(), controller.UploadFile)
 	router.POST("/api/image", middleware.ImageUploadPermissionCheck(), controller.UploadImage)
-
+	router.GET("/api/notice", controller.GetNotice)
 	basicAuth := router.Group("/api")
 	basicAuth.Use(middleware.ApiAuth())
 	{
