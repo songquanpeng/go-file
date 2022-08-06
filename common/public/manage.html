@@ -102,7 +102,7 @@
                                                     checkUpdateBtn.className += " is-loading";
                                                     let res = await fetch("https://api.github.com/repos/songquanpeng/go-file/releases/latest");
                                                     res = await res.json();
-                                                    if (res.tag_name !== currentVersion) {
+                                                    if (res.tag_name === currentVersion) {
                                                         showToast("已是最新版本");
                                                     } else {
                                                         let html = marked.parse(res.body);
