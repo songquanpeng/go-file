@@ -93,6 +93,31 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <button id="checkUpdateBtn" class="button is-light" onclick="checkUpdate()">检查更新</button>
+                                            <script src="/public/lib/marked.umd.min.js"></script>
+                                            <script>
+                                                async function checkUpdate() {
+                                                    let currentVersion = "{{.option.Version}}";
+                                                    let checkUpdateBtn = document.getElementById("checkUpdateBtn");
+                                                    checkUpdateBtn.className += " is-loading";
+                                                    let res = await fetch("https://api.github.com/repos/songquanpeng/go-file/releases/latest");
+                                                    res = await res.json();
+                                                    if (res.tag_name !== currentVersion) {
+                                                        showToast("已是最新版本");
+                                                    } else {
+                                                        let html = marked.parse(res.body);
+                                                        html += `<div class="field is-grouped is-grouped-right">`;
+                                                        res.assets.forEach(function (asset) {
+                                                            html += `<div class="control">
+                                                                <a class="button is-light" href="${asset.browser_download_url}" download="${asset.name}">下载 ${asset.name}</a>
+                                                            </div>`;
+                                                        });
+                                                        html += `</div>`;
+                                                        showGeneralModal(`新版本：${res.tag_name}`, html);
+                                                    }
+                                                    checkUpdateBtn.className = checkUpdateBtn.className.replace(' is-loading', '');
+                                                }
+                                            </script>
                                             {{if .StatEnabled}}
                                             <script src="/public/lib/echarts.min.js"></script>
 

@@ -303,6 +303,12 @@ function showToast(message, type = "success", timeout = 3000) {
     }, timeout);
 }
 
+function showGeneralModal(title, content) {
+    document.getElementById("generalModalTitle").innerText = title;
+    document.getElementById("generalModalContent").innerHTML = content;
+    showModal("generalModal");
+}
+
 async function loadOptions() {
     let tab = document.getElementById('settingTab');
     let html = ""
