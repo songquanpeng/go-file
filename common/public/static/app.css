@@ -259,3 +259,8 @@ span.line {
 #generalModalContent h2 {
     font-size: 20px!important;
 }
+
+
+.modal-content::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
