@@ -18,7 +18,7 @@
 </div>
 <script>
     (async function () {
-        let notice = "{{.option.Notice}}";
+        let notice = `{{.option.Notice}}`;
         if (notice !== "" && localStorage.getItem("notice") !== notice) {
             localStorage.setItem("notice", notice);
             document.getElementById('notice').style.display = 'block';
