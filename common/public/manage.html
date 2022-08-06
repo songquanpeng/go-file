@@ -18,6 +18,7 @@
                         <script>
                             // Credit: https://codepen.io/t7team/pen/ZowdRN
                             function openTab(e, tabName) {
+                                window.history.pushState("", "", `/manage?tab=${tabName}`);
                                 let i, x, tabLinks;
                                 x = document.getElementsByClassName('content-tab');
                                 for (i = 0; i < x.length; i++) {
@@ -40,15 +41,15 @@
                                         <div class="tabs">
                                             <ul style="margin-left: 0">
                                                 {{if .isAdmin}}
-                                                <li class="tab is-active" onclick="openTab(this,'statusTab')">
+                                                <li id="statusTabList" class="tab" onclick="openTab(this,'statusTab')">
                                                     <a>系统状况</a></li>
-                                                <li class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
-                                                <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
-                                                <li class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
+                                                <li id="userTabList" class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
+                                                <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+                                                <li id="settingTabList" class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
                                                 {{else}}
-                                                <li class="tab is-active" onclick="openTab(this,'userTab')"><a>账户管理</a>
+                                                <li id="userTabList" class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a>
                                                 </li>
-                                                <li class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+                                                <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
                                                 {{end}}
                                             </ul>
                                         </div>
@@ -405,6 +406,23 @@
                                                             document.getElementById('ImageDownloadPermission').value = "{{.ImageDownloadPermission}}";
                                                         })();
                                                     </script>
+                                                    <h3>统计设置</h3>
+                                                    <label class="label">是否启用访问数据统计：</label>
+                                                    <div class="field has-addons">
+                                                        <p class="control">
+                                                    <span class="select">
+                                                      <select id="StatEnabled" onchange="updateOption('StatEnabled', 'StatEnabled', '{{.StatEnabled}}')">
+                                                          <option value="false">不启用</option>
+                                                          <option value="true">启用</option>
+                                                      </select>
+                                                    </span>
+                                                        </p>
+                                                    </div>
+                                                    <script>
+                                                        (function () {
+                                                            document.getElementById('StatEnabled').value = "{{.StatEnabled}}";
+                                                        })();
+                                                    </script>
                                                 </div>
                                                 <div class="column">
                                                     <h3>系统自定义</h3>
@@ -445,23 +463,6 @@
                                                             更新
                                                         </a>
                                                     </div>
-                                                    <h3>统计设置</h3>
-                                                    <label class="label">是否启用访问数据统计：</label>
-                                                    <div class="field has-addons">
-                                                        <p class="control">
-                                                    <span class="select">
-                                                      <select id="StatEnabled" onchange="updateOption('StatEnabled', 'StatEnabled', '{{.StatEnabled}}')">
-                                                          <option value="false">不启用</option>
-                                                          <option value="true">启用</option>
-                                                      </select>
-                                                    </span>
-                                                        </p>
-                                                    </div>
-                                                    <script>
-                                                        (function () {
-                                                            document.getElementById('StatEnabled').value = "{{.StatEnabled}}";
-                                                        })();
-                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,6 +475,20 @@
             </div>
         </div>
     </div>
+    <script>
+        (function () {
+            let params = new URLSearchParams(window.location.search);
+            let tabName = params.get("tab");
+            if (!tabName) {
+                {{if .isAdmin}}
+                tabName = "statusTab";
+                {{else}}
+                tabName = "userTab";
+                {{end}}
+            }
+            openTab(document.getElementById(tabName + "List"), tabName);
+        })();
+    </script>
     {{template "footer" .}}
 </div>
 
