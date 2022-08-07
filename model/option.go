@@ -28,6 +28,7 @@ func InitOptionMap() {
 	common.OptionMap["WebsiteName"] = "Go File"
 	common.OptionMap["FooterInfo"] = ""
 	common.OptionMap["Version"] = common.Version
+	common.OptionMap["Notice"] = ""
 	options, _ := AllOption()
 	for _, option := range options {
 		updateOptionMap(option.Key, option.Value)
