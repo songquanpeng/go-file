@@ -52,12 +52,14 @@ const (
 )
 
 var (
-	Port         = flag.Int("port", 3000, "specify the server listening port.")
+	Port         = flag.Int("port", 3000, "specify the server listening port")
 	Host         = flag.String("host", "localhost", "the server's ip address or domain")
 	Path         = flag.String("path", "", "specify a local path to public")
 	VideoPath    = flag.String("video", "", "specify a video folder to public")
 	NoBrowser    = flag.Bool("no-browser", false, "open browser or not")
 	PrintVersion = flag.Bool("version", false, "print version")
+	EnableP2P    = flag.Bool("enable-p2p", false, "enable p2p relay or not")
+	P2PPort      = flag.Int("p2p-port", 9377, "specify the p2p listening port")
 )
 
 // UploadPath Maybe override by ENV_VAR

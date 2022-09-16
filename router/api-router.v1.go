@@ -8,6 +8,7 @@ import (
 
 func setApiRouter(router *gin.Engine) {
 	router.Use(middleware.GlobalAPIRateLimit())
+	router.GET("/status", controller.GetStatus)
 	router.POST("/api/file", middleware.FileUploadPermissionCheck(), controller.UploadFile)
 	router.POST("/api/image", middleware.ImageUploadPermissionCheck(), controller.UploadImage)
 	router.GET("/api/notice", controller.GetNotice)

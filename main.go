@@ -71,6 +71,9 @@ func main() {
 	if !*common.NoBrowser {
 		common.OpenBrowser(serverUrl)
 	}
+	if *common.EnableP2P {
+		go common.StartP2PServer()
+	}
 	err = server.Run(":" + realPort)
 	if err != nil {
 		log.Println(err)

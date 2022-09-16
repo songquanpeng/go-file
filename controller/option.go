@@ -57,3 +57,16 @@ func UpdateOption(c *gin.Context) {
 	})
 	return
 }
+
+func GetStatus(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data": gin.H{
+			"version":     common.Version,
+			"p2p_port":    *common.P2PPort,
+			"p2p_enabled": *common.EnableP2P,
+		},
+	})
+	return
+}
