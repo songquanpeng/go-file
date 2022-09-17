@@ -11,6 +11,7 @@ import (
 
 var bufferSize = 10
 var id2addr map[uint64]net.UDPAddr
+var maxMapSize = 1000
 
 type RecvPocket struct {
 	Id uint64
@@ -58,6 +59,10 @@ func StartP2PServer() {
 			delete(id2addr, id)
 			go sendPockets(server, addr2, *addr)
 		} else {
+			if len(id2addr) > maxMapSize {
+				p2pLog("too many items in id2addr, reset it")
+				id2addr = make(map[uint64]net.UDPAddr)
+			}
 			p2pLog("register id " + strconv.FormatUint(id, 10) + " with " + addr.String())
 			id2addr[id] = *addr
 		}
