@@ -14,11 +14,11 @@ var bufferSize = 10
 var id2addr map[uint64]net.UDPAddr
 var maxMapSize = 1000
 
-type RecvPocket struct {
+type RecvPacket struct {
 	Id uint64
 }
 
-type SendPocket struct {
+type SendPacket struct {
 	Ip net.IP
 }
 
@@ -34,7 +34,7 @@ func p2pLog(s string) {
 var OkayByte uint8 = 0
 var ErrorByte uint8 = 1
 
-func sendIdAssignmentPocket(server *net.UDPConn, receiverAddr *net.UDPAddr, id uint64) {
+func sendIdAssignmentPacket(server *net.UDPConn, receiverAddr *net.UDPAddr, id uint64) {
 	buffer := make([]byte, 9)
 	buffer[0] = OkayByte
 	binary.LittleEndian.PutUint64(buffer[1:], id)
@@ -45,7 +45,7 @@ func sendIdAssignmentPocket(server *net.UDPConn, receiverAddr *net.UDPAddr, id u
 	}
 }
 
-func sendIdNotFoundPocket(server *net.UDPConn, receiverAddr *net.UDPAddr) {
+func sendIdNotFoundPacket(server *net.UDPConn, receiverAddr *net.UDPAddr) {
 	buffer := make([]byte, 1)
 	buffer[0] = ErrorByte
 	_, err := server.WriteToUDP(buffer, receiverAddr)
@@ -55,7 +55,7 @@ func sendIdNotFoundPocket(server *net.UDPConn, receiverAddr *net.UDPAddr) {
 	}
 }
 
-func sendConnPockets(server *net.UDPConn, senderAddr *net.UDPAddr, receiverAddr *net.UDPAddr) {
+func sendConnPackets(server *net.UDPConn, senderAddr *net.UDPAddr, receiverAddr *net.UDPAddr) {
 	buffer := make([]byte, 1)
 	buffer[0] = OkayByte
 	buffer = append(buffer, []byte(senderAddr.String())...)
@@ -104,16 +104,16 @@ func StartP2PServer() {
 			}
 			p2pLog("assign id " + strconv.FormatUint(id, 10) + " to " + addr.String())
 			id2addr[id] = *addr
-			go sendIdAssignmentPocket(server, addr, id)
+			go sendIdAssignmentPacket(server, addr, id)
 		} else {
 			// Receiver register with id
 			p2pLog("register id " + strconv.FormatUint(id, 10) + " with " + addr.String())
 			if addr2, ok := id2addr[id]; ok {
-				p2pLog("send connection pockets to " + addr.String() + " & " + addr2.String())
+				p2pLog("send connection Packets to " + addr.String() + " & " + addr2.String())
 				delete(id2addr, id)
-				go sendConnPockets(server, &addr2, addr)
+				go sendConnPackets(server, &addr2, addr)
 			} else {
-				go sendIdNotFoundPocket(server, addr)
+				go sendIdNotFoundPacket(server, addr)
 			}
 		}
 	}
