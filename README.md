@@ -120,7 +120,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 1. 如果要修改端口，启动时请指定 `port` 参数：`./go-file.exe --port 80`。
 2. 如果需要分享文件夹，启动时请指定 `path` 参数：`./go-file.exe --path ./this/is/a/path`，之后点击导航栏上的 `文件` 即可。
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
-4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`。 
+4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`，例如：`redis://default:redispw@localhost:49153`。 
 5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`，然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`。
 6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量。
 7. 设置会话密钥（默认随机生成），请设置 `SESSION_SECRET` 环境变量。
