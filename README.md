@@ -107,7 +107,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 11. 支持 Token API 验证，便于与其他系统整合。
 12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
 13. 配套 CLI 工具，支持命令行上传文件，支持 P2P 模式文件分享，[详见此处](https://github.com/songquanpeng/gofile-cli)。
-14. Docker 一键部署：`docker run -d -p 3000:3000 -v /home/ubuntu/data/go-file:/data justsong/go-file`
+14. Docker 一键部署：`docker run -d --restart always -p 3000:3000 -v /home/ubuntu/data/go-file:/data justsong/go-file`
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -122,7 +122,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
 4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`，例如：`redis://default:redispw@localhost:49153`。 
 5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`，然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`。
-6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量。
+6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量，默认在工作目录下，名称为 `.go-file.db`（类 Unix 系统下是隐藏文件）。
 7. 设置会话密钥（默认随机生成），请设置 `SESSION_SECRET` 环境变量。
 8. 设置文件上传路径（默认为工作目录下面的 `upload` 目录），请设置 `UPLOAD_PATH` 环境变量。
 9. 禁止自动打开浏览器，启动时请指定 `no-browser` 参数：`./go-file.exe --no-browser true`。
@@ -136,7 +136,9 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
 **使用 Docker 部署：**
-执行：`docker run -d -p 3000:3000 justsong/go-file`
+执行：`docker run -d --restart always -p 3000:3000 -v /home/ubuntu/data/go-file:/data justsong/go-file`
+
+数据将会保存在宿主机的 `/home/ubuntu/data/go-file` 目录。
 
 **注意：**
 1. 如果主机有多个 ip 地址，请使用 host 参数指定一个其他设备可访问的 ip 地址，如：`go-file.exe --host xxx.xxx.xxx.xxx`，否则二维码将生成错误。
