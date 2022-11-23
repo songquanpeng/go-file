@@ -14,5 +14,6 @@ FROM scratch
 
 ENV PORT=3000
 COPY --from=builder /build/go-file /
+WORKDIR /data
 EXPOSE 3000
 ENTRYPOINT ["/go-file"]
