@@ -16,6 +16,7 @@ var Version = "v0.0.0"
 var OptionMap map[string]string
 
 var ItemsPerPage = 10
+var AbstractTextLength = 40
 
 var ExplorerCacheEnabled = false // After my test, enable this will make the server slower...
 var ExplorerCacheTimeout = 600   // Second

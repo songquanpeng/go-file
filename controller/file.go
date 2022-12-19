@@ -96,7 +96,10 @@ func UploadFile(c *gin.Context) {
 				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to write text to file: %s", err.Error()))
 				return
 			}
-			description = fmt.Sprintf("纯文本分享，创建于：%s", currentTime)
+			descriptionRune := []rune(description)
+			if len(descriptionRune) > common.AbstractTextLength {
+				description = fmt.Sprintf("内容摘要：%s...", string(descriptionRune[:common.AbstractTextLength]))
+			}
 		} else {
 			if err := c.SaveUploadedFile(file, savePath); err != nil {
 				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to save uploaded file: %s", err.Error()))
