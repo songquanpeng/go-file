@@ -20,6 +20,9 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
   <a href="https://github.com/songquanpeng/go-file/releases/latest">
     <img src="https://img.shields.io/github/downloads/songquanpeng/go-file/total?color=brightgreen&include_prereleases" alt="release">
   </a>
+  <a href="https://hub.docker.com/repository/docker/justsong/go-file">
+    <img src="https://img.shields.io/docker/pulls/justsong/go-file?color=brightgreen" alt="docker pull">
+  </a>
   <a href="https://goreportcard.com/report/github.com/songquanpeng/go-file">
   <img src="https://goreportcard.com/badge/github.com/songquanpeng/go-file" alt="GoReportCard">
   </a>
