@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           go mod download
-          go build -ldflags "-s -w -extldflags '-static'" -o go-file.exe
+          go build -ldflags "-s -w -X 'go-file/common.Version=$(git describe --tags)' -extldflags '-static'" -o go-file.exe
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')

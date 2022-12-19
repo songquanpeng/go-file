@@ -8,9 +8,14 @@ ENV GO111MODULE=on \
 WORKDIR /build
 COPY . .
 RUN go mod download
-RUN go build -ldflags "-s -w -extldflags '-static'" -o go-file
+RUN go build -ldflags "-s -w -X 'go-file/common.Version=$(cat VERSION)' -extldflags '-static'" -o go-file
 
-FROM scratch
+FROM alpine
+
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache ca-certificates tzdata \
+    && update-ca-certificates 2>/dev/null || true
 
 ENV PORT=3000
 COPY --from=builder /build/go-file /

@@ -107,7 +107,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 11. 支持 Token API 验证，便于与其他系统整合。
 12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
 13. 配套 CLI 工具，支持命令行上传文件，支持 P2P 模式文件分享，[详见此处](https://github.com/songquanpeng/gofile-cli)。
-14. Docker 一键部署：`docker run -d --restart always -p 3000:3000 -v /home/ubuntu/data/go-file:/data justsong/go-file`
+14. Docker 一键部署：`docker run -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai -v /home/ubuntu/data/go-file:/data justsong/go-file`
 
 ## 使用方法
 > v0.3.3 以及之前版本的使用方法请[点击此处](https://github.com/songquanpeng/go-file/tree/52e8303e33e99bbcaf583d2d5a5bb0ec197bc676#使用方法)。
@@ -135,8 +135,8 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
-**使用 Docker 部署：**
-执行：`docker run -d --restart always -p 3000:3000 -v /home/ubuntu/data/go-file:/data justsong/go-file`
+**使用 Docker 进行部署：**
+执行：`docker run -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai -v /home/ubuntu/data/go-file:/data justsong/go-file`
 
 数据将会保存在宿主机的 `/home/ubuntu/data/go-file` 目录。
 
@@ -146,7 +146,7 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 如果是公网部署，务必记得第一时间更改默认密码！ 
 
 ## 演示
-在线试用（用户名为 `admin`，密码为 `123456`）：https://go-file.herokuapp.com/
+在线试用（用户名为 `admin`，密码为 `123456`）：https://go-file.onrender.com
 
 注意，以下展示图片可能没有得到及时跟新。
 ![index page](https://user-images.githubusercontent.com/39998050/178138784-2fc53a83-917d-4d2e-9aad-6c6c796bd9c8.png)
@@ -159,5 +159,6 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 [启动器](https://github.com/songquanpeng/gofile-launcher)截图：
 
 ![launcher](https://raw.githubusercontent.com/songquanpeng/gofile-launcher/main/demo.png)
+
 ## 其他
 [Node.js 版本在此](https://github.com/songquanpeng/lan-share)
