@@ -281,6 +281,13 @@ function showQRCode(link) {
     showModal('qrcodeModal');
 }
 
+function copyLink(link) {
+    let url = window.location.origin + link;
+    url = decodeURI(url);
+    copyText(url);
+    showToast(`已复制：${url}`);
+}
+
 function toLocalTime(str) {
     let date = Date.parse(str);
     return date.toLocaleString()
@@ -337,7 +344,7 @@ async function loadOptions() {
     tab.innerHTML = html;
 }
 
-async function updateOption(key, inputElementId, originValue="") {
+async function updateOption(key, inputElementId, originValue = "") {
     let inputElement = document.getElementById(inputElementId);
     let value = inputElement.value;
     let response = await fetch("/api/option", {
