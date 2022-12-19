@@ -285,7 +285,7 @@ function copyLink(link) {
     let url = window.location.origin + link;
     url = decodeURI(url);
     copyText(url);
-    showToast(`已复制：${url}`);
+    showToast(`已复制：${url}`, 'success');
 }
 
 function toLocalTime(str) {
@@ -301,7 +301,7 @@ function copyText(text) {
     document.execCommand("copy");
 }
 
-function showToast(message, type = "success", timeout = 3000) {
+function showToast(message, type = "success", timeout = 2900) {
     let toast = document.getElementById("toast");
     toast.innerText = message;
     toast.className = `show notification is-${type}`;
@@ -447,7 +447,7 @@ async function generateNewToken() {
     });
     let result = await response.json();
     if (result.success) {
-        showToast(`Token 已重置为：${result.data}`, "success", 3000);
+        showToast(`Token 已重置为：${result.data}`, "success");
     } else {
         showToast(`操作失败：${result.message}`, "danger");
     }
