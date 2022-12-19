@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -44,9 +45,6 @@ func UploadFile(c *gin.Context) {
 	}
 
 	description := c.PostForm("description")
-	if description == "" {
-		description = "无描述信息"
-	}
 	uploader := c.GetString("username")
 	if uploader == "" {
 		uploader = "匿名用户"
@@ -58,6 +56,16 @@ func UploadFile(c *gin.Context) {
 		return
 	}
 	files := form.File["file"]
+	createTextFile := false
+	if files == nil && description != "" {
+		createTextFile = true
+		file := &multipart.FileHeader{
+			Filename: "text.txt",
+			Header:   nil,
+			Size:     0,
+		}
+		files = append(files, file)
+	}
 	for _, file := range files {
 		// In case someone wants to upload to other folders.
 		filename := filepath.Base(file.Filename)
@@ -75,9 +83,25 @@ func UploadFile(c *gin.Context) {
 			}
 			savePath = filepath.Join(uploadPath, link)
 		}
-		if err := c.SaveUploadedFile(file, savePath); err != nil {
-			c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
-			return
+		if createTextFile {
+			// Create a new text file and then write the description to it.
+			filename = "文本分享"
+			f, err := os.Create(savePath)
+			if err != nil {
+				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to create file: %s", err.Error()))
+				return
+			}
+			_, err = f.WriteString(description)
+			if err != nil {
+				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to write text to file: %s", err.Error()))
+				return
+			}
+			description = fmt.Sprintf("纯文本分享，创建于：%s", currentTime)
+		} else {
+			if err := c.SaveUploadedFile(file, savePath); err != nil {
+				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to save uploaded file: %s", err.Error()))
+				return
+			}
 		}
 		if saveToDatabase {
 			fileObj := &model.File{

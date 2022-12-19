@@ -48,7 +48,11 @@
                                 <span class="tag is-light"
                                       id="counter-{{$file.Id}}">{{$file.DownloadCounter}} 次下载</span>
                                 <div class="page-card-text">
+                                {{if $file.Description}}
                                     {{$file.Description}}
+                                {{else}}
+                                    无描述信息
+                                {{end}}
                                 </div>
                                 <div class="actions">
                                     <span onclick="deleteFile({{$file.Id}}, '{{$file.Link}}')">
