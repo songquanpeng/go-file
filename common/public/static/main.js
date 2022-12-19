@@ -55,6 +55,7 @@ function deleteFile(id, link) {
                 showMessage(data.message, true);
             } else {
                 document.getElementById("file-" + id).style.display = 'none';
+                showToast(`文件删除成功：${link}`)
             }
         })
     });
@@ -116,13 +117,17 @@ function uploadFile() {
     let fileUploadProgress = document.getElementById('fileUploadProgress');
     let fileUploadDetail = document.getElementById('fileUploadDetail');
     fileUploadCard.style.display = 'block';
-    closeUploadModal();
     let files = document.getElementById('fileInput').files;
+    let description = document.getElementById("fileUploadDescription").value;
+    if (files.length === 0 && description === "") {
+        return;
+    }
+    closeUploadModal();
     let formData = new FormData();
     for (let i = 0; i < files.length; i++) {
         formData.append("file", files[i]);
     }
-    formData.append("description", document.getElementById("fileUploadDescription").value);
+    formData.append("description", description);
 
     let path = "";
     if (location.href.split('/')[3].startsWith("explorer")) {
