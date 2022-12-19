@@ -81,6 +81,10 @@ code {
     box-shadow: 0 2px 3px rgba(26, 26, 26, .1);
 }
 
+.file-box {
+    padding: 18px 24px;
+}
+
 .box .article {
     overflow-wrap: break-word;
     font-size: larger;
@@ -203,7 +207,7 @@ span.line {
     right: 0;
     text-align: center; /* Centered text */
     padding: 16px 32px; /* Padding */
-    position: fixed!important; /* Sit on top of the screen */
+    position: fixed !important; /* Sit on top of the screen */
     z-index: 99999; /* Add a z-index if needed */
     bottom: 30px; /* 30px from the bottom */
 }
@@ -219,23 +223,47 @@ span.line {
 
 /* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
 #notice {
@@ -257,10 +285,10 @@ span.line {
 }
 
 #generalModalContent h2 {
-    font-size: 20px!important;
+    font-size: 20px !important;
 }
 
 
 .modal-content::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    display: none; /* Safari and Chrome */
 }
