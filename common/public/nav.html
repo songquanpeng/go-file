@@ -35,6 +35,7 @@
                             input.addEventListener("keyup", function (event) {
                                 if (event.key === 'Enter') {
                                     let value = input.value.trim();
+                                    value = encodeURIComponent(value);
                                     if (value === "") {
                                         location.href = "/";
                                     }else {
