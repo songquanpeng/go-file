@@ -138,6 +138,8 @@ Please visit https://go-file.herokuapp.com/ to have a try yourself.
 3. 选择`在此处打开 PowerShell`（如果是 Windows 11 的话则需要先点击`显示更多选项`），
 4. 在打开的终端中输入：`./go-file --port 80 --video ./path/to/video`
 
+建议直接使用[启动器](https://github.com/songquanpeng/gofile-launcher)。
+
 **使用 Docker 进行部署：**
 执行：`docker run -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai -v /home/ubuntu/data/go-file:/data justsong/go-file`
 
