@@ -1,50 +1,17 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/User';
-
-import { Button, Container, Dropdown, Icon, Menu, Segment } from 'semantic-ui-react';
-import { API, isAdmin, isMobile, showSuccess } from '../helpers';
+import { API, showSuccess } from '../helpers';
 import '../index.css';
-
-// Header Buttons
-const headerButtons = [
-  {
-    name: '首页',
-    to: '/',
-    icon: 'home',
-  },
-  {
-    name: '文件',
-    to: '/file',
-    icon: 'file',
-    admin: true,
-  },
-  {
-    name: '用户',
-    to: '/user',
-    icon: 'user',
-    admin: true,
-  },
-  {
-    name: '设置',
-    to: '/setting',
-    icon: 'setting',
-  },
-  {
-    name: '关于',
-    to: '/about',
-    icon: 'info circle',
-  },
-];
 
 const Header = () => {
   const [userState, userDispatch] = useContext(UserContext);
   let navigate = useNavigate();
 
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(false);
 
   async function logout() {
-    setShowSidebar(false);
+    setShowNavbar(false);
     await API.get('/api/user/logout');
     showSuccess('注销成功!');
     userDispatch({ type: 'logout' });
@@ -52,139 +19,96 @@ const Header = () => {
     navigate('/login');
   }
 
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+  const toggleNavbar = () => {
+    setShowNavbar(!showNavbar);
   };
-
-  const renderButtons = (isMobile) => {
-    return headerButtons.map((button) => {
-      if (button.admin && !isAdmin()) return <></>;
-      if (isMobile) {
-        return (
-          <Menu.Item
-            onClick={() => {
-              navigate(button.to);
-              setShowSidebar(false);
-            }}
-          >
-            {button.name}
-          </Menu.Item>
-        );
-      }
-      return (
-        <Menu.Item key={button.name} as={Link} to={button.to}>
-          <Icon name={button.icon} />
-          {button.name}
-        </Menu.Item>
-      );
-    });
-  };
-
-  if (isMobile()) {
-    return (
-      <>
-        <Menu
-          borderless
-          size='large'
-          style={
-            showSidebar
-              ? {
-                  borderBottom: 'none',
-                  marginBottom: '0',
-                  borderTop: 'none',
-                  height: '51px',
-                }
-              : { borderTop: 'none', height: '52px' }
-          }
-        >
-          <Container>
-            <Menu.Item as={Link} to='/'>
-              <img
-                src='/logo.png'
-                alt='logo'
-                style={{ marginRight: '0.75em' }}
-              />
-              <div style={{ fontSize: '20px' }}>
-                <b>Go File</b>
-              </div>
-            </Menu.Item>
-            <Menu.Menu position='right'>
-              <Menu.Item onClick={toggleSidebar}>
-                <Icon name={showSidebar ? 'close' : 'sidebar'} />
-              </Menu.Item>
-            </Menu.Menu>
-          </Container>
-        </Menu>
-        {showSidebar ? (
-          <Segment style={{ marginTop: 0, borderTop: '0' }}>
-            <Menu secondary vertical style={{ width: '100%', margin: 0 }}>
-              {renderButtons(true)}
-              <Menu.Item>
-                {userState.user ? (
-                  <Button onClick={logout}>注销</Button>
-                ) : (
-                  <>
-                    <Button
-                      onClick={() => {
-                        setShowSidebar(false);
-                        navigate('/login');
-                      }}
-                    >
-                      登录
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setShowSidebar(false);
-                        navigate('/register');
-                      }}
-                    >
-                      注册
-                    </Button>
-                  </>
-                )}
-              </Menu.Item>
-            </Menu>
-          </Segment>
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  }
 
   return (
     <>
-      <Menu borderless style={{ borderTop: 'none' }}>
-        <Container>
-          <Menu.Item as={Link} to='/' className={'hide-on-mobile'}>
-            <img src='/logo.png' alt='logo' style={{ marginRight: '0.75em' }} />
-            <div style={{ fontSize: '20px' }}>
-              <b>Go File</b>
+      <nav
+        className='navbar nav-shadow'
+        role='navigation'
+        aria-label='main navigation'
+        id='nav'
+      >
+        <div className='container'>
+          <div className='navbar-brand'>
+            <a
+              className='navbar-item is-size-5'
+              href='/'
+              style={{ fontWeight: 'bold' }}
+            >
+              Go File
+            </a>
+            <a
+              role='button'
+              className={
+                'navbar-burger burger' + (showNavbar ? 'is-active' : '')
+              }
+              aria-label='menu'
+              aria-expanded='false'
+              data-target='mainNavbar'
+              onClick={toggleNavbar}
+            >
+              <span aria-hidden='true'></span>
+              <span aria-hidden='true'></span>
+              <span aria-hidden='true'></span>
+              <span aria-hidden='true'></span>
+              <span aria-hidden='true'></span>
+            </a>
+          </div>
+          <div
+            id='mainNavbar'
+            className={'navbar-menu' + (showNavbar ? 'is-active' : '')}
+          >
+            <div className='navbar-start'>
+              <a className='navbar-item' href='/'>
+                首页
+              </a>
+              <a className='navbar-item' href='/explorer'>
+                文件
+              </a>
+              <a className='navbar-item' href='/image'>
+                图床
+              </a>
+              <a className='navbar-item' href='/video'>
+                视频
+              </a>
+              <a className='navbar-item' href='/help'>
+                帮助
+              </a>
             </div>
-          </Menu.Item>
-          {renderButtons(false)}
-          <Menu.Menu position='right'>
-            {userState.user ? (
-              <Dropdown
-                text={userState.user.username}
-                pointing
-                className='link item'
-              >
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={logout}>注销</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : (
-              <Menu.Item
-                name='登录'
-                as={Link}
-                to='/login'
-                className='btn btn-link'
-              />
-            )}
-          </Menu.Menu>
-        </Container>
-      </Menu>
+            <div className='navbar-end'>
+              {userState.user ? (
+                <div className='navbar-item has-dropdown is-hoverable'>
+                  <a className='navbar-link'>{userState.user.username}</a>
+                  <div className='navbar-dropdown'>
+                    <a className='navbar-item' href='/setting'>
+                      设置
+                    </a>
+                    <a className='navbar-item' onClick={logout}>
+                      注销
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className='navbar-item'>
+                    <div className='buttons'>
+                      <a className='button is-light'>登录</a>
+                    </div>
+                  </div>
+                  <div className='navbar-item'>
+                    <div className='buttons'>
+                      <a className='button is-light'>注册</a>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
     </>
   );
 };

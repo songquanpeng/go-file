@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, Segment } from 'semantic-ui-react';
-
 const Footer = () => {
   const [Footer, setFooter] = useState('');
   useEffect(() => {
@@ -11,30 +9,23 @@ const Footer = () => {
   });
 
   return (
-    <Segment vertical>
-      <Container textAlign='center'>
+    <footer className='footer' style={{ backgroundColor: 'white' }}>
+      <div className='content has-text-centered'>
         {Footer === '' ? (
-          <div className='custom-footer'>
+          <p>
             <a href='https://github.com/songquanpeng/go-file' target='_blank'>
               Go File {process.env.REACT_APP_VERSION}{' '}
-            </a>
-            由{' '}
-            <a href='https://github.com/songquanpeng' target='_blank'>
-              JustSong
             </a>{' '}
-            构建，源代码遵循{' '}
-            <a href='https://opensource.org/licenses/mit-license.php'>
-              MIT 协议
-            </a>
-          </div>
+            由 <a href='https://github.com/songquanpeng'>JustSong</a> 构建，
+            源代码遵循{' '}
+            <a href='https://opensource.org/licenses/mit-license.php'>MIT</a>{' '}
+            协议
+          </p>
         ) : (
-          <div
-            className='custom-footer'
-            dangerouslySetInnerHTML={{ __html: Footer }}
-          ></div>
+          <p dangerouslySetInnerHTML={{ __html: Footer }}></p>
         )}
-      </Container>
-    </Segment>
+      </div>
+    </footer>
   );
 };
 
