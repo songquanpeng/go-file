@@ -1,50 +1,86 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
-	"log"
+	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"os"
 )
 
 var DB *gorm.DB
 
-func createAdminAccount() {
+func createRootAccountIfNeed() error {
 	var user User
-	DB.Where(User{Role: common.RoleAdminUser}).Attrs(User{
-		Username:    "admin",
-		Password:    "123456",
-		Role:        common.RoleAdminUser,
-		Status:      common.UserStatusEnabled,
-		DisplayName: "Administrator",
-	}).FirstOrCreate(&user)
+	//if user.Status != common.UserStatusEnabled {
+	if err := DB.First(&user).Error; err != nil {
+		common.SysLog("no user exists, create a root user for you: username is root, password is 123456")
+		hashedPassword, err := common.Password2Hash("123456")
+		if err != nil {
+			return err
+		}
+		rootUser := User{
+			Username:    "root",
+			Password:    hashedPassword,
+			Role:        common.RoleRootUser,
+			Status:      common.UserStatusEnabled,
+			DisplayName: "Root User",
+		}
+		DB.Create(&rootUser)
+	}
+	return nil
 }
 
-func CountTable(tableName string) (num int) {
+func CountTable(tableName string) (num int64) {
 	DB.Table(tableName).Count(&num)
 	return
 }
 
-func InitDB() (db *gorm.DB, err error) {
+func InitDB() (err error) {
+	var db *gorm.DB
 	if os.Getenv("SQL_DSN") != "" {
 		// Use MySQL
-		db, err = gorm.Open("mysql", os.Getenv("SQL_DSN"))
+		db, err = gorm.Open(mysql.Open(os.Getenv("SQL_DSN")), &gorm.Config{
+			PrepareStmt: true, // precompile SQL
+		})
 	} else {
 		// Use SQLite
-		db, err = gorm.Open("sqlite3", common.SQLitePath)
+		db, err = gorm.Open(sqlite.Open(common.SQLitePath), &gorm.Config{
+			PrepareStmt: true, // precompile SQL
+		})
+		common.SysLog("SQL_DSN not set, using SQLite as database")
 	}
 	if err == nil {
 		DB = db
-		db.AutoMigrate(&File{})
-		db.AutoMigrate(&Image{})
-		db.AutoMigrate(&User{})
-		db.AutoMigrate(&Option{})
-		createAdminAccount()
-		return DB, err
+		err := db.AutoMigrate(&File{})
+		if err != nil {
+			return err
+		}
+		err = db.AutoMigrate(&Image{})
+		if err != nil {
+			return err
+		}
+		err = db.AutoMigrate(&User{})
+		if err != nil {
+			return err
+		}
+		err = db.AutoMigrate(&Option{})
+		if err != nil {
+			return err
+		}
+		err = createRootAccountIfNeed()
+		return err
 	} else {
-		log.Fatal(err)
+		common.FatalLog(err)
 	}
-	return nil, err
+	return err
+}
+
+func CloseDB() error {
+	sqlDB, err := DB.DB()
+	if err != nil {
+		return err
+	}
+	err = sqlDB.Close()
+	return err
 }

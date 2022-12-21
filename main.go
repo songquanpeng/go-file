@@ -1,42 +1,49 @@
 package main
 
 import (
+	"embed"
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
+	"go-file/middleware"
 	"go-file/model"
 	"go-file/router"
-	"html/template"
 	"log"
 	"os"
 	"strconv"
 )
 
-func loadTemplate() *template.Template {
-	var funcMap = template.FuncMap{
-		"unescape": common.UnescapeHTML,
-	}
-	t := template.Must(template.New("").Funcs(funcMap).ParseFS(common.FS, "public/*.html"))
-	return t
-}
+//go:embed web/build
+var buildFS embed.FS
+
+//go:embed web/build/index.html
+var indexPage []byte
 
 func main() {
+	common.SetupGinLog()
+	common.SysLog("system started")
 	if os.Getenv("GIN_MODE") != "debug" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	// Initialize SQL Database
-	db, err := model.InitDB()
+	err := model.InitDB()
 	if err != nil {
-		log.Fatal(err)
+		common.FatalLog(err)
 	}
-	defer db.Close()
+	defer func() {
+		err := model.CloseDB()
+		if err != nil {
+			common.FatalLog(err)
+		}
+	}()
 
 	// Initialize Redis
 	err = common.InitRedisClient()
 	if err != nil {
-		log.Fatal(err.Error())
+		common.FatalLog(err)
 	}
 
 	// Initialize options
@@ -44,7 +51,8 @@ func main() {
 
 	// Initialize HTTP server
 	server := gin.Default()
-	server.SetHTMLTemplate(loadTemplate())
+	server.Use(gzip.Gzip(gzip.DefaultCompression))
+	server.Use(middleware.CORS())
 
 	// Initialize session store
 	if common.RedisEnabled {
@@ -56,10 +64,10 @@ func main() {
 		server.Use(sessions.Sessions("session", store))
 	}
 
-	router.SetRouter(server)
-	var realPort = os.Getenv("PORT")
-	if realPort == "" {
-		realPort = strconv.Itoa(*common.Port)
+	router.SetRouter(server, buildFS, indexPage)
+	var port = os.Getenv("PORT")
+	if port == "" {
+		port = strconv.Itoa(*common.Port)
 	}
 	if *common.Host == "localhost" {
 		ip := common.GetIp()
@@ -67,14 +75,14 @@ func main() {
 			*common.Host = ip
 		}
 	}
-	serverUrl := "http://" + *common.Host + ":" + realPort + "/"
+	serverUrl := "http://" + *common.Host + ":" + port + "/"
 	if !*common.NoBrowser {
 		common.OpenBrowser(serverUrl)
 	}
 	if *common.EnableP2P {
 		go common.StartP2PServer()
 	}
-	err = server.Run(":" + realPort)
+	err = server.Run(":" + port)
 	if err != nil {
 		log.Println(err)
 	}

@@ -1,8 +1,8 @@
 package model
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
+	_ "gorm.io/driver/sqlite"
 	"os"
 	"path/filepath"
 )

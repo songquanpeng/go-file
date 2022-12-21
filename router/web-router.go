@@ -1,44 +1,22 @@
 package router
 
 import (
+	"embed"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/controller"
 	"go-file/middleware"
+	"net/http"
 )
 
-func setWebRouter(router *gin.Engine) {
+func setWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte) {
 	router.Use(middleware.GlobalWebRateLimit())
-	// Always available
-	router.GET("/", controller.GetIndexPage)
-	router.GET("/public/static/:file", controller.GetStaticFile)
-	router.GET("/public/lib/:file", controller.GetLibFile)
-	router.GET("/login", controller.GetLoginPage)
-	router.POST("/login", middleware.CriticalRateLimit(), controller.Login)
-	router.GET("/logout", controller.Logout)
-	router.GET("/help", controller.GetHelpPage)
-
-	// Download files
-	fileDownloadAuth := router.Group("/")
-	fileDownloadAuth.Use(middleware.DownloadRateLimit(), middleware.FileDownloadPermissionCheck())
-	{
-		fileDownloadAuth.GET("/upload/:file", controller.DownloadFile)
-		fileDownloadAuth.GET("/explorer", controller.GetExplorerPageOrFile)
-	}
-
-	imageDownloadAuth := router.Group("/")
-	imageDownloadAuth.Use(middleware.DownloadRateLimit(), middleware.ImageDownloadPermissionCheck())
-	{
-		imageDownloadAuth.Static("/image", common.ImageUploadPath)
-	}
-
-	router.GET("/image", controller.GetImagePage)
-
-	router.GET("/video", controller.GetVideoPage)
-
-	basicAuth := router.Group("/")
-	basicAuth.Use(middleware.WebAuth())
-	{
-		basicAuth.GET("/manage", controller.GetManagePage)
-	}
+	fileDownloadRoute := router.Group("/")
+	fileDownloadRoute.GET("/upload/:file", middleware.DownloadRateLimit(), controller.DownloadFile)
+	router.Use(middleware.Cache())
+	router.Use(static.Serve("/", common.EmbedFolder(buildFS, "web/build")))
+	router.NoRoute(func(c *gin.Context) {
+		c.Data(http.StatusOK, "text/html; charset=utf-8", indexPage)
+	})
 }

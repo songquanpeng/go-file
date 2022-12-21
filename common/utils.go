@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"html/template"
 	"log"
 	"net"
@@ -113,6 +114,20 @@ func UnescapeHTML(x string) interface{} {
 }
 
 func IntMax(a int, b int) int {
+	if a >= b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func GetUUID() string {
+	code := uuid.New().String()
+	code = strings.Replace(code, "-", "", -1)
+	return code
+}
+
+func Max(a int, b int) int {
 	if a >= b {
 		return a
 	} else {

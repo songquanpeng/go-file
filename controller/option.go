@@ -6,29 +6,26 @@ import (
 	"go-file/common"
 	"go-file/model"
 	"net/http"
+	"strings"
 )
 
 func GetOptions(c *gin.Context) {
 	var options []*model.Option
+	common.OptionMapRWMutex.Lock()
 	for k, v := range common.OptionMap {
+		if strings.Contains(k, "Token") || strings.Contains(k, "Secret") {
+			continue
+		}
 		options = append(options, &model.Option{
 			Key:   k,
 			Value: common.Interface2String(v),
 		})
 	}
+	common.OptionMapRWMutex.Unlock()
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
 		"data":    options,
-	})
-	return
-}
-
-func GetNotice(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"message": "",
-		"data":    common.OptionMap["Notice"],
 	})
 	return
 }
@@ -43,6 +40,31 @@ func UpdateOption(c *gin.Context) {
 		})
 		return
 	}
+	if option.Key == "GitHubOAuthEnabled" && option.Value == "true" && common.GitHubClientId == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无法启用 GitHub OAuth，请先填入 GitHub Client ID 以及 GitHub Client Secret！",
+		})
+		return
+	} else if option.Key == "WeChatAuthEnabled" && option.Value == "true" && common.WeChatServerAddress == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无法启用微信登录，请先填入微信登录相关配置信息！",
+		})
+		return
+	} else if option.Key == "TurnstileCheckEnabled" && option.Value == "true" && common.TurnstileSiteKey == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "无法启用 Turnstile 校验，请先填入 Turnstile 校验相关配置信息！",
+		})
+		return
+	} else if option.Key == "StatEnabled" && option.Value == "true" && !common.RedisEnabled {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "未启用 Redis，无法启用统计功能",
+		})
+		return
+	}
 	err = model.UpdateOption(option.Key, option.Value)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -54,19 +76,6 @@ func UpdateOption(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
-	})
-	return
-}
-
-func GetStatus(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"message": "",
-		"data": gin.H{
-			"version":     common.Version,
-			"p2p_port":    *common.P2PPort,
-			"p2p_enabled": *common.EnableP2P,
-		},
 	})
 	return
 }

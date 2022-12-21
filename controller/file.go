@@ -2,7 +2,6 @@ package controller
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-file/common"
@@ -11,14 +10,48 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
 
-type FileDeleteRequest struct {
-	Id   int
-	Link string
-	//Token string
+func GetAllFiles(c *gin.Context) {
+	p, _ := strconv.Atoi(c.Query("p"))
+	if p < 0 {
+		p = 0
+	}
+	files, err := model.GetAllFiles(p*common.ItemsPerPage, common.ItemsPerPage)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    files,
+	})
+	return
+}
+
+func SearchFiles(c *gin.Context) {
+	keyword := c.Query("keyword")
+	files, err := model.SearchFiles(keyword)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    files,
+	})
+	return
 }
 
 func UploadFile(c *gin.Context) {
@@ -46,13 +79,14 @@ func UploadFile(c *gin.Context) {
 
 	description := c.PostForm("description")
 	uploader := c.GetString("username")
-	if uploader == "" {
-		uploader = "匿名用户"
-	}
+	uploaderId := c.GetInt("id")
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	form, err := c.MultipartForm()
 	if err != nil {
-		c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
 		return
 	}
 	files := form.File["file"]
@@ -69,31 +103,26 @@ func UploadFile(c *gin.Context) {
 	for _, file := range files {
 		// In case someone wants to upload to other folders.
 		filename := filepath.Base(file.Filename)
-		link := filename
-		savePath := filepath.Join(uploadPath, filename)
-		if _, err := os.Stat(savePath); err == nil {
-			// File already existed.
-			t := time.Now()
-			timestamp := t.Format("_2006-01-02_15-04-05")
-			ext := filepath.Ext(filename)
-			if ext == "" {
-				link += timestamp
-			} else {
-				link = filename[:len(filename)-len(ext)] + timestamp + ext
-			}
-			savePath = filepath.Join(uploadPath, link)
-		}
+		ext := filepath.Ext(filename)
+		link := common.GetUUID() + ext
+		savePath := filepath.Join(uploadPath, link) // both parts are checked, so this path should be safe to use
 		if createTextFile {
 			// Create a new text file and then write the description to it.
 			filename = "文本分享"
 			f, err := os.Create(savePath)
 			if err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to create file: %s", err.Error()))
+				c.JSON(http.StatusOK, gin.H{
+					"success": false,
+					"message": fmt.Sprintf("failed to create file: %s", err.Error()),
+				})
 				return
 			}
 			_, err = f.WriteString(description)
 			if err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to write text to file: %s", err.Error()))
+				c.JSON(http.StatusOK, gin.H{
+					"success": false,
+					"message": fmt.Sprintf("failed to write text to file: %s", err.Error()),
+				})
 				return
 			}
 			descriptionRune := []rune(description)
@@ -102,15 +131,20 @@ func UploadFile(c *gin.Context) {
 			}
 		} else {
 			if err := c.SaveUploadedFile(file, savePath); err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to save uploaded file: %s", err.Error()))
+				c.JSON(http.StatusOK, gin.H{
+					"success": false,
+					"message": err.Error(),
+				})
 				return
 			}
 		}
+		// save to database
 		if saveToDatabase {
 			fileObj := &model.File{
 				Description: description,
 				Uploader:    uploader,
-				Time:        currentTime,
+				UploadTime:  currentTime,
+				UploaderId:  uploaderId,
 				Link:        link,
 				Filename:    filename,
 			}
@@ -120,13 +154,17 @@ func UploadFile(c *gin.Context) {
 			}
 		}
 	}
-	c.Redirect(http.StatusSeeOther, "./")
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+	})
+	return
 }
 
 func DeleteFile(c *gin.Context) {
-	var deleteRequest FileDeleteRequest
-	err := json.NewDecoder(c.Request.Body).Decode(&deleteRequest)
-	if err != nil {
+	fileIdStr := c.Param("id")
+	fileId, err := strconv.Atoi(fileIdStr)
+	if err != nil || fileId == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
 			"message": "无效的参数",
@@ -135,23 +173,31 @@ func DeleteFile(c *gin.Context) {
 	}
 
 	fileObj := &model.File{
-		Id: deleteRequest.Id,
+		Id: fileId,
 	}
-	model.DB.Where("id = ?", deleteRequest.Id).First(&fileObj)
+	model.DB.Where("id = ?", fileId).First(&fileObj)
+	if fileObj.Link == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "文件不存在！",
+		})
+		return
+	}
 	err = fileObj.Delete()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": err.Error(),
 		})
+		return
 	} else {
 		message := "文件删除成功"
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": message,
 		})
+		return
 	}
-
 }
 
 func DownloadFile(c *gin.Context) {

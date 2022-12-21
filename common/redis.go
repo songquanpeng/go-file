@@ -18,6 +18,7 @@ func InitRedisClient() (err error) {
 		ExplorerCacheEnabled = false
 		// This stat feature also depends on Redis
 		StatEnabled = false
+		SysLog("REDIS_CONN_STRING not set, Redis is not enabled")
 		return nil
 	}
 	opt, err := redis.ParseURL(os.Getenv("REDIS_CONN_STRING"))

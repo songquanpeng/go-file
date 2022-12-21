@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"go-file/common"
 	"strconv"
 	"strings"
@@ -20,15 +19,35 @@ func AllOption() ([]*Option, error) {
 }
 
 func InitOptionMap() {
+	common.OptionMapRWMutex.Lock()
 	common.OptionMap = make(map[string]string)
 	common.OptionMap["FileUploadPermission"] = strconv.Itoa(common.FileUploadPermission)
 	common.OptionMap["FileDownloadPermission"] = strconv.Itoa(common.FileDownloadPermission)
 	common.OptionMap["ImageUploadPermission"] = strconv.Itoa(common.ImageUploadPermission)
 	common.OptionMap["ImageDownloadPermission"] = strconv.Itoa(common.ImageDownloadPermission)
 	common.OptionMap["WebsiteName"] = "Go File"
-	common.OptionMap["FooterInfo"] = ""
-	common.OptionMap["Version"] = common.Version
+	common.OptionMap["PasswordLoginEnabled"] = strconv.FormatBool(common.PasswordLoginEnabled)
+	common.OptionMap["PasswordRegisterEnabled"] = strconv.FormatBool(common.PasswordRegisterEnabled)
+	common.OptionMap["EmailVerificationEnabled"] = strconv.FormatBool(common.EmailVerificationEnabled)
+	common.OptionMap["GitHubOAuthEnabled"] = strconv.FormatBool(common.GitHubOAuthEnabled)
+	common.OptionMap["WeChatAuthEnabled"] = strconv.FormatBool(common.WeChatAuthEnabled)
+	common.OptionMap["TurnstileCheckEnabled"] = strconv.FormatBool(common.TurnstileCheckEnabled)
+	common.OptionMap["RegisterEnabled"] = strconv.FormatBool(common.RegisterEnabled)
+	common.OptionMap["SMTPServer"] = ""
+	common.OptionMap["SMTPAccount"] = ""
+	common.OptionMap["SMTPToken"] = ""
 	common.OptionMap["Notice"] = ""
+	common.OptionMap["About"] = ""
+	common.OptionMap["Footer"] = common.Footer
+	common.OptionMap["ServerAddress"] = ""
+	common.OptionMap["GitHubClientId"] = ""
+	common.OptionMap["GitHubClientSecret"] = ""
+	common.OptionMap["WeChatServerAddress"] = ""
+	common.OptionMap["WeChatServerToken"] = ""
+	common.OptionMap["WeChatAccountQRCodeImageURL"] = ""
+	common.OptionMap["TurnstileSiteKey"] = ""
+	common.OptionMap["TurnstileSecretKey"] = ""
+	common.OptionMapRWMutex.Unlock()
 	options, _ := AllOption()
 	for _, option := range options {
 		updateOptionMap(option.Key, option.Value)
@@ -36,10 +55,6 @@ func InitOptionMap() {
 }
 
 func UpdateOption(key string, value string) error {
-	if key == "StatEnabled" && value == "true" && !common.RedisEnabled {
-		return errors.New("未启用 Redis，无法启用统计功能")
-	}
-
 	// Save to database first
 	option := Option{
 		Key:   key,
@@ -56,6 +71,8 @@ func UpdateOption(key string, value string) error {
 }
 
 func updateOptionMap(key string, value string) {
+	common.OptionMapRWMutex.Lock()
+	defer common.OptionMapRWMutex.Unlock()
 	common.OptionMap[key] = value
 	if strings.HasSuffix(key, "Permission") {
 		intValue, _ := strconv.Atoi(value)
@@ -70,11 +87,51 @@ func updateOptionMap(key string, value string) {
 			common.ImageDownloadPermission = intValue
 		}
 	}
-	if key == "StatEnabled" {
-		common.StatEnabled = value == "true"
-		if !common.RedisEnabled {
-			common.StatEnabled = false
-			common.OptionMap["StatEnabled"] = "false"
+	if strings.HasSuffix(key, "Enabled") {
+		boolValue := value == "true"
+		switch key {
+		case "PasswordRegisterEnabled":
+			common.PasswordRegisterEnabled = boolValue
+		case "PasswordLoginEnabled":
+			common.PasswordLoginEnabled = boolValue
+		case "EmailVerificationEnabled":
+			common.EmailVerificationEnabled = boolValue
+		case "GitHubOAuthEnabled":
+			common.GitHubOAuthEnabled = boolValue
+		case "WeChatAuthEnabled":
+			common.WeChatAuthEnabled = boolValue
+		case "TurnstileCheckEnabled":
+			common.TurnstileCheckEnabled = boolValue
+		case "RegisterEnabled":
+			common.RegisterEnabled = boolValue
+		case "StatEnabled":
+			common.StatEnabled = boolValue
 		}
+	}
+	switch key {
+	case "SMTPServer":
+		common.SMTPServer = value
+	case "SMTPAccount":
+		common.SMTPAccount = value
+	case "SMTPToken":
+		common.SMTPToken = value
+	case "ServerAddress":
+		common.ServerAddress = value
+	case "GitHubClientId":
+		common.GitHubClientId = value
+	case "GitHubClientSecret":
+		common.GitHubClientSecret = value
+	case "Footer":
+		common.Footer = value
+	case "WeChatServerAddress":
+		common.WeChatServerAddress = value
+	case "WeChatServerToken":
+		common.WeChatServerToken = value
+	case "WeChatAccountQRCodeImageURL":
+		common.WeChatAccountQRCodeImageURL = value
+	case "TurnstileSiteKey":
+		common.TurnstileSiteKey = value
+	case "TurnstileSecretKey":
+		common.TurnstileSecretKey = value
 	}
 }

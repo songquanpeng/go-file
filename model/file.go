@@ -1,21 +1,21 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
+	_ "gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"os"
 	"path"
-	"strings"
 )
 
 type File struct {
 	Id              int    `json:"id"`
-	Filename        string `json:"filename"`
+	Filename        string `json:"filename" gorm:"index"`
 	Description     string `json:"description"`
-	Uploader        string `json:"uploader"`
-	Link            string `json:"link" gorm:"unique"`
-	Time            string `json:"time"`
+	Uploader        string `json:"uploader"  gorm:"index"`
+	UploaderId      int    `json:"uploader_id"  gorm:"index"`
+	Link            string `json:"link" gorm:"unique;index"`
+	UploadTime      string `json:"upload_time"`
 	DownloadCounter int    `json:"download_counter"`
 }
 
@@ -27,18 +27,16 @@ type LocalFile struct {
 	ModifiedTime string
 }
 
-func AllFiles() ([]*File, error) {
+func GetAllFiles(startIdx int, num int) ([]*File, error) {
 	var files []*File
 	var err error
-	err = DB.Find(&files).Error
+	err = DB.Order("id desc").Limit(num).Offset(startIdx).Find(&files).Error
 	return files, err
 }
 
-func QueryFiles(query string, startIdx int) ([]*File, error) {
-	var files []*File
-	var err error
-	query = strings.ToLower(query)
-	err = DB.Limit(common.ItemsPerPage).Offset(startIdx).Where("filename LIKE ? or description LIKE ? or uploader LIKE ? or time LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%").Order("id desc").Find(&files).Error
+func SearchFiles(keyword string) (files []*File, err error) {
+	err = DB.Select([]string{"id", "filename", "description", "uploader", "uploader_id", "link", "upload_time", "download_counter"}).Where(
+		"filename LIKE ? or description LIKE ? or uploader LIKE ? or uploader_id = ? or time LIKE ?", "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%", keyword, "%"+keyword+"%").Find(&files).Error
 	return files, err
 }
 
