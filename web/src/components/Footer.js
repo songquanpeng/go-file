@@ -14,11 +14,11 @@ const Footer = () => {
         {Footer === '' ? (
           <p>
             <a href='https://github.com/songquanpeng/go-file' target='_blank'>
-              Go File {process.env.REACT_APP_VERSION}{' '}
-            </a>{' '}
+              Go File {process.env.REACT_APP_VERSION}
+            </a>
             由 <a href='https://github.com/songquanpeng'>JustSong</a> 构建，
-            源代码遵循{' '}
-            <a href='https://opensource.org/licenses/mit-license.php'>MIT</a>{' '}
+            源代码遵循
+            <a href='https://opensource.org/licenses/mit-license.php'> MIT </a>
             协议
           </p>
         ) : (
