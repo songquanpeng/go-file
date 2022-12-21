@@ -40,30 +40,39 @@ func UpdateOption(c *gin.Context) {
 		})
 		return
 	}
-	if option.Key == "GitHubOAuthEnabled" && option.Value == "true" && common.GitHubClientId == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "无法启用 GitHub OAuth，请先填入 GitHub Client ID 以及 GitHub Client Secret！",
-		})
-		return
-	} else if option.Key == "WeChatAuthEnabled" && option.Value == "true" && common.WeChatServerAddress == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "无法启用微信登录，请先填入微信登录相关配置信息！",
-		})
-		return
-	} else if option.Key == "TurnstileCheckEnabled" && option.Value == "true" && common.TurnstileSiteKey == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "无法启用 Turnstile 校验，请先填入 Turnstile 校验相关配置信息！",
-		})
-		return
-	} else if option.Key == "StatEnabled" && option.Value == "true" && !common.RedisEnabled {
-		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "未启用 Redis，无法启用统计功能",
-		})
-		return
+	switch option.Key {
+	case "GitHubOAuthEnabled":
+		if option.Value == "true" && common.GitHubClientId == "" {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": "无法启用 GitHub OAuth，请先填入 GitHub Client ID 以及 GitHub Client Secret！",
+			})
+			return
+		}
+	case "WeChatAuthEnabled":
+		if option.Value == "true" && common.WeChatServerAddress == "" {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": "无法启用微信登录，请先填入微信登录相关配置信息！",
+			})
+			return
+		}
+	case "TurnstileCheckEnabled":
+		if option.Value == "true" && common.TurnstileSiteKey == "" {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": "无法启用 Turnstile 校验，请先填入 Turnstile 校验相关配置信息！",
+			})
+			return
+		}
+	case "StatEnabled":
+		if option.Value == "true" && !common.RedisEnabled {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": "未启用 Redis，无法启用统计功能",
+			})
+			return
+		}
 	}
 	err = model.UpdateOption(option.Key, option.Value)
 	if err != nil {
