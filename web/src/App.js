@@ -48,10 +48,24 @@ function App() {
       showError('无法正常连接至服务器！');
     }
   };
+  const displayNotice = async () => {
+    const res = await API.get('/api/notice');
+    const { success, message, data } = res.data;
+    if (success) {
+      let oldNotice = localStorage.getItem('notice');
+      if (data !== oldNotice && data !== '') {
+        showNotice(data);
+        localStorage.setItem('notice', data);
+      }
+    } else {
+      showError(message);
+    }
+  };
 
   useEffect(() => {
     loadUser();
     loadStatus().then();
+    displayNotice().then();
   }, []);
 
   return (
