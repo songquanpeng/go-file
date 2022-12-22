@@ -36,7 +36,7 @@ func GetAllFiles(startIdx int, num int) ([]*File, error) {
 
 func SearchFiles(keyword string) (files []*File, err error) {
 	err = DB.Select([]string{"id", "filename", "description", "uploader", "uploader_id", "link", "upload_time", "download_counter"}).Where(
-		"filename LIKE ? or description LIKE ? or uploader LIKE ? or uploader_id = ? or time LIKE ?", "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%", keyword, "%"+keyword+"%").Find(&files).Error
+		"filename LIKE ? or description LIKE ? or uploader LIKE ? or uploader_id = ? or upload_time LIKE ?", "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%", keyword, "%"+keyword+"%").Find(&files).Error
 	return files, err
 }
 
