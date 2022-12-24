@@ -166,153 +166,158 @@ const Home = () => {
           >
             <div className='message-body' id='messageToastText'></div>
           </article>
-        </div>
-        <div className={'control' + (searchLoading ? ' is-loading' : '')}>
-          <input
-            className='input'
-            type='text'
-            placeholder='搜索文件的名称，上传者以及描述信息 ...'
-            value={searchKeyword}
-            onChange={handleKeywordChange}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                searchFiles().then();
-              }
-            }}
-          />
-        </div>
-        <div className='box' id='fileUploadCard' style={{ display: 'none' }}>
-          <article className='media'>
-            <div className='media-content'>
-              <div className='content'>
-                <div className='page-card-title' id='fileUploadTitle'></div>
-                <progress
-                  className='progress is-success'
-                  value='0'
-                  max='100'
-                  id='fileUploadProgress'
-                ></progress>
-                <div className='page-card-text' id='fileUploadDetail'></div>
-              </div>
-            </div>
-          </article>
-        </div>
-        {files.length === 0 ? (
-          <div className='box'>
-            <div className='table-container'>
-              <div className='box'>
-                <article className='media'>
-                  <div className='media-content'>
-                    <div className='content'>
-                      <div
-                        className='page-card-title'
-                        style={{ color: '#AAAAAA' }}
-                        id='imageUploadStatus'
-                      >
-                        {searching ? (
-                          <>无匹配文件</>
-                        ) : (
-                          <>
-                            当前无任何文件，请点击{' '}
-                            <a
-                              className='button is-light'
-                              // onClick='showUploadModal()'
-                            >
-                              上传
-                            </a>
-                            按钮以上传文件.
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </div>
+          <div
+            className={'control' + (searchLoading ? ' is-loading' : '')}
+            style={{ marginBottom: '16px' }}
+          >
+            <input
+              className='input'
+              type='text'
+              placeholder='搜索文件的名称，上传者以及描述信息 ...'
+              value={searchKeyword}
+              onChange={handleKeywordChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  searchFiles().then();
+                }
+              }}
+            />
           </div>
-        ) : (
-          <></>
-        )}
-        <div>
-          {files
-            .slice(
-              (activePage - 1) * ITEMS_PER_PAGE,
-              activePage * ITEMS_PER_PAGE
-            )
-            .map((file, idx) => {
-              if (file.deleted) return <></>;
-              return (
-                <div className='box file-box' id='file-{{$file.Id}}'>
+          <div className='box' id='fileUploadCard' style={{ display: 'none' }}>
+            <article className='media'>
+              <div className='media-content'>
+                <div className='content'>
+                  <div className='page-card-title' id='fileUploadTitle'></div>
+                  <progress
+                    className='progress is-success'
+                    value='0'
+                    max='100'
+                    id='fileUploadProgress'
+                  ></progress>
+                  <div className='page-card-text' id='fileUploadDetail'></div>
+                </div>
+              </div>
+            </article>
+          </div>
+          {files.length === 0 ? (
+            <div className='box'>
+              <div className='table-container'>
+                <div className='box'>
                   <article className='media'>
                     <div className='media-content'>
                       <div className='content'>
-                        <div className='page-card-title'>
-                          <a
-                            download='{{$file.Filename}}'
-                            href={'/upload/' + file.link}
-                          >
-                            {file.filename}
-                          </a>
-                        </div>
-                        <span className='tag is-light'>{file.uploader}</span>
-                        <span className='tag is-light'>{file.upload_time}</span>
-                        <span
-                          className='tag is-light'
-                          id='counter-{{$file.Id}}'
+                        <div
+                          className='page-card-title'
+                          style={{ color: '#AAAAAA' }}
+                          id='imageUploadStatus'
                         >
-                          {file.download_counter} 次下载
-                        </span>
-                        <div className='page-card-text'>
-                          {file.description ? file.description : '无描述信息'}
-                        </div>
-                        <div className='actions'>
-                          <span
-                            onClick={() => {
-                              deleteFile(file.id, idx).then();
-                            }}
-                          >
-                            <DeleteIcon />
-                          </span>
-                          <span onClick="showQRCode('/upload/{{$file.Link}}')">
-                            <QrCodeIcon />
-                          </span>
-                          <span
-                            onClick={() => {
-                              copyLink(file.link);
-                            }}
-                          >
-                            <CopyIcon />
-                          </span>
-                          <a target='_blank' href={'/upload/' + file.link}>
-                            <PlayIcon />
-                          </a>
-                          <a
-                            download={file.filename}
-                            href={'/upload/' + file.link}
-                            onClick={() => {}} // updateDownloadCounter('counter-{{$file.Id}}')
-                          >
-                            <DownloadIcon />
-                          </a>
+                          {searching ? (
+                            <>无匹配文件</>
+                          ) : (
+                            <>
+                              当前无任何文件，请点击{' '}
+                              <a
+                                className='button is-light'
+                                // onClick='showUploadModal()'
+                              >
+                                上传
+                              </a>
+                              按钮以上传文件.
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
                   </article>
                 </div>
-              );
-            })}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+          <div>
+            {files
+              .slice(
+                (activePage - 1) * ITEMS_PER_PAGE,
+                activePage * ITEMS_PER_PAGE
+              )
+              .map((file, idx) => {
+                if (file.deleted) return <></>;
+                return (
+                  <div className='box file-box' id='file-{{$file.Id}}'>
+                    <article className='media'>
+                      <div className='media-content'>
+                        <div className='content'>
+                          <div className='page-card-title'>
+                            <a
+                              download='{{$file.Filename}}'
+                              href={'/upload/' + file.link}
+                            >
+                              {file.filename}
+                            </a>
+                          </div>
+                          <span className='tag is-light'>{file.uploader}</span>
+                          <span className='tag is-light'>
+                            {file.upload_time}
+                          </span>
+                          <span
+                            className='tag is-light'
+                            id='counter-{{$file.Id}}'
+                          >
+                            {file.download_counter} 次下载
+                          </span>
+                          <div className='page-card-text'>
+                            {file.description ? file.description : '无描述信息'}
+                          </div>
+                          <div className='actions'>
+                            <span
+                              onClick={() => {
+                                deleteFile(file.id, idx).then();
+                              }}
+                            >
+                              <DeleteIcon />
+                            </span>
+                            <span onClick="showQRCode('/upload/{{$file.Link}}')">
+                              <QrCodeIcon />
+                            </span>
+                            <span
+                              onClick={() => {
+                                copyLink(file.link);
+                              }}
+                            >
+                              <CopyIcon />
+                            </span>
+                            <a target='_blank' href={'/upload/' + file.link}>
+                              <PlayIcon />
+                            </a>
+                            <a
+                              download={file.filename}
+                              href={'/upload/' + file.link}
+                              onClick={() => {}} // updateDownloadCounter('counter-{{$file.Id}}')
+                            >
+                              <DownloadIcon />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                );
+              })}
+          </div>
+          <nav
+            className='pagination is-centered'
+            role='navigation'
+            aria-label='pagination'
+          >
+            <a className='pagination-previous shadow' href='/?p={{.prev}}'>
+              上一页
+            </a>
+            <a className='pagination-next shadow' href='/?p={{.next}}'>
+              下一页
+            </a>
+          </nav>
         </div>
-        <nav
-          className='pagination is-centered'
-          role='navigation'
-          aria-label='pagination'
-        >
-          <a className='pagination-previous shadow' href='/?p={{.prev}}'>
-            上一页
-          </a>
-          <a className='pagination-next shadow' href='/?p={{.next}}'>
-            下一页
-          </a>
-        </nav>
       </div>
     </>
   );
