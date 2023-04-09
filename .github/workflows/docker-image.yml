@@ -1,4 +1,6 @@
 name: Publish Docker image
+permissions:
+  contents: write
 
 on:
   push:
