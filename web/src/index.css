@@ -292,3 +292,25 @@ span.line {
 .modal-content::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
 }
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #00d1b2;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
