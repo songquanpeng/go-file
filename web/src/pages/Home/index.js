@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { API, copy, showError, showSuccess } from '../../helpers';
 import { useDropzone } from 'react-dropzone';
 import { ITEMS_PER_PAGE } from '../../constants';
@@ -7,17 +7,24 @@ import { ReactComponent as QrCodeIcon } from './qr_code.svg';
 import { ReactComponent as CopyIcon } from './copy.svg';
 import { ReactComponent as PlayIcon } from './play.svg';
 import { ReactComponent as DownloadIcon } from './download.svg';
+import { Link } from 'react-router-dom';
+import { SearchContext } from '../../context/SearchContext';
 
 const Home = () => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [activePage, setActivePage] = useState(1);
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('0');
+  const searchContext = useContext(SearchContext);
+
+  useEffect(() => {
+    console.log("searchKeyword: ", searchContext.value)
+    searchFiles().then();
+  }, [searchContext.value]);
 
   const loadFiles = async (startIdx) => {
     const res = await API.get(`/api/file/?p=${startIdx}`);
@@ -83,8 +90,9 @@ const Home = () => {
   };
 
   const searchFiles = async () => {
-    if (searchKeyword === '') {
+    if (searchContext.value === '') {
       // if keyword is blank, load files instead.
+      console.log(searchContext.value)
       await loadFiles(0);
       setActivePage(1);
       setSearching(false);
@@ -92,20 +100,15 @@ const Home = () => {
     }
     setSearchLoading(true);
     setSearching(true);
-    const res = await API.get(`/api/file/search?keyword=${searchKeyword}`);
+    const res = await API.get(`/api/file/search?keyword=${searchContext.value}`);
     const { success, message, data } = res.data;
     if (success) {
       setFiles(data);
       setActivePage(1);
-      setSearchKeyword('');
     } else {
       showError(message);
     }
     setSearchLoading(false);
-  };
-
-  const handleKeywordChange = async (e) => {
-    setSearchKeyword(e.target.value.trim());
   };
 
   const sortFile = (key) => {
@@ -131,12 +134,12 @@ const Home = () => {
     }
     const res = await API.post(`/api/file`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: (e) => {
         let uploadProgress = ((e.loaded / e.total) * 100).toFixed(2);
         setUploadProgress(uploadProgress);
-      },
+      }
     });
     const { success, message } = res.data;
     if (success) {
@@ -146,7 +149,6 @@ const Home = () => {
     }
     setUploading(false);
     setUploadProgress('0');
-    setSearchKeyword('');
     loadFiles(0).then();
     setActivePage(1);
   };
@@ -166,23 +168,23 @@ const Home = () => {
           >
             <div className='message-body' id='messageToastText'></div>
           </article>
-          <div
-            className={'control' + (searchLoading ? ' is-loading' : '')}
-            style={{ marginBottom: '16px' }}
-          >
-            <input
-              className='input'
-              type='text'
-              placeholder='搜索文件的名称，上传者以及描述信息 ...'
-              value={searchKeyword}
-              onChange={handleKeywordChange}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  searchFiles().then();
-                }
-              }}
-            />
-          </div>
+          {/*<div*/}
+          {/*  className={'control' + (searchLoading ? ' is-loading' : '')}*/}
+          {/*  style={{ marginBottom: '16px' }}*/}
+          {/*>*/}
+          {/*  <input*/}
+          {/*    className='input'*/}
+          {/*    type='text'*/}
+          {/*    placeholder='搜索文件的名称，上传者以及描述信息 ...'*/}
+          {/*    value={searchKeyword}*/}
+          {/*    onChange={handleKeywordChange}*/}
+          {/*    onKeyDown={(e) => {*/}
+          {/*      if (e.key === 'Enter') {*/}
+          {/*        searchFiles().then();*/}
+          {/*      }*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*</div>*/}
           <div className='box' id='fileUploadCard' style={{ display: 'none' }}>
             <article className='media'>
               <div className='media-content'>
@@ -293,7 +295,8 @@ const Home = () => {
                             <a
                               download={file.filename}
                               href={'/upload/' + file.link}
-                              onClick={() => {}} // updateDownloadCounter('counter-{{$file.Id}}')
+                              onClick={() => {
+                              }} // updateDownloadCounter('counter-{{$file.Id}}')
                             >
                               <DownloadIcon />
                             </a>
@@ -310,12 +313,12 @@ const Home = () => {
             role='navigation'
             aria-label='pagination'
           >
-            <a className='pagination-previous shadow' href='/?p={{.prev}}'>
+            <Link className='pagination-previous shadow' to='/?p={{.prev}}'>
               上一页
-            </a>
-            <a className='pagination-next shadow' href='/?p={{.next}}'>
+            </Link>
+            <Link className='pagination-next shadow' to='/?p={{.next}}'>
               下一页
-            </a>
+            </Link>
           </nav>
         </div>
       </div>

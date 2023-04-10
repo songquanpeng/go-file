@@ -9,17 +9,20 @@ import Footer from './components/Footer';
 import { UserProvider } from './context/User';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SearchProvider } from './context/SearchContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <BrowserRouter>
-        <Header />
-        <App />
-        <ToastContainer />
-        <Footer />
-      </BrowserRouter>
+      <SearchProvider>
+        <BrowserRouter>
+          <Header />
+          <App />
+          <ToastContainer />
+          <Footer />
+        </BrowserRouter>
+      </SearchProvider>
     </UserProvider>
   </React.StrictMode>
 );
