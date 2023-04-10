@@ -90,19 +90,25 @@ const Header = () => {
             </div>
             <div className='navbar-end'>
               <div className='navbar-item'>
-                <p className='control is-expanded is-light'>
-                  <input className='input' type='search' id='searchInput' autoComplete='nope'
-                         autoFocus='' value={searchValue} onChange={handleSearchChange} style={{ cursor: 'text' }}
+                <div className='control is-expanded is-light'>
+                  <input className='input'
+                         type='search'
+                         id='searchInput'
+                         autoComplete='nope'
+                         autoFocus=''
+                         value={searchValue}
+                         onChange={handleSearchChange}
+                         style={{ cursor: 'text', width: '300px' }}
                          placeholder='搜索文件...'
                          onKeyDown={(e) => {
                            if (e.key === 'Enter') {
                              searchContext.setValue(searchValue);
-                             console.log("searchContext.setValue ", searchValue);
+                             console.log('searchContext.setValue ', searchValue);
                              // navigate('/');
                            }
                          }}
                   />
-                </p>
+                </div>
               </div>
               {userState.user ? (
                 <div className='navbar-item has-dropdown is-hoverable'>

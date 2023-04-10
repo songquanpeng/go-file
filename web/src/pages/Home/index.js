@@ -168,23 +168,6 @@ const Home = () => {
           >
             <div className='message-body' id='messageToastText'></div>
           </article>
-          {/*<div*/}
-          {/*  className={'control' + (searchLoading ? ' is-loading' : '')}*/}
-          {/*  style={{ marginBottom: '16px' }}*/}
-          {/*>*/}
-          {/*  <input*/}
-          {/*    className='input'*/}
-          {/*    type='text'*/}
-          {/*    placeholder='搜索文件的名称，上传者以及描述信息 ...'*/}
-          {/*    value={searchKeyword}*/}
-          {/*    onChange={handleKeywordChange}*/}
-          {/*    onKeyDown={(e) => {*/}
-          {/*      if (e.key === 'Enter') {*/}
-          {/*        searchFiles().then();*/}
-          {/*      }*/}
-          {/*    }}*/}
-          {/*  />*/}
-          {/*</div>*/}
           <div className='box' id='fileUploadCard' style={{ display: 'none' }}>
             <article className='media'>
               <div className='media-content'>
