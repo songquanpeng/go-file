@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -66,14 +67,21 @@ func UploadFile(c *gin.Context) {
 		}
 		files = append(files, file)
 	}
+	t := time.Now()
+	subfolder := t.Format("2006-01")
+	err = common.MakeDirIfNotExist(filepath.Join(uploadPath, subfolder))
+	if err != nil {
+		log.Println(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
 	for _, file := range files {
 		// In case someone wants to upload to other folders.
 		filename := filepath.Base(file.Filename)
-		link := filename
-		savePath := filepath.Join(uploadPath, filename)
+		link := fmt.Sprintf("%s/%s", subfolder, filename)
+		savePath := filepath.Join(uploadPath, subfolder, filename)
 		if _, err := os.Stat(savePath); err == nil {
 			// File already existed.
-			t := time.Now()
 			timestamp := t.Format("_2006-01-02_15-04-05")
 			ext := filepath.Ext(filename)
 			if ext == "" {
@@ -155,8 +163,13 @@ func DeleteFile(c *gin.Context) {
 }
 
 func DownloadFile(c *gin.Context) {
-	path := c.Param("file")
-	fullPath := filepath.Join(common.UploadPath, path)
+	path := c.Param("filepath")
+	subfolder, filename := filepath.Split(path)
+	link := filename // Keep compatibility with old version
+	if subfolder != "/" {
+		link = fmt.Sprintf("%s/%s", subfolder, filename)
+	}
+	fullPath := filepath.Join(common.UploadPath, subfolder, filename)
 	if !strings.HasPrefix(fullPath, common.UploadPath) {
 		// We may being attacked!
 		c.Status(403)
@@ -176,6 +189,6 @@ func DownloadFile(c *gin.Context) {
 	}
 	// Update download counter
 	go func() {
-		model.UpdateDownloadCounter(path)
+		model.UpdateDownloadCounter(link)
 	}()
 }

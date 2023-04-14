@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net"
+	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
@@ -122,4 +123,18 @@ func IntMax(a int, b int) int {
 
 func IsMobileUserAgent(userAgent string) bool {
 	return strings.Contains(userAgent, "Mobile") || strings.Contains(userAgent, "Android") || strings.Contains(userAgent, "iPhone") || strings.Contains(userAgent, "iPad")
+}
+
+func MakeDirIfNotExist(dir string) error {
+	if _, err := os.Stat(dir); err != nil {
+		if os.IsNotExist(err) {
+			err = os.MkdirAll(dir, 0755)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
+	}
+	return nil
 }
