@@ -100,7 +100,7 @@ function onFileInputChange() {
     if (files.length === 1) {
         prompt = '已选择文件: ' + files[0].name;
     } else {
-        prompt = `已选择 ${files.length}个文件`;
+        prompt = `已选择 ${files.length} 个文件`;
     }
     document.getElementById('uploadFileDialogTitle').innerText = prompt;
 }
