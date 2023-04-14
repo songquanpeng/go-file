@@ -42,60 +42,6 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
   <a href="#演示">截图展示</a>
 </p>
 
-
-<details>
-<summary><strong><i>English</i></strong></summary>
-<div>
-
-Warning: The English version is outdated.
-
-## Description
-File sharing tool, can be used to share files in a LAN.
-
-## Features
-1. No need to configure environment and there is only a single executable file.
-2. Automatically open browser to make you share file more quickly.
-3. Generate QR codes for your mobile phone to scan.
-4. Easily share all the content of a local dir.
-
-## Usage
-*For v0.3.4 and below.*
-
-Just double-click to use with default port `3000` and default token (used to verify identity when user try to delete files) `token`.
-
-If you want to change the port and token, run it like this:`./go-file.exe --port 80 --token private`.
-
-Your can also public a local path by providing a `path` like this : `./go-file.exe --path ./this/is/a/path` 
-
-```
-Usage of go-file.exe:
-  -host string
-        the server's ip address or domain (default "localhost")
-  -path string
-        specify a local path to public
-  -port int
-        specify the server listening port. (default 3000)
-  -token string
-        specify the private token. (default "token")
-  -video string
-        specify a video folder to public
-```
-
-## Demo
-Please visit https://go-file.herokuapp.com/ to have a try yourself.
-
-![index page](https://user-images.githubusercontent.com/39998050/130427067-80bf3cc5-5fee-488a-bea5-e323b9458064.png)
-![explorer page](https://user-images.githubusercontent.com/39998050/177032568-8af95d7e-87ab-4e60-804b-5e49addfb6ab.png)
-![image page](https://user-images.githubusercontent.com/39998050/177032659-c8c68186-09f4-4142-9f57-70bcb4a4cda1.png)
-![video page](https://user-images.githubusercontent.com/39998050/177032588-8946abde-a8da-45a2-a389-c16dba9cea34.png)
-
-
-## Others
-[Node.js version is here.](https://github.com/songquanpeng/lan-share)
-</div>
-</details>
-
-
 ## 特点
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
 2. 自动打开浏览器，分享文件快人一步。
