@@ -1,15 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"go-file/common"
 	"go-file/model"
 	"go-file/router"
 	"html/template"
-	"log"
 	"os"
 	"strconv"
 )
@@ -23,20 +24,27 @@ func loadTemplate() *template.Template {
 }
 
 func main() {
+	common.SetupGinLog()
+	common.SysLog(fmt.Sprintf("Go File %s started at port %d", common.Version, *common.Port))
 	if os.Getenv("GIN_MODE") != "debug" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	// Initialize SQL Database
 	db, err := model.InitDB()
 	if err != nil {
-		log.Fatal(err)
+		common.FatalLog(err)
 	}
-	defer db.Close()
+	defer func(db *gorm.DB) {
+		err := db.Close()
+		if err != nil {
+			common.FatalLog("failed to close database: " + err.Error())
+		}
+	}(db)
 
 	// Initialize Redis
 	err = common.InitRedisClient()
 	if err != nil {
-		log.Fatal(err.Error())
+		common.FatalLog(err)
 	}
 
 	// Initialize options
@@ -79,6 +87,6 @@ func main() {
 	}
 	err = server.Run(":" + realPort)
 	if err != nil {
-		log.Println(err)
+		common.FatalLog(err)
 	}
 }

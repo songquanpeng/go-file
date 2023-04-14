@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-file/common"
 	"go-file/model"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -71,7 +70,7 @@ func UploadFile(c *gin.Context) {
 	subfolder := t.Format("2006-01")
 	err = common.MakeDirIfNotExist(filepath.Join(uploadPath, subfolder))
 	if err != nil {
-		log.Println(err)
+		common.SysError("failed to create folder: " + err.Error())
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -96,12 +95,16 @@ func UploadFile(c *gin.Context) {
 			filename = "文本分享"
 			f, err := os.Create(savePath)
 			if err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to create file: %s", err.Error()))
+				message := "failed to create file: " + err.Error()
+				common.SysError(message)
+				c.String(http.StatusInternalServerError, message)
 				return
 			}
 			_, err = f.WriteString(description)
 			if err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to write text to file: %s", err.Error()))
+				message := "failed to write text to file: " + err.Error()
+				common.SysError(message)
+				c.String(http.StatusInternalServerError, message)
 				return
 			}
 			descriptionRune := []rune(description)
@@ -110,7 +113,9 @@ func UploadFile(c *gin.Context) {
 			}
 		} else {
 			if err := c.SaveUploadedFile(file, savePath); err != nil {
-				c.String(http.StatusInternalServerError, fmt.Sprintf("failed to save uploaded file: %s", err.Error()))
+				message := "failed to save uploaded file: " + err.Error()
+				common.SysError(message)
+				c.String(http.StatusInternalServerError, message)
 				return
 			}
 		}
@@ -124,7 +129,8 @@ func UploadFile(c *gin.Context) {
 			}
 			err = fileObj.Insert()
 			if err != nil {
-				_ = fmt.Errorf(err.Error())
+				common.SysError("failed to insert file to database: " + err.Error())
+				continue
 			}
 		}
 	}

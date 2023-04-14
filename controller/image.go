@@ -51,7 +51,8 @@ func UploadImage(c *gin.Context) {
 		}
 		err = imageObj.Insert()
 		if err != nil {
-			_ = fmt.Errorf(err.Error())
+			common.SysError("failed to insert image to database: " + err.Error())
+			continue
 		}
 		filenames = append(filenames, filename)
 	}

@@ -5,7 +5,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"go-file/common"
-	"log"
 	"os"
 )
 
@@ -44,7 +43,7 @@ func InitDB() (db *gorm.DB, err error) {
 		createAdminAccount()
 		return DB, err
 	} else {
-		log.Fatal(err)
+		common.FatalLog("failed to connect to database: " + err.Error())
 	}
 	return nil, err
 }

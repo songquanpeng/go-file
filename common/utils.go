@@ -3,7 +3,6 @@ package common
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net"
 	"os"
 	"os/exec"
@@ -26,7 +25,7 @@ func OpenBrowser(url string) {
 func GetIp() (ip string) {
 	ips, err := net.InterfaceAddrs()
 	if err != nil {
-		log.Println(err)
+		SysError("failed to get IP address: " + err.Error())
 		return ip
 	}
 

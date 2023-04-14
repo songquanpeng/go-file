@@ -61,6 +61,8 @@ var (
 	PrintVersion = flag.Bool("version", false, "print version")
 	EnableP2P    = flag.Bool("enable-p2p", false, "enable p2p relay or not")
 	P2PPort      = flag.Int("p2p-port", 9377, "specify the p2p listening port")
+	LogDir       = flag.String("log-dir", "", "specify the log directory")
+	PrintHelp    = flag.Bool("help", false, "print help")
 )
 
 // UploadPath Maybe override by ENV_VAR
@@ -76,8 +78,19 @@ var SessionSecret = uuid.New().String()
 
 var SQLitePath = ".go-file.db"
 
+func printHelp() {
+	fmt.Println("Usage: go-file [options]")
+	fmt.Println("Options:")
+	flag.PrintDefaults()
+	os.Exit(0)
+}
+
 func init() {
 	flag.Parse()
+
+	if *PrintHelp {
+		printHelp()
+	}
 
 	if *PrintVersion {
 		fmt.Println(Version)
