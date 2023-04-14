@@ -21,8 +21,9 @@ func Login(c *gin.Context) {
 	user.ValidateAndFill()
 	if user.Status != common.UserStatusEnabled {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
-			"message": "用户名或密码错误，或者该用户已被封禁",
-			"option":  common.OptionMap,
+			"message":  "用户名或密码错误，或者该用户已被封禁",
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}
@@ -34,8 +35,9 @@ func Login(c *gin.Context) {
 	err := session.Save()
 	if err != nil {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{
-			"message": "无法保存会话信息，请重试",
-			"option":  common.OptionMap,
+			"message":  "无法保存会话信息，请重试",
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}

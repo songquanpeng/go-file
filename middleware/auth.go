@@ -27,6 +27,18 @@ func WebAuth() func(c *gin.Context) {
 	}
 }
 
+func ExtractUserInfo() func(c *gin.Context) {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		username := session.Get("username")
+		if username == nil {
+			username = ""
+		}
+		c.Set("username", username)
+		c.Next()
+	}
+}
+
 func ApiAuth() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)

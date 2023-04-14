@@ -10,20 +10,21 @@ import (
 func setWebRouter(router *gin.Engine) {
 	router.Use(middleware.GlobalWebRateLimit())
 	// Always available
-	router.GET("/", controller.GetIndexPage)
+	// All page must have username in context
+	router.GET("/", middleware.ExtractUserInfo(), controller.GetIndexPage)
 	router.GET("/public/static/:file", controller.GetStaticFile)
 	router.GET("/public/lib/:file", controller.GetLibFile)
-	router.GET("/login", controller.GetLoginPage)
+	router.GET("/login", middleware.ExtractUserInfo(), controller.GetLoginPage)
 	router.POST("/login", middleware.CriticalRateLimit(), controller.Login)
 	router.GET("/logout", controller.Logout)
-	router.GET("/help", controller.GetHelpPage)
+	router.GET("/help", middleware.ExtractUserInfo(), controller.GetHelpPage)
 
 	// Download files
 	fileDownloadAuth := router.Group("/")
 	fileDownloadAuth.Use(middleware.DownloadRateLimit(), middleware.FileDownloadPermissionCheck())
 	{
 		fileDownloadAuth.GET("/upload/*filepath", controller.DownloadFile)
-		fileDownloadAuth.GET("/explorer", controller.GetExplorerPageOrFile)
+		fileDownloadAuth.GET("/explorer", middleware.ExtractUserInfo(), controller.GetExplorerPageOrFile)
 	}
 
 	imageDownloadAuth := router.Group("/")
@@ -32,12 +33,12 @@ func setWebRouter(router *gin.Engine) {
 		imageDownloadAuth.Static("/image", common.ImageUploadPath)
 	}
 
-	router.GET("/image", controller.GetImagePage)
+	router.GET("/image", middleware.ExtractUserInfo(), controller.GetImagePage)
 
-	router.GET("/video", controller.GetVideoPage)
+	router.GET("/video", middleware.ExtractUserInfo(), controller.GetVideoPage)
 
 	basicAuth := router.Group("/")
-	basicAuth.Use(middleware.WebAuth())
+	basicAuth.Use(middleware.WebAuth()) // WebAuth already has username in context
 	{
 		basicAuth.GET("/manage", controller.GetManagePage)
 	}

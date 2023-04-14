@@ -21,16 +21,18 @@ func GetVideoPage(c *gin.Context) {
 	if !strings.HasPrefix(rootPath, common.VideoServePath) {
 		// We may being attacked!
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
-			"message": fmt.Sprintf("只能访问指定路径下的文件"),
-			"option":  common.OptionMap,
+			"message":  fmt.Sprintf("只能访问指定路径下的文件"),
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}
 	root, err := os.Stat(rootPath)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
-			"message": err.Error(),
-			"option":  common.OptionMap,
+			"message":  err.Error(),
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}
@@ -41,8 +43,9 @@ func GetVideoPage(c *gin.Context) {
 		files, err := ioutil.ReadDir(rootPath)
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "error.html", gin.H{
-				"message": err.Error(),
-				"option":  common.OptionMap,
+				"message":  err.Error(),
+				"option":   common.OptionMap,
+				"username": c.GetString("username"),
 			})
 			return
 		}

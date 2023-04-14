@@ -24,16 +24,18 @@ func GetExplorerPageOrFile(c *gin.Context) {
 	if !strings.HasPrefix(fullPath, common.ExplorerRootPath) {
 		// We may being attacked!
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
-			"message": fmt.Sprintf("只能访问指定文件夹的子目录"),
-			"option":  common.OptionMap,
+			"message":  fmt.Sprintf("只能访问指定文件夹的子目录"),
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}
 	root, err := os.Stat(fullPath)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{
-			"message": "处理路径时发生了错误，请确认路径正确",
-			"option":  common.OptionMap,
+			"message":  "处理路径时发生了错误，请确认路径正确",
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
 		})
 		return
 	}
@@ -41,8 +43,9 @@ func GetExplorerPageOrFile(c *gin.Context) {
 		localFilesPtr, readmeFileLink, err := getData(path, fullPath)
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "error.html", gin.H{
-				"message": err.Error(),
-				"option":  common.OptionMap,
+				"message":  err.Error(),
+				"option":   common.OptionMap,
+				"username": c.GetString("username"),
 			})
 			return
 		}
