@@ -57,6 +57,7 @@ func GetManagePage(c *gin.Context) {
 	c.HTML(http.StatusOK, "manage.html", gin.H{
 		"message":                 "",
 		"option":                  common.OptionMap,
+		"username":                c.GetString("username"),
 		"memory":                  fmt.Sprintf("%d MB", m.Sys/1024/1024),
 		"uptime":                  common.Seconds2Time(int(uptime.Seconds())),
 		"userNum":                 model.CountTable("users"),

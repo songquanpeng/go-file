@@ -96,6 +96,7 @@ func GetVideoPage(c *gin.Context) {
 		c.HTML(http.StatusOK, "video.html", gin.H{
 			"message":   "",
 			"option":    common.OptionMap,
+			"username":  c.GetString("username"),
 			"files":     localFiles,
 			"videoPath": videoPath,
 		})

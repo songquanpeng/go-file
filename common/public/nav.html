@@ -1,58 +1,77 @@
 {{define "nav"}}
-    <nav class="navbar nav-shadow" role="navigation" aria-label="main navigation" id="nav">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item is-size-5" href="/" style="font-weight: bold">
-                    {{.option.WebsiteName}}
-                </a>
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                   data-target="mainNavbar">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
+<nav class="navbar nav-shadow" role="navigation" aria-label="main navigation" id="nav">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item is-size-5" href="/" style="font-weight: bold">
+                {{.option.WebsiteName}}
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="mainNavbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="mainNavbar" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/"> 首页 </a>
+                <a class="navbar-item" href="/explorer"> 文件 </a>
+                <a class="navbar-item" href="/image"> 图床 </a>
+                <a class="navbar-item" href="/video"> 视频 </a>
+                <a class="navbar-item" href="/help"> 帮助 </a>
             </div>
-            <div id="mainNavbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/"> 首页 </a>
-                    <a class="navbar-item" href="/explorer"> 文件 </a>
-                    <a class="navbar-item" href="/image"> 图床 </a>
-                    <a class="navbar-item" href="/video"> 视频 </a>
-                    <a class="navbar-item" href="/manage"> 管理 </a>
-                    <a class="navbar-item" href="/help"> 帮助 </a>
-                </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <p class="control is-expanded is-light">
-                            <input class="input" type="search" id="searchInput" autocomplete="nope"
-                                   autofocus="" style="cursor: text;" placeholder="搜索文件..."/>
-                        </p>
-                        <script>
-                            const input = document.getElementById("searchInput");
-                            input.addEventListener("keyup", function (event) {
-                                if (event.key === 'Enter') {
-                                    let value = input.value.trim();
-                                    value = encodeURIComponent(value);
-                                    if (value === "") {
-                                        location.href = "/";
-                                    }else {
-                                        location.href = "/?query="+value;
-                                    }
+            <div class="navbar-end">
+                <div class="navbar-item" >
+                    <p class="control is-expanded is-light flex-grow">
+                        <input class="input flex-grow" type="search" id="searchInput" autocomplete="nope"
+                               autofocus="" style="cursor: text;" placeholder="搜索文件..."/>
+                    </p>
+                    <script>
+                        const input = document.getElementById("searchInput");
+                        input.addEventListener("keyup", function (event) {
+                            if (event.key === 'Enter') {
+                                let value = input.value.trim();
+                                value = encodeURIComponent(value);
+                                if (value === "") {
+                                    location.href = "/";
+                                } else {
+                                    location.href = "/?query=" + value;
                                 }
-                            });
-                        </script>
-                    </div>
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-light" onclick="showUploadModal()">上传</a>
-<!--                            <a class="button is-light" href="/logout">注销</a>-->
-                        </div>
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-light" onclick="showUploadModal()">上传</a>
+                        {{if not $.username}}
+                        <a class="button is-light" href="/login">登录</a>
+                        {{end}}
                     </div>
                 </div>
+                {{if $.username}}
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        {{$.username}}
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="/manage">
+                            系统管理
+                        </a>
+                        <a class="navbar-item" href="https://github.com/songquanpeng/go-file#readme" target="_blank">
+                            项目地址
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/logout">
+                            退出登录
+                        </a>
+                    </div>
+                </div>
+                {{end}}
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 {{end}}

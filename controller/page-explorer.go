@@ -53,6 +53,7 @@ func GetExplorerPageOrFile(c *gin.Context) {
 		c.HTML(http.StatusOK, "explorer.html", gin.H{
 			"message":        "",
 			"option":         common.OptionMap,
+			"username":       c.GetString("username"),
 			"files":          localFilesPtr,
 			"readmeFileLink": readmeFileLink,
 		})
