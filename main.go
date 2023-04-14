@@ -47,14 +47,17 @@ func main() {
 	server.SetHTMLTemplate(loadTemplate())
 
 	// Initialize session store
+	var store sessions.Store
 	if common.RedisEnabled {
 		opt := common.ParseRedisOption()
-		store, _ := redis.NewStore(opt.MinIdleConns, opt.Network, opt.Addr, opt.Password, []byte(common.SessionSecret))
-		server.Use(sessions.Sessions("session", store))
+		store, _ = redis.NewStore(opt.MinIdleConns, opt.Network, opt.Addr, opt.Password, []byte(common.SessionSecret))
 	} else {
-		store := cookie.NewStore([]byte(common.SessionSecret))
-		server.Use(sessions.Sessions("session", store))
+		store = cookie.NewStore([]byte(common.SessionSecret))
 	}
+	store.Options(sessions.Options{
+		HttpOnly: true,
+	})
+	server.Use(sessions.Sessions("session", store))
 
 	router.SetRouter(server)
 	var realPort = os.Getenv("PORT")
