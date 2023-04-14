@@ -1,6 +1,7 @@
 .idea
 .vscode
 upload
+build
 *.exe
 *.db
-build
+*.db-journal
