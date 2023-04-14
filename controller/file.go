@@ -87,7 +87,7 @@ func UploadFile(c *gin.Context) {
 			if ext == "" {
 				link += timestamp
 			} else {
-				link = filename[:len(filename)-len(ext)] + timestamp + ext
+				link = subfolder + "/" + filename[:len(filename)-len(ext)] + timestamp + ext
 			}
 			savePath = filepath.Join(uploadPath, link)
 		}
