@@ -33,9 +33,9 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
   ·
   <a href="https://github.com/songquanpeng/go-file/releases">程序下载</a>
   ·
-  <a href="https://github.com/songquanpeng/gofile-launcher/releases/latest">启动器下载</a>
+  <a href="https://github.com/songquanpeng/gofile-launcher">启动器下载</a>
   ·
-  <a href="https://github.com/songquanpeng/gofile-cli/releases/latest">CLI 下载</a>
+  <a href="https://github.com/songquanpeng/gofile-cli">CLI 下载</a>
   ·
   <a href="https://iamazing.cn/page/LAN-SHARE-使用教程">使用教程</a>
   ·
