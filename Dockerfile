@@ -1,3 +1,4 @@
+# Build stage
 FROM golang AS builder
 ENV GO111MODULE=on \
     CGO_ENABLED=1 \
@@ -10,6 +11,7 @@ COPY . .
 RUN go mod download
 RUN go build -ldflags "-s -w -X 'go-file/common.Version=$(cat VERSION)' -extldflags '-static'" -o go-file
 
+# Final stage
 FROM alpine
 
 RUN apk update \
