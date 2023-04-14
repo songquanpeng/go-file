@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>复制文本文件内容 —— Go File</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0 0 5px #ddd;
+            resize: none;
+            font-size: larger;
+            outline: none;
+            font-family: 'Roboto', '微软雅黑', sans-serif;
+        }
+
+        button {
+            width: 100%;
+            height: 60px;
+            background-color: #07c160;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        function copyText() {
+            // copy text
+            var copyText = document.querySelector("#myTextarea");
+            copyText.readOnly = true;
+            copyText.select();
+            copyText.readOnly = false;
+            document.execCommand("copy");
+            // update prompt
+            var copyBtn = document.querySelector("#copyBtn");
+            copyBtn.innerText = "已复制";
+        }
+    </script>
+</head>
+<body>
+<textarea id="myTextarea" placeholder="文件内容为空">{{.content}}</textarea>
+<button id="copyBtn" onclick="copyText()">复制</button>
+</body>
+</html>

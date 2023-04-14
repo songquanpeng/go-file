@@ -119,3 +119,7 @@ func IntMax(a int, b int) int {
 		return b
 	}
 }
+
+func IsMobileUserAgent(userAgent string) bool {
+	return strings.Contains(userAgent, "Mobile") || strings.Contains(userAgent, "Android") || strings.Contains(userAgent, "iPhone") || strings.Contains(userAgent, "iPad")
+}
