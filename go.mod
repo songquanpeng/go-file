@@ -1,11 +1,11 @@
 module go-file
 
-// +heroku goVersion go1.16
-go 1.16
+// +heroku goVersion go1.19
+go 1.19
 
 require (
 	github.com/gin-contrib/sessions v0.0.5
-	github.com/gin-gonic/gin v1.7.4
+	github.com/gin-gonic/gin v1.7.5
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0
