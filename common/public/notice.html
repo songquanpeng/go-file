@@ -19,7 +19,7 @@
 <script>
     (async function () {
         let notice = "{{.option.Notice}}";
-        if (notice.trim() !== '""' && localStorage.getItem("notice") !== notice) {
+        if (notice.trim() !== "" && localStorage.getItem("notice") !== notice) {
             localStorage.setItem("notice", notice);
             document.getElementById('notice').style.display = 'block';
         }
