@@ -23,30 +23,43 @@ func OpenBrowser(url string) {
 }
 
 func GetIp() (ip string) {
+	backupIp := "127.0.0.1"
 	ips, err := net.InterfaceAddrs()
 	if err != nil {
 		SysError("failed to get IP address: " + err.Error())
-		return ip
+		return backupIp
 	}
-
 	for _, a := range ips {
 		if ipNet, ok := a.(*net.IPNet); ok && !ipNet.IP.IsLoopback() {
 			if ipNet.IP.To4() != nil {
 				ip = ipNet.IP.String()
 				if strings.HasPrefix(ip, "10") {
-					return
+					// Class A: 10.0.0.0 to 10.255.255.255
+					backupIp = ip
+					continue
 				}
 				if strings.HasPrefix(ip, "172") {
-					return
+					// Class B: 172.16.0.0 to 172.31.255.255
+					parts := strings.Split(ip, ".")
+					secondPart, err := strconv.Atoi(parts[1])
+					if err != nil {
+						continue
+					}
+					if secondPart >= 16 && secondPart <= 31 {
+						backupIp = ip
+						continue
+					}
 				}
 				if strings.HasPrefix(ip, "192.168") {
-					return
+					// Class C: 192.168.0.0 to 192.168.255.255
+					backupIp = ip
+					continue
 				}
-				ip = ""
+				return
 			}
 		}
 	}
-	return
+	return backupIp
 }
 
 var sizeKB = 1024

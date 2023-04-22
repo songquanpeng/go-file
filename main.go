@@ -72,10 +72,12 @@ func main() {
 	if realPort == "" {
 		realPort = strconv.Itoa(*common.Port)
 	}
-	if *common.Host == "localhost" {
+	if *common.Host == "" {
 		ip := common.GetIp()
 		if ip != "" {
 			*common.Host = ip
+		} else {
+			*common.Host = "localhost"
 		}
 	}
 	serverUrl := "http://" + *common.Host + ":" + realPort + "/"
