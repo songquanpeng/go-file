@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {{template "header" .}}
-<body style="height: 100%">
+<body style="height: 100%" class="hide-scrollbar">
 <div>
     {{template "nav" .}}
     <div class="container">
@@ -11,26 +11,63 @@
             </div>
         </article>
         {{template "progress"}}
-        <div class="columns" style="margin-top: 32px">
+        <div class="columns" style="margin-top: 12px">
             <div class="column is-four-fifths">
                 <video controls width="100%" id="videoPlayer">
                     <source src="{{.videoPath}}" id="videoSrc">
                 </video>
             </div>
             <div class="column">
-                <table class="table is-fullwidth">
-                    <tbody>
-                    {{range $index, $file := .files}}
-                    <tr style="font-size: smaller">
-                        {{if $file.IsFolder }}
-                        <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
-                        {{ else }}
-                        <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
-                        {{ end }}
-                    </tr>
-                    {{end}}
-                    </tbody>
-                </table>
+                <div class="video-sidebar hide-scrollbar">
+                    <table class="table is-fullwidth">
+                        <tbody>
+                        {{range $index, $file := .files}}
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        <tr style="font-size: smaller">
+                            {{if $file.IsFolder }}
+                            <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                            {{ else }}
+                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            {{ end }}
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <script>
                 async function playVideo(src) {

@@ -44,6 +44,10 @@ a:hover {
     color: black;
 }
 
+.footer {
+    padding: 1.5rem 1.5rem 2rem;
+}
+
 code {
     font-family: Consolas, 'Courier New', monospace;
 }
@@ -291,4 +295,17 @@ span.line {
 
 .modal-content::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
+}
+
+.video-sidebar {
+    max-height: 75vh !important;
+    overflow-y: scroll;
+}
+
+.hide-scrollbar::-webkit-scrollbar  {
+    display: none;
+}
+
+#videoPlayer {
+    max-height: 75vh !important;
 }
