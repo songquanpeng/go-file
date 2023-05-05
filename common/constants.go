@@ -77,7 +77,7 @@ var FS embed.FS
 
 var SessionSecret = uuid.New().String()
 
-var SQLitePath = ".go-file.db"
+var SQLitePath = "go-file.db"
 
 func printHelp() {
 	fmt.Println(fmt.Sprintf("Go File %s - A simple file sharing tool.", Version))
