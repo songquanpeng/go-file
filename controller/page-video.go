@@ -57,7 +57,7 @@ func GetVideoPage(c *gin.Context) {
 			}
 			parentPath := strings.Join(parts, "/")
 			parentFile := model.LocalFile{
-				Name:         "..",
+				Name:         "上级目录",
 				Link:         "video?path=" + url.QueryEscape(parentPath),
 				Size:         "",
 				IsFolder:     true,
