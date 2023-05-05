@@ -38,6 +38,7 @@ func GetVideoPage(c *gin.Context) {
 	}
 	if root.IsDir() {
 		var videoPath = ""
+		var videoName = "请选择视频进行播放"
 		var localFiles []model.LocalFile
 		var tempFiles []model.LocalFile
 		files, err := ioutil.ReadDir(rootPath)
@@ -68,15 +69,19 @@ func GetVideoPage(c *gin.Context) {
 			path = ""
 		}
 		for _, f := range files {
+			filename := f.Name()
 			var isFolder = f.Mode().IsDir()
 			if !isFolder {
 				var ext = filepath.Ext(f.Name())
-				if ext != ".mp4" && ext != ".MP4" && ext != ".webm" && ext != ".WEBM" && ext != ".ogg" && ext != ".OGG" {
+				if ext != ".mp4" && ext != ".MP4" && ext != ".webm" && ext != ".WEBM" &&
+					ext != ".ogg" && ext != ".OGG" && ext != ".mkv" && ext != ".MKV" {
 					continue
 				}
+				filename = strings.TrimSuffix(filename, ext)
+				filename = strings.ReplaceAll(filename, ".", " ")
 			}
 			file := model.LocalFile{
-				Name:         f.Name(),
+				Name:         filename,
 				Link:         "video?path=" + url.QueryEscape(path+f.Name()),
 				Size:         common.Bytes2Size(f.Size()),
 				IsFolder:     isFolder,
@@ -88,6 +93,7 @@ func GetVideoPage(c *gin.Context) {
 				tempFiles = append(tempFiles, file)
 				if videoPath == "" {
 					videoPath = file.Link
+					videoName = filename
 				}
 			}
 		}
@@ -99,6 +105,7 @@ func GetVideoPage(c *gin.Context) {
 			"username":  c.GetString("username"),
 			"files":     localFiles,
 			"videoPath": videoPath,
+			"videoName": videoName,
 		})
 	} else {
 		c.File(filepath.Join(common.VideoServePath, path))

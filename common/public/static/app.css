@@ -188,6 +188,7 @@ span.line {
 
 .file-link {
     color: #0a0a0a;
+    word-wrap: break-word;
 }
 
 #imageDropZone {
@@ -302,7 +303,7 @@ span.line {
 }
 
 .video-sidebar {
-    max-height: 75vh !important;
+    max-height: 68vh !important;
     overflow-y: scroll;
 }
 
@@ -311,5 +312,5 @@ span.line {
 }
 
 #videoPlayer {
-    max-height: 75vh !important;
+    max-height: 70vh !important;
 }

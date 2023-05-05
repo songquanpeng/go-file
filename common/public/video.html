@@ -13,12 +13,15 @@
         {{template "progress"}}
         <div class="columns" style="margin-top: 12px">
             <div class="column is-four-fifths">
+                <h2 class="subtitle" id="videoTitle">{{.videoName}}</h2>
                 <video controls width="100%" id="videoPlayer">
                     <source src="{{.videoPath}}" id="videoSrc">
                 </video>
             </div>
             <div class="column">
+                <h5 class="subtitle is-5" style="margin-left: 12px; position: sticky">播放列表</h5>
                 <div class="video-sidebar hide-scrollbar">
+
                     <table class="table is-fullwidth">
                         <tbody>
                         {{range $index, $file := .files}}
@@ -26,7 +29,7 @@
                             {{if $file.IsFolder }}
                             <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
                             {{ else }}
-                            <td><a class="file-link" onclick='playVideo("{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
+                            <td><a class="file-link" onclick='playVideo("{{$file.Name}}", "{{$file.Link}}")'>🎞️ {{$file.Name}}</a></td>
                             {{ end }}
                         </tr>
                         {{end}}
@@ -35,8 +38,9 @@
                 </div>
             </div>
             <script>
-                async function playVideo(src) {
+                async function playVideo(name, src) {
                     document.getElementById('videoSrc').src = src;
+                    document.getElementById('videoTitle').innerText = name;
                     let player = document.getElementById('videoPlayer');
                     await player.load();
                     player.play();
@@ -44,7 +48,7 @@
             </script>
         </div>
     </div>
-    {{template "footer" .}}
+<!--    {{template "footer" .}}-->
 </div>
 
 {{template "modal"}}
