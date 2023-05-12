@@ -14,6 +14,7 @@ func setWebRouter(router *gin.Engine) {
 	router.GET("/", middleware.ExtractUserInfo(), controller.GetIndexPage)
 	router.GET("/public/static/:file", controller.GetStaticFile)
 	router.GET("/public/lib/:file", controller.GetLibFile)
+	router.GET("/public/icon/:file", controller.GetIconFile)
 	router.GET("/login", middleware.ExtractUserInfo(), controller.GetLoginPage)
 	router.POST("/login", middleware.CriticalRateLimit(), controller.Login)
 	router.GET("/logout", controller.Logout)
