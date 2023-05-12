@@ -314,3 +314,9 @@ span.line {
 #videoPlayer {
     max-height: 70vh !important;
 }
+
+.center-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

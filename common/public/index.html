@@ -40,19 +40,19 @@
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
-                                <div class="page-card-title"><a download="{{$file.Filename}}"
-                                                                href="/upload/{{$file.Link}}">{{$file.Filename}}</a>
+                                <div class="page-card-title">
+                                    <a onclick="displayFile('/upload/{{$file.Link}}')">{{$file.Filename}}</a>
                                 </div>
                                 <span class="tag is-light">{{$file.Uploader}}</span>
                                 <span class="tag is-light">{{$file.Time}}</span>
                                 <span class="tag is-light"
                                       id="counter-{{$file.Id}}">{{$file.DownloadCounter}} 次下载</span>
                                 <div class="page-card-text">
-                                {{if $file.Description}}
+                                    {{if $file.Description}}
                                     {{$file.Description}}
-                                {{else}}
+                                    {{else}}
                                     无描述信息
-                                {{end}}
+                                    {{end}}
                                 </div>
                                 <div class="actions">
                                     {{if $.username}}

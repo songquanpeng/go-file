@@ -458,6 +458,56 @@ async function generateNewToken() {
     }
 }
 
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+function getFileExt(link) {
+    let parts = link.split('.');
+    if (parts.length === 1) return "";
+    return parts[parts.length - 1].toLowerCase();
+}
+
+function getFilename(link) {
+    let parts = link.split('/');
+    return parts[parts.length - 1];
+}
+
+function displayFile(link) {
+    // TODO: text file preview support
+    let ext = getFileExt(link);
+    let filename = getFilename(link);
+    console.log(link, ext, filename)
+    document.getElementById("displayModalTitle").innerText = filename;
+    if (ext === "mp3" || ext === "wav" || ext === "ogg") {
+        document.getElementById("displayModalContent").innerHTML = `
+        <audio controls>
+            <source src="${link}" type="audio/${ext}">
+        </audio>`;
+    } else if (ext === "mp4" || ext === "webm" || ext === "ogv") {
+        document.getElementById("displayModalContent").innerHTML = `
+        <video controls style="width: 100%">
+            <source src="${link}" type="video/${ext}">
+        </video>`;
+    } else if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "gif") {
+        document.getElementById("displayModalContent").innerHTML = `
+        <img src="${link}" alt="${filename}" width="100%">`;
+    } else if (ext === "pdf") {
+        if (isMobile()) {
+            window.open(link);
+            return;
+        }
+        document.getElementById("displayModalContent").innerHTML = `
+        <div style="width:100%; height: 600px!important;">
+            <iframe src="${link}" width="100%" height="100%"></iframe>
+        </div>`;
+    } else {
+        window.open(link);
+        return;
+    }
+    showModal("displayModal");
+}
+
 function init() {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {
