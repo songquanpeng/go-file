@@ -1,71 +1,44 @@
 {{define "modal"}}
-    <div class="modal" id="uploadModal" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        <div class="modal-background" onclick="closeUploadModal()"></div>
-        <div class="modal-content">
-            <div class="box">
-                <h3 class="title is-5" id="uploadFileDialogTitle">选择文件或者拖拽文件上传...</h3>
-                <form method="post" action="/upload" enctype="multipart/form-data">
-                    <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" multiple="" required=""
-                           style="display: none" onchange="onFileInputChange()">
-                    <div class="field">
-                        <label class="label">描述信息</label>
-                        <div class="control">
-                            <textarea class="textarea" id="fileUploadDescription" name="description" placeholder="请在此处输入描述信息，如果不选择文件进行上传，系统将根据此处的描述信息自动创建文本文件"></textarea>
-                        </div>
-                    </div>
-                    <input id='submitBtn' type="submit" name="Upload" style="display: none">
-                </form>
-                <div class="field is-grouped is-grouped-right">
+<div class="modal" id="uploadModal" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+    <div class="modal-background" onclick="closeUploadModal()"></div>
+    <div class="modal-content">
+        <div class="box">
+            <h3 class="title is-5" id="uploadFileDialogTitle">选择文件或者拖拽文件上传...</h3>
+            <form method="post" action="/upload" enctype="multipart/form-data">
+                <input class="mdui-btn mdui-ripple" id="fileInput" type="file" name="file" multiple="" required=""
+                       style="display: none" onchange="onFileInputChange()">
+                <div class="field">
+                    <label class="label">描述信息</label>
                     <div class="control">
-                        <button class="button is-light" onclick="onChooseBtnClicked()">选择</button>
+                        <textarea class="textarea" id="fileUploadDescription" name="description" placeholder="请在此处输入描述信息，如果不选择文件进行上传，系统将根据此处的描述信息自动创建文本文件"></textarea>
                     </div>
-                    <div class="control">
-                        <button class="button is-light" onclick="closeUploadModal()">取消</button>
-                    </div>
-                    <div class="control">
-<!--                        <button class="button is-light" onclick="document.getElementById('submitBtn').click()">Upload-->
-<!--                        </button>-->
-                        <button class="button is-light" onclick="uploadFile()">上传
-                        </button>
-                    </div>
+                </div>
+                <input id='submitBtn' type="submit" name="Upload" style="display: none">
+            </form>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button class="button is-light" onclick="onChooseBtnClicked()">选择</button>
+                </div>
+                <div class="control">
+                    <button class="button is-light" onclick="closeUploadModal()">取消</button>
+                </div>
+                <div class="control">
+                    <button class="button is-light" onclick="uploadFile()">上传
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal" id="qrcodeModal">
-        <div class="modal-background" onclick="closeModal('qrcodeModal')"></div>
-        <div class="modal-content box" style="width: 220px; padding: 10px;">
-            <canvas id="qrcode" height="200" width="200"></canvas>
-        </div>
+<div class="modal" id="qrcodeModal">
+    <div class="modal-background" onclick="closeModal('qrcodeModal')"></div>
+    <div class="modal-content box" style="width: 220px; padding: 10px;">
+        <canvas id="qrcode" height="200" width="200"></canvas>
     </div>
+</div>
 
-    <div class="modal" id="tokenModal">
-        <div class="modal-background" onclick="closeModal('tokenModal')"></div>
-        <div class="modal-content">
-            <div class="box">
-                <div>
-                    <div class="field">
-                        <label class="label">Please input token for authentication:</label>
-                        <div class="control">
-                            <input id='tokenInput' class="input" type="text"
-                                   placeholder="The token used for authentication.">
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-grouped is-grouped-right" style="margin-top: 8px">
-                    <div class="control">
-                        <button class="button is-light" onclick="updateToken()">Ok</button>
-                    </div>
-                    <div class="control">
-                        <button class="button is-light" onclick="closeModal('tokenModal')">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast"></div>
+<div id="toast"></div>
 
 <div class="modal" id="generalModal">
     <div class="modal-background" onclick="closeModal('generalModal')"></div>
