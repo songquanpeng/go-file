@@ -173,7 +173,8 @@ func DownloadFile(c *gin.Context) {
 	subfolder, filename := filepath.Split(path)
 	link := filename // Keep compatibility with old version
 	if subfolder != "/" {
-		link = fmt.Sprintf("%s/%s", subfolder, filename)
+		link = fmt.Sprintf("%s%s", subfolder, filename)
+		link = strings.TrimPrefix(link, "/")
 	}
 	fullPath := filepath.Join(common.UploadPath, subfolder, filename)
 	if !strings.HasPrefix(fullPath, common.UploadPath) {
