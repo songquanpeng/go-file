@@ -42,6 +42,8 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
   <a href="#演示">截图展示</a>
 </p>
 
+> **Note**：推荐使用官方的 [Go File 启动器](https://github.com/songquanpeng/gofile-launcher)，免去命令行操作。
+
 ## 特点
 1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
 2. 自动打开浏览器，分享文件快人一步。
@@ -71,7 +73,7 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 3. 如果需要分享本地的视频资源，加 `video` 参数：`./go-file.exe --video ./this/is/a/path`，之后点击导航栏上的 `视频` 即可。
 4. 如果需要启用访问速率控制，需要在启动前设置 Redis 连接字符串环境变量 `REDIS_CONN_STRING`，例如：`redis://default:redispw@localhost:49153`。 
 5. 如果想使用 MySQL，需要先登录 MySQL 创建一个空的数据库 `gofile`，然后设置 `SQL_DSN` 环境变量即可，例如：`root:123456@tcp(localhost:3306)/gofile`。
-6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量，默认在工作目录下，名称为 `.go-file.db`（类 Unix 系统下是隐藏文件）。
+6. 修改默认的 SQLite 数据库文件的位置，请设置 `SQLITE_PATH` 环境变量，默认在工作目录下，名称为 `go-file.db`。
 7. 设置会话密钥（默认随机生成），请设置 `SESSION_SECRET` 环境变量。
 8. 设置文件上传路径（默认为工作目录下面的 `upload` 目录），请设置 `UPLOAD_PATH` 环境变量。
 9. 禁止自动打开浏览器，启动时请指定 `no-browser` 参数：`./go-file.exe --no-browser true`。
