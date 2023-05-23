@@ -45,19 +45,19 @@ _✨ 文件分享工具，仅单个可执行文件，开箱即用，可用于局
 > **Note**：推荐使用官方的 [Go File 启动器](https://github.com/songquanpeng/gofile-launcher)，免去命令行操作。
 
 ## 特点
-1. 无需配置环境，仅单个可执行文件，直接双击即可开始使用。
+1. 无需配置环境，仅单个可执行文件，**直接双击即可开始使用**。
 2. 自动打开浏览器，分享文件快人一步。
-3. 提供二维码，可供移动端扫描下载文件，告别手动输入链接。
-4. 支持分享本地文件夹。
+3. 提供**二维码**，可供移动端扫描下载文件，告别手动输入链接。
+4. 支持**分享本地文件夹**。
 5. 适配移动端。
-6. 内置图床，支持直接粘贴上传图片，提供图片上传 API。
-7. 内置视频播放页面，可用于在其他设备上在线博客自己电脑上的视频，轻松跨设备在线看视频。
-8. 支持拖拽上传，拷贝上传。
+6. 内置**图床**，支持直接粘贴上传图片，提供图片上传 API。
+7. 内置**视频播放**页面，可用于在其他设备上在线博客自己电脑上的视频，轻松跨设备在线看视频。
+8. 支持**拖拽上传，拷贝上传**。
 9. 允许对不同类型的用户设置文件访问权限限制。
 10. 访问频率限制。
 11. 支持 Token API 验证，便于与其他系统整合。
-12. 为不熟悉命令行的用户制作了启动器，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
-13. 支持 PicGo，插件搜索 `gofile` 即可安装，[详见此处](https://github.com/songquanpeng/picgo-plugin-gofile)。
+12. 为不熟悉命令行的用户制作了**启动器**，[详见此处](https://github.com/songquanpeng/gofile-launcher)。
+13. **支持 PicGo**，插件搜索 `gofile` 即可安装，[详见此处](https://github.com/songquanpeng/picgo-plugin-gofile)。
 14. 配套 CLI 工具，支持命令行上传文件，支持 P2P 模式文件分享，[详见此处](https://github.com/songquanpeng/gofile-cli)。
 15. Docker 一键部署：`docker run -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai -v /home/ubuntu/data/go-file:/data justsong/go-file`
 
