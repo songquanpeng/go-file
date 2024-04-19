@@ -2,17 +2,19 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"os"
+	"strconv"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
 	"go-file/common"
 	"go-file/model"
 	"go-file/router"
-	"html/template"
-	"os"
-	"strconv"
 )
 
 func loadTemplate() *template.Template {
@@ -35,7 +37,8 @@ func main() {
 		common.FatalLog(err)
 	}
 	defer func(db *gorm.DB) {
-		err := db.Close()
+		sqlDB, err := db.DB()
+		err = sqlDB.Close()
 		if err != nil {
 			common.FatalLog("failed to close database: " + err.Error())
 		}

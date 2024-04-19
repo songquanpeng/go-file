@@ -1,8 +1,9 @@
 package model
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"strings"
+
+	_ "gorm.io/driver/sqlite"
 )
 
 type User struct {

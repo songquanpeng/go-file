@@ -1,12 +1,14 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"go-file/common"
 	"os"
 	"path"
 	"strings"
+
+	_ "gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+
+	"go-file/common"
 )
 
 type File struct {

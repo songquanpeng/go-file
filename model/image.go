@@ -1,10 +1,12 @@
 package model
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"go-file/common"
 	"os"
 	"path/filepath"
+
+	_ "gorm.io/driver/sqlite"
+
+	"go-file/common"
 )
 
 type Image struct {

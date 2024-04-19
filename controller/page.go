@@ -2,17 +2,28 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
-	"go-file/common"
-	"go-file/model"
 	"net/http"
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+
+	"go-file/common"
+	"go-file/model"
 )
 
 func GetIndexPage(c *gin.Context) {
+	session := sessions.Default(c)
+	if session.Get("id") == nil {
+		c.HTML(http.StatusOK, "login.html", gin.H{
+			"message":  "",
+			"option":   common.OptionMap,
+			"username": c.GetString("username"),
+		})
+		return
+	}
 	query := c.Query("query")
 	isQuery := query != ""
 	p, _ := strconv.Atoi(c.Query("p"))
