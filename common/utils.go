@@ -33,6 +33,10 @@ func GetIp() (ip string) {
 		if ipNet, ok := a.(*net.IPNet); ok && !ipNet.IP.IsLoopback() {
 			if ipNet.IP.To4() != nil {
 				ip = ipNet.IP.String()
+				// Skip link-local address
+				if strings.HasPrefix(ip, "169.254") {
+					continue
+				}
 				if strings.HasPrefix(ip, "10") {
 					// Class A: 10.0.0.0 to 10.255.255.255
 					backupIp = ip
