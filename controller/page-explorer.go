@@ -58,7 +58,8 @@ func GetExplorerPageOrFile(c *gin.Context) {
 			"readmeFileLink": readmeFileLink,
 		})
 	} else {
-		c.File(filepath.Join(common.ExplorerRootPath, path))
+		filename := filepath.Base(path)
+		c.FileAttachment(filepath.Join(common.ExplorerRootPath, path), filename)
 	}
 }
 
